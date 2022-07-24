@@ -66,7 +66,7 @@
                                     <input type="text" class="form-control" id="province">
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <label for="zipcode">Zip</label>
+                                    <label for="zipcode">Zipcode</label>
                                     <input type="text" class="form-control" id="zipcode">
                                 </div>
                             </div>

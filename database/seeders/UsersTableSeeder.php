@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
                 'address_1' => '722 JoannaBetter Living Sun Valley 1771',
                 'address_2' => 'Paranaque City',
                 'city' => 'Manila',
-                'province' => 'Metro Manila',
+                'province' => 'Manila',
                 'zipcode' => '7000',
                 'phone_number' => '09171234567',
                 'created_at' => now(),
@@ -35,6 +35,6 @@ class UsersTableSeeder extends Seeder
         ];
         
         DB::table('users')->insert($users);
-        User::factory()->count(100)->create();
+        User::factory()->count(50)->create();
     }
 }

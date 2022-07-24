@@ -29,24 +29,21 @@ class UserController extends Controller
                 ->addIndexColumn()
                 ->addColumn('role', function($row){
                     if($row->role == 'ADMIN'){
-                        $status = '<span class="badge badge-info p-2">ADMIN</span>';
+                        $status = '<span class="badge badge-pill badge-info p-2">ADMIN</span>';
                     }elseif($row->role == 'USER'){
-                        $status = '<span class="badge badge-success p-2">USER</span>';
+                        $status = '<span class="badge badge-pill badge-success p-2">USER</span>';
                     }elseif($row->role == 'SELLER'){
-                        $status = '<span class="badge badge-danger p-2">SELLER</span>';
+                        $status = '<span class="badge badge-pill badge-danger p-2">SELLER</span>';
                     }
                     return $status;
                 })
                 ->addColumn('action', function($row){
-                    return '<div class="dropdown">
-                                <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="nc-icon nc-bullet-list-67"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <button class="dropdown-item edit-btn" data-id="'.$row->id.'" href="#">Edit</button>
-                                    <button id="delete-btn" class="dropdown-item" data-id="'.$row->id.'" href="#">Delete</button>
-                                </div>
-                            </div>';
+                    if($row->deleted_at == NULL){
+                        $btn = '<button id="delete-btn" class="btn btn-sm btn-outline-danger btn-round" data-id="'.$row->id.'" href="#">Delete</button>';
+                    }else{
+                        $btn = '<button id="restore-btn" class="btn btn-sm btn-outline-info btn-round" data-id="'.$row->id.'" href="#">Restore</button>';
+                    }
+                    return $btn;
                 })
                 ->rawColumns(['role', 'action'])
                 ->make(true);

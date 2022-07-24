@@ -42,6 +42,7 @@ The above copyright notice and this permission notice shall be included in all c
     
     <!-- CSS Just for demo purpose, don't include it in your project -->
     {{-- <link href="{{ asset('paper') }}/demo/demo.css" rel="stylesheet" /> --}}
+    <link href="{{ asset('assets') }}/css/custom.css" rel="stylesheet" />
 
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -76,10 +77,9 @@ The above copyright notice and this permission notice shall be included in all c
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('paper') }}/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-    {{-- <script src="{{ asset('paper') }}/demo/demo.js"></script> --}}
+    <script src="{{ asset('paper') }}/demo/demo.js"></script>
     <!-- Sharrre libray -->
     <script src="../assets/demo/jquery.sharrre.js"></script>
-
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     @stack('scripts')
