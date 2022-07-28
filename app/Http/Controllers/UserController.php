@@ -13,13 +13,6 @@ use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the users
-     *
-     * @param  \App\Models\User  $model
-     * @return \Illuminate\View\View
-     */   
-
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -62,6 +55,28 @@ class UserController extends Controller
         User::create($request->all());
         
         return back()->withStatus(__('Successfully added a new user!'));
+    }
+
+    public function update(Request $request, $id)
+    {   
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'gender' => 'required',
+            'phone_number' => 'required',
+            'address_1' => 'required',
+            'address_2' => 'required',
+        ]);
+
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->gender = $request->gender;
+        $user->phone_number = $request->phone_number;
+        $user->address_1 = $request->address_1;
+        $user->address_2 = $request->address_2;
+
+        $user->save();
     }
 
     public function destroy($id)

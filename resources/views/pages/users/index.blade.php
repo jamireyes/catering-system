@@ -6,37 +6,41 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-4 h-100">
+            <div class="col-md-4">
                 <div class="card shadow">
                     <div class="card-header">
                         <div class="d-flex flex-row align-items-center justify-content-between">
-                            <h4 class="card-title">Update User Account</h4>
-                            <button class="btn btn-sm btn-round btn-icon btn-outline-primary">
-                                <svg height="15" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <h5 class="card-title">Update User Account</h5>
+                            <button id="lock-btn" class="btn btn-round btn-icon btn-primary">
+                                <img src="{{ asset('assets')}}/img/svg/lock.svg" class="lock-icon">
                             </button>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-row justify-content-between">
-                            <small class="text-sm text-muted">Date Created:</small>
+                            <small class="text-sm text-muted">Created on:</small>
                             <small id="created_at" class="text-sm text-muted"></small>
                         </div>
                         <div class="d-flex flex-row justify-content-between">
                             <small class="text-sm text-muted">Last Update:</small>
                             <small id="updated_at" class="text-sm text-muted"></small>
                         </div>
-                        <form id="userAccount">
+                        <form id="userAccount" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PATCH')
                             <p class="text-muted mt-4">Personal Information</p>
                             <div class="form-group row">
                                 <label for="name" class="col-sm-3 col-form-label">Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="name" placeholder="Name">
+                                    <input readonly type="text" class="form-control" id="name" name="name" placeholder="">
+                                    <input type="hidden" id="id" name="id">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="gender" class="col-sm-3 col-form-label">Gender</label>
                                 <div class="col-sm-9">
-                                    <select id="gender" class="form-control">
+                                    <select disabled="disabled" id="gender" name="gender" class="form-control">
+                                        <option selected></option>
                                         <option value="MALE">MALE</option>
                                         <option value="FEMALE">FEMALE</option>
                                     </select>
@@ -45,48 +49,38 @@
                             <div class="form-group row">
                                 <label for="email" class="col-sm-3 col-form-label">Email</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="email" placeholder="Email Address">
+                                    <input readonly type="text" class="form-control" id="email" name="email" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="phone_number" class="col-sm-3 col-form-label">Contact No.</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="phone_number" placeholder="Contact Number">
+                                    <input readonly type="text" class="form-control" id="phone_number" name="phone_number" placeholder="">
                                 </div>
                             </div>
                             <p class="text-muted mt-5">Permanent Address</p>
                             <div class="form-group row">
                                 <label for="address_1" class="col-sm-3 col-form-label">Address</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="address_1" placeholder="Address Line 1">
+                                    <input readonly type="text" class="form-control" id="address_1" name="address_1" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="address_2" class="col-sm-3 col-form-label"></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="address_2" placeholder="Address Line 2">
+                                    <input readonly type="text" class="form-control" id="address_2" name="address_2" placeholder="">
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="city" class="col-sm-3 col-form-label">City</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="city" placeholder="City">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="province" class="col-sm-3 col-form-label">Province</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="province" placeholder="Province">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="zipcode" class="col-sm-3 col-form-label">Zipcode</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="zipcode" placeholder="Zipcode">
-                                </div>
+                            <div class="form-check text-left mt-4">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" id="agreement" type="checkbox" required>
+                                    <span class="form-check-sign"></span>
+                                        {{ __('I agree to the') }}
+                                    <a href="#something">{{ __('terms and conditions') }}</a>.
+                                </label>
                             </div>
                             <div class="d-flex justify-content-center my-4">
-                                <button class="btn btn-warning">Update User</button>
+                                <button id="updateUser" type="button" class="btn btn-warning">Update User</button>
                             </div>
                         </form>
                     </div>
@@ -104,18 +98,20 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table userDatatable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                        <div class="table-responsive-sm">
+                            <table class="table userDatatable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,6 +126,12 @@
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script>
         $(document).ready(() => {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
             // Initialize userDatatable
             var table = $('.userDatatable').DataTable({
@@ -147,35 +149,90 @@
                 select: true,
             })
 
+            function reloadTable(){
+                $(".userDatatable").DataTable().ajax.reload();
+            }
+
             // Auto-populate "Update User Account" card upon selecting a row in the userDatatable
             $('.userDatatable tbody').on( 'click', 'tr', function () {
                 const rowData = table.row(this).data()
 
+                lockBtn()
+
                 $('.userDatatable').DataTable.$('tr.selected').removeClass('selected')
                 $(this).addClass('selected')
-                $('#userAccount input').attr('readonly', 'readonly');
-                $('#userAccount #gender').attr("disabled", true); 
 
+                $('#id').val(rowData.id)
                 $('#name').val(rowData.name)
                 $('#email').val(rowData.email)
                 $('#role').val(rowData.role)
                 $('#gender').val(rowData.gender)
                 $('#address_1').val(rowData.address_1)
                 $('#address_2').val(rowData.address_2)
-                $('#city').val(rowData.city)
-                $('#province').val(rowData.province)
-                $('#zipcode').val(rowData.zipcode)
-                $('#phone_number').val(rowData.phone_number)
+                $('#phone_number').val("0"+rowData.phone_number)
 
                 if(!$('#created_at').is(':empty') && !$('#updated_at').is(':empty')){
                     $('#created_at').empty();
                     $('#updated_at').empty();
                 }
-                $('#created_at').append(moment(rowData.created_at).format('MMMM Do YYYY, h:mm:ss a'))
-                $('#updated_at').append(moment(rowData.updated_at).format('MMMM Do YYYY, h:mm:ss a'))
-            } );
+                $('#created_at').append(moment(rowData.created_at).format('MMMM Do YYYY'))
+                $('#updated_at').append(moment(rowData.updated_at).format('MMMM Do YYYY'))
+            });
 
-            
+            const lock = "{{ asset('assets')}}"+"/img/svg/lock.svg"
+            const unlock = "{{ asset('assets')}}"+"/img/svg/unlock.svg"
+
+            function lockBtn() {
+                $('#lock-btn').removeClass('btn-warning').addClass('btn-primary')
+                $('#lock-btn img').attr('src', lock)
+                $('#userAccount input').attr('readonly', 'readonly');
+                $('#userAccount #gender').attr("disabled", true); 
+            }
+
+            function unlockBtn() {
+                $('#lock-btn').removeClass('btn-primary').addClass('btn-warning')
+                $('#lock-btn img').attr('src', unlock)
+                $('#userAccount input').removeAttr('readonly');
+                $('#userAccount #gender').removeAttr('disabled'); 
+            }
+
+            // To lock or unlock the input fields for user account update
+            $('#lock-btn').click(function(){
+                if($(this).hasClass('btn-primary')){
+                    unlockBtn()
+                }else{
+                    lockBtn()
+                }
+            })
+
+            $('#updateUser').click(function(e){
+                e.preventDefault()
+                var id = $('#id').val()
+                var url = '{{ route("user.update", ":id") }}';
+
+                url = url.replace(':id', id);
+
+                if($('#agreement:checked').length != 0){
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: $('#userAccount').serialize(),
+                        success: () => {
+                            lockBtn()
+                            reloadTable()
+                            Swal.fire(
+                                'User Updated!',
+                                'User account has been updated.',
+                                'success'
+                            )
+                        },
+                        error: (err) => {
+                            alert(err);
+                        }   
+                    })
+                }
+            })
+
             $(document).on('click', '#delete-btn', function() {
                 var id = $(this).data('id')
                 var url = "user/"+id;
@@ -196,7 +253,7 @@
                             url: url,
                             data: {'_token' : "{{csrf_token() }}"},
                             success: () => {
-                                $(".userDatatable").DataTable().ajax.reload();
+                                reloadTable()
                                 Swal.fire(
                                     'Deleted!',
                                     'Your file has been deleted.',
@@ -231,7 +288,7 @@
                             url: url,
                             data: {'_token' : "{{csrf_token() }}"},
                             success: () => {
-                                $(".userDatatable").DataTable().ajax.reload();
+                                reloadTable()
                                 Swal.fire(
                                     'Restored!',
                                     'Your file has been restored.',

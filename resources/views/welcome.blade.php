@@ -1,6 +1,7 @@
 @extends('layouts.app', [
     'class' => 'lock-page',
-    'elementActive' => 'lock-page'
+    'elementActive' => 'lock-page',
+    'backgroundImagePath' => ''
 ])
 
 @section('content')
@@ -29,6 +30,9 @@
             </div>
             <div class="carousel-item">
                 <img style="width: 100vw; height: 100vh; object-fit: cover;" src="../assets/img/bg-img-2.jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img style="width: 100vw; height: 100vh; object-fit: cover;" src="../assets/img/catering-img-3.jpg" alt="Third slide">
             </div>
         </div>
         <a style="z-index: 10;" class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

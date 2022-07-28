@@ -1,3 +1,60 @@
 tbody > tr.selected {
     background-color:rgba(0, 0, 0, 0.125);
-  }
+}
+
+.text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.text-lg	{
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.75rem; /* 28px */
+}
+
+.icon-xs {
+    height: 0.75em;
+}
+
+.icon-sm {
+    height: 0.875em;
+}
+
+.icon-lg {
+    height: 1.25em;
+}
+
+.icon-xl {
+    height: 1.5em;
+}
+
+.icon-primary {
+    filter: invert(79%) sepia(18%) saturate(1156%) hue-rotate(130deg) brightness(87%) contrast(94%);
+}
+
+.icon-warning {
+    filter: invert(90%) sepia(53%) saturate(1872%) hue-rotate(314deg) brightness(101%) contrast(97%);
+}
+
+.icon-danger {
+    filter: invert(71%) sepia(14%) saturate(5285%) hue-rotate(322deg) brightness(97%) contrast(93%);
+}
+
+.icon-primary:hover, .icon-warning:hover, .icon-danger:hover {
+    filter: invert(100%) sepia(7%) saturate(829%) hue-rotate(304deg) brightness(114%) contrast(100%);
+}
+
+.lock-icon {
+    height: 1.25em;
+    filter: invert(100%) sepia(7%) saturate(829%) hue-rotate(304deg) brightness(114%) contrast(100%);
+}
+
+.unlock-icon {
+    height: 1.25em;
+    filter: invert(100%) sepia(7%) saturate(829%) hue-rotate(304deg) brightness(114%) contrast(100%);
+}

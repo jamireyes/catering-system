@@ -22,9 +22,6 @@ class User extends Authenticatable
         'gender',
         'address_1',
         'address_2',
-        'city',
-        'province',
-        'zipcode',
         'phone_number'
     ];
 

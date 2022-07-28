@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => 'login-page',
-    'backgroundImagePath' => ''
+    'backgroundImagePath' => 'assets/img/catering-img-1.jpg'
 ])
 
 @section('content')
@@ -79,7 +79,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            demo.checkFullPageBackgroundImage();
+            
         });
     </script>
 @endpush

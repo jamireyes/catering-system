@@ -15,13 +15,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['ADMIN', 'USER', 'SELLER']);
-            $table->enum('gender', ['MALE', 'FEMALE']);
-            $table->string('address_1');
+            $table->enum('gender', ['MALE', 'FEMALE'])->nullable();
+            $table->string('address_1')->nullable();
             $table->string('address_2')->nullable();
-            $table->string('city');
-            $table->string('province');
-            $table->integer('zipcode');
-            $table->bigInteger('phone_number');
+            $table->bigInteger('phone_number')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

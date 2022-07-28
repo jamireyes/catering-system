@@ -24,24 +24,17 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('paper') }}/img/apple-icon.png">
     <link rel="icon" type="image/png" href="{{ asset('paper') }}/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-    <!-- Extra details for Live View on GitHub Pages -->
     
     <title>{{ config('app.name') }}</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-        name='viewport' />
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'name='viewport' />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-        <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     
-    <!-- CSS Files -->
     <link href="{{ asset('paper') }}/css/bootstrap.min.css" rel="stylesheet" />
     <link href="{{ asset('paper') }}/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
-    
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    {{-- <link href="{{ asset('paper') }}/demo/demo.css" rel="stylesheet" /> --}}
     <link href="{{ asset('assets') }}/css/custom.css" rel="stylesheet" />
 
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -63,23 +56,14 @@ The above copyright notice and this permission notice shall be included in all c
         @endguest
     @endif
 
-    <!--   Core JS Files   -->
     <script src="{{ asset('paper') }}/js/core/jquery.min.js"></script>
     <script src="{{ asset('paper') }}/js/core/popper.min.js"></script>
     <script src="{{ asset('paper') }}/js/core/bootstrap.min.js"></script>
     <script src="{{ asset('paper') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-    <!--  Google Maps Plugin    -->
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-    <!-- Chart JS -->
     <script src="{{ asset('paper') }}/js/plugins/chartjs.min.js"></script>
-    <!--  Notifications Plugin    -->
     <script src="{{ asset('paper') }}/js/plugins/bootstrap-notify.js"></script>
-    <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="{{ asset('paper') }}/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
-    <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-    <script src="{{ asset('paper') }}/demo/demo.js"></script>
-    <!-- Sharrre libray -->
-    <script src="../assets/demo/jquery.sharrre.js"></script>
+    <script src="{{ asset('paper') }}/js/paper-dashboard.js" type="text/javascript"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     @stack('scripts')

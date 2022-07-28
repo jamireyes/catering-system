@@ -25,9 +25,6 @@ class UsersTableSeeder extends Seeder
                 'gender' => 'MALE',
                 'address_1' => '722 JoannaBetter Living Sun Valley 1771',
                 'address_2' => 'Paranaque City',
-                'city' => 'Manila',
-                'province' => 'Manila',
-                'zipcode' => '7000',
                 'phone_number' => '09171234567',
                 'created_at' => now(),
                 'updated_at' => now()
