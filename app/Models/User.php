@@ -19,9 +19,11 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'gender',
         'address_1',
         'address_2',
+        'city',
+        'state',
+        'zipcode',
         'phone_number'
     ];
 
@@ -33,6 +35,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function package()
+    {
+        return $this->hasMany(Package::class);
+    }
+
+    public function category()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function item()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
 
     public static function getEnumValues($column)
     {

@@ -10,13 +10,11 @@
                 <form class="form" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="card card-login">
-                        <div class="card-header ">
-                            <div class="card-header ">
-                                <h3 class="header text-center">{{ __('Login') }}</h3>
-                            </div>
+                        <div class="card-header">
+                            <h4 class="card-title">{{ __('Login') }}</h4 class="card-title">
+                            <p class="text-muted">Don't have an account? <a href="{{ route('register') }}">Sign up now!</a></p>
                         </div>
-                        <div class="card-body ">
-
+                        <div class="card-body">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -60,7 +58,7 @@
 
                         <div class="card-footer">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-warning btn-round mb-3">{{ __('Sign in') }}</button>
+                                <button type="submit" class="btn btn-info mb-3">{{ __('Sign in') }}</button>
                             </div>
                         </div>
                     </div>

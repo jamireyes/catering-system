@@ -22,9 +22,11 @@ class UsersTableSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password' => Hash::make('secret'),
                 'role' => 'ADMIN',
-                'gender' => 'MALE',
-                'address_1' => '722 JoannaBetter Living Sun Valley 1771',
-                'address_2' => 'Paranaque City',
+                'address_1' => '722 Joanna Street',
+                'address_2' => 'Living Sun Valley',
+                'city' => 'Paranaque City',
+                'state' => 'Metro Manila',
+                'zipcode' => '1700',
                 'phone_number' => '09171234567',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -32,6 +34,6 @@ class UsersTableSeeder extends Seeder
         ];
         
         DB::table('users')->insert($users);
-        User::factory()->count(50)->create();
+        User::factory()->count(25)->create();
     }
 }

@@ -7,9 +7,8 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-// use App\DataTables\UsersDataTable;
 use Yajra\DataTables\DataTables;
+use Exception;
 
 class UserController extends Controller
 {
@@ -32,9 +31,13 @@ class UserController extends Controller
                 })
                 ->addColumn('action', function($row){
                     if($row->deleted_at == NULL){
-                        $btn = '<button id="delete-btn" class="btn btn-sm btn-outline-danger btn-round" data-id="'.$row->id.'" href="#">Delete</button>';
+                        $btn = '<a id="delete-btn" class="text-danger" data-id="'.$row->id.'" href="#">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
+                                </a>';
                     }else{
-                        $btn = '<button id="restore-btn" class="btn btn-sm btn-outline-info btn-round" data-id="'.$row->id.'" href="#">Restore</button>';
+                        $btn = '<a id="restore-btn" class="text-info" data-id="'.$row->id.'" href="#">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
+                                </a>';
                     }
                     return $btn;
                 })
@@ -52,30 +55,43 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        User::create($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone_number' => 'required|unique:users',
+            'address_1' => 'required|string|max:255',
+            'address_2' => 'required|string|max:255',
+        ]);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->address_1 = $request->address_1;
+        $user->address_2 = $request->address_2;
+        $user->save();
+
+        $message = 'Successfully created an account for '.$request->name.'!';
         
-        return back()->withStatus(__('Successfully added a new user!'));
+        return redirect()->route('user')->with('success', $message);
     }
 
     public function update(Request $request, $id)
     {   
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'gender' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'phone_number' => 'required',
-            'address_1' => 'required',
-            'address_2' => 'required',
+            'address_1' => 'required|string|max:255',
+            'address_2' => 'required|string|max:255',
         ]);
 
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->gender = $request->gender;
         $user->phone_number = $request->phone_number;
         $user->address_1 = $request->address_1;
         $user->address_2 = $request->address_2;
-
         $user->save();
     }
 

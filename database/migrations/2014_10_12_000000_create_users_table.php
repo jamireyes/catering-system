@@ -15,9 +15,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['ADMIN', 'USER', 'SELLER']);
-            $table->enum('gender', ['MALE', 'FEMALE'])->nullable();
             $table->string('address_1')->nullable();
             $table->string('address_2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->integer('zipcode')->nullable();
             $table->bigInteger('phone_number')->nullable();
             $table->rememberToken();
             $table->timestamps();

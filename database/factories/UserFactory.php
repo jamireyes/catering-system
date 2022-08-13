@@ -28,9 +28,11 @@ class UserFactory extends Factory
             'password' => Hash::make('secret'),
             'remember_token' => Str::random(10),
             'role' => fake()->randomElement(['USER', 'SELLER']),
-            'gender' => fake()->randomElement(['MALE', 'FEMALE']),
             'address_1' => fake()->address(),
             'address_2' => fake()->secondaryAddress(),
+            'city' => fake()->city(),
+            'state' => fake()->state(),
+            'zipcode' => fake()->numberBetween(1000, 9000),
             'phone_number' => fake()->unique()->numberBetween(9000000000, 9999999999)
         ];
     }

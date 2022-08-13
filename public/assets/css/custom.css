@@ -1,5 +1,50 @@
+.login-page, .register-page {
+    background-color:#f4f3ef !important;
+}
+
+.register-page .content .container, .login-page .content .container {
+    margin-top: 0 !important;
+}
+
+.login-page .content .container, .register-page .content {
+    height: 90vh !important;
+    display: flex;
+    align-items: center;
+}
+
 tbody > tr.selected {
     background-color:rgba(0, 0, 0, 0.125);
+}
+
+/* .navbar.navbar-transparent {
+    background-color:rgba(0, 0, 0, 0.125) !important;
+} */
+
+.navbar a.dropdown-item:hover {
+    background-color:#f5f5f5 !important;
+    color: #66615B!important;
+    cursor: pointer;
+}
+
+.welcome-page .navbar .dropdown-menu {
+    background-color:rgba(0, 0, 0, 0.5)!important;
+}
+
+.welcome-page .navbar-nav .dropdown-menu::after, 
+.welcome-page .navbar-nav .dropdown-menu::before {
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+}
+
+.welcome-page .navbar .dropdown-item {
+    color: #fff!important;
+}
+
+.welcome-page .navbar .dropdown-item:hover,
+.lock-page .navbar .dropdown-item:hover {
+    background-color: #343a40!important;
+    color: #fff!important;
 }
 
 .text-xs {
@@ -57,4 +102,55 @@ tbody > tr.selected {
 .unlock-icon {
     height: 1.25em;
     filter: invert(100%) sepia(7%) saturate(829%) hue-rotate(304deg) brightness(114%) contrast(100%);
+}
+
+.text-spacing-1 {
+    letter-spacing: 0.025rem;
+}
+
+.text-spacing-2 {
+    letter-spacing: 0.05rem;
+}
+
+.text-spacing-3 {
+    letter-spacing: 0.1rem;
+}
+
+.text-spacing-4 {
+    letter-spacing: 0.2rem;
+}
+
+.text-spacing-5 {
+    letter-spacing: 0.4rem;
+}
+
+.float-up {
+    transition: transform .4s; /* Animation */
+}
+
+.float-up:hover {
+    transform: translate(-50%, -75%)!important; /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    cursor: pointer;
+}
+
+#category-filter .list-group-item-action.active {
+    border-color: #e9ecef !important;
+    background-color: #e9ecef !important;
+    color: #6c757d!important;
+}
+
+#price-filter .list-group-item-action.active {
+    border-color: #e9ecef !important;
+    background-color: #e9ecef !important;
+    color: #6c757d!important;
+}
+
+.category-edit-btn, .category-delete-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
 }

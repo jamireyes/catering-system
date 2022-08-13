@@ -6,6 +6,16 @@
 @section('content')
     <div class="content">
         <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Management</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <div class="card shadow">
                     <div class="card-header">
@@ -34,16 +44,6 @@
                                 <div class="col-sm-9">
                                     <input readonly type="text" class="form-control" id="name" name="name" placeholder="">
                                     <input type="hidden" id="id" name="id">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="gender" class="col-sm-3 col-form-label">Gender</label>
-                                <div class="col-sm-9">
-                                    <select disabled="disabled" id="gender" name="gender" class="form-control">
-                                        <option selected></option>
-                                        <option value="MALE">MALE</option>
-                                        <option value="FEMALE">FEMALE</option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -99,14 +99,14 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive-sm">
-                            <table class="table userDatatable">
+                            <table class="table table-bordered userDatatable">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
-                                        <th></th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -166,7 +166,6 @@
                 $('#name').val(rowData.name)
                 $('#email').val(rowData.email)
                 $('#role').val(rowData.role)
-                $('#gender').val(rowData.gender)
                 $('#address_1').val(rowData.address_1)
                 $('#address_2').val(rowData.address_2)
                 $('#phone_number').val("0"+rowData.phone_number)
@@ -236,7 +235,6 @@
             $(document).on('click', '#delete-btn', function() {
                 var id = $(this).data('id')
                 var url = "user/"+id;
-                console.log(url)
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -271,7 +269,6 @@
             $(document).on('click', '#restore-btn', function() {
                 var id = $(this).data('id')
                 var url = "user/"+id+"/restore";
-                console.log(url)
 
                 Swal.fire({
                     title: 'Are you sure?',

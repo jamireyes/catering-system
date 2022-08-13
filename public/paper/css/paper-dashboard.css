@@ -5928,7 +5928,7 @@ License - nucleoapp.com/license/
     margin-top: 0px;
     box-shadow: none;
     position: static;
-    padding-left: 10px;
+    /* padding-left: 10px; */
   }
   .navbar .dropdown.show .dropdown-menu:before,
   .navbar .dropdown .dropdown-menu:before {
