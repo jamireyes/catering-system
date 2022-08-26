@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+
 class HomeController extends Controller
 {
     /**
@@ -20,7 +22,10 @@ class HomeController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {
+    {   
+        if(Auth::user()->role == 'USER'){
+            return view('profile.edit');
+        }
         return view('pages.dashboard');
     }
 }

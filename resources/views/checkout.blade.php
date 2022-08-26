@@ -12,7 +12,7 @@
                     <a href="{{ route('welcome') }}" class="text-muted">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ route('cart') }}" class="text-muted">Cart</a>
+                    <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a class="text-muted">Checkout</a>
@@ -54,6 +54,37 @@
                     <label for="address_2">Address Line 2 (Optional)</label>
                     <input type="text" class="form-control" name="address_2" placeholder="Apartment, studio, or floor" value="{{ Auth::user()->address_2 }}">
                 </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" name="city" value="{{ Auth::user()->city }}" required>
+                        @if ($errors->has('city'))
+                            <span class="invalid-feedback" style="display: block;" role="alert">
+                                <strong>{{ $errors->first('city') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="state">Province</label>
+                        <input type="text" class="form-control" name="state" value="{{ Auth::user()->state }}" required>
+                        @if ($errors->has('state'))
+                            <span class="invalid-feedback" style="display: block;" role="alert">
+                                <strong>{{ $errors->first('state') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="zipcode">Zipcode</label>
+                        <input type="text" class="form-control" name="zipcode" value="{{ Auth::user()->zipcode }}" required>
+                        @if ($errors->has('zipcode'))
+                            <span class="invalid-feedback" style="display: block;" role="alert">
+                                <strong>{{ $errors->first('zipcode') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="d-flex justify-content-between align-items-center my-5">
                     <a class="btn btn-outline-default" href="{{ route('cart') }}" role="button">
                         Back

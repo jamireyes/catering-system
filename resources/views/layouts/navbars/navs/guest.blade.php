@@ -13,18 +13,18 @@
         <div class="collapse navbar-collapse justify-content-between" id="navigation">
             <ul id="nav-right" class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="{{ route('cart') }}" class="nav-link">{{ __('Cart') }}</a>
+                    <a href="{{ route('checkout.index') }}" class="nav-link text-uppercase">{{ __('Cart') }}</a>
                 </li>
                 @guest
                 <li class="nav-item">
-                    <a href="{{ route('login') }}" class="nav-link">
+                    <a href="{{ route('login') }}" class="nav-link text-uppercase">
                         {{ __('Login') }}
                     </a>
                 </li>
                 @endguest
                 @auth
                 <li class="nav-item btn-rotate dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2"
+                    <a class="nav-link text-uppercase dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Account') }}
                     </a>
@@ -33,8 +33,8 @@
                             @csrf
                         </form>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
-                            <a class="dropdown-item" onclick="document.getElementById('formLogOut').submit();">{{ __('Log out') }}</a>
+                            <a class="dropdown-item text-uppercase" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
+                            <a class="dropdown-item text-uppercase" onclick="document.getElementById('formLogOut').submit();">{{ __('Log out') }}</a>
                         </div>
                     </div>
                 </li>

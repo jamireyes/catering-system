@@ -38,7 +38,7 @@
             <div class="collapse navbar-collapse justify-content-between" id="navigation">
                 <ul id="nav-left" class="navbar-nav">
                     <li class="nav-item">
-                        <a href="{{ route('store') }}" class="nav-link">{{ __('Store') }}</a>
+                        <a href="{{ route('shop.index') }}" class="nav-link">{{ __('Store') }}</a>
                     </li>
                     <li class="nav-item">
                         <a href="#about" class="nav-link">{{ __('About') }}</a>
@@ -52,7 +52,7 @@
                 </ul>
                 <ul id="nav-right" class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href="{{ route('cart') }}" class="nav-link">{{ __('Cart') }}</a>
+                        <a href="{{ route('checkout.index') }}" class="nav-link">{{ __('Cart') }}</a>
                     </li>
                     @guest
                         <li class="nav-item">
@@ -159,108 +159,58 @@
                 </div>
                 <div class="d-flex justify-content-between text-center">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card text-white bg-dark rounded m-3">
-                                <div class="card-body">
-                                    <div class="container text-center">
-                                        <h4 class="card-title text-warning">Package Name</h4>
-                                        <p>Catering Service Name</p>
-                                        <small class="mb-1">Menu</small>
-                                        <p class="font-italic font-weight-light">
-                                            Brownies, Nachos, Cheese Dips, Garlic Rice, Plain Rice, Mushroom Soup, Crab and Corn Soup, Chicken Soup, Celery Salad, Broccoli Salad, Sweet Potato Salad, Beef Mushroom, Beef Teriyaki, Pork Spareribs, Iced Tea, Blue Lemonade, House Blend Iced Tea
-                                        </p> 
-                                        <small class="mb-1">Inclusions</small>
-                                        <p class="font-italic font-weight-light">Sound System, Decorations, Crew</p>
-                                        <p>Good for 50 pax</p>
-                                        <h4>PHP 5000.00</h4>
-                                    </div>
-                                    <div class="text-center">
-                                        <button class="btn btn-round btn-warning">Order Now</button>
-                                    </div>
-                                    <hr class="bg-warning">
-                                    <div class="row">
-                                        <div class="col-2 text-right">
-                                            <span class="nc-icon nc-pin-3"/>
+                        @foreach ($packages as $package)
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="card border rounded bg-dark text-white">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="text-center">
+                                                <h4 class="card-title text-warning">{{ $package->name }}</h4>
+                                                <p>{{ $package->user }}</p>
+                                            </div>
+                                            <hr class="bg-warning">
+                                            <div id="package-menu">
+                                                <div id="package-items">
+                                                    @foreach ($categoryRules as $cr)
+                                                        @if ($cr->package_id == $package->id)
+                                                        <p class="mb-0">{{ $cr->category_name }}</p>
+                                                        <small class="mb-1 text-muted">(Max {{ $cr->quantity }} item/s)</small>
+                                                        <p class="ml-3 font-italic font-weight-light">
+                                                            @foreach ($items as $item)
+                                                                @if ($item->category_id == $cr->category_id)
+                                                                    {{ $item->name }},
+                                                                @endif
+                                                            @endforeach
+                                                            etc
+                                                        </p>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <h4 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h4>
+                                                <span>{{ $package->pax }} PAX</span>
+                                            </div>
+                                            <hr class="bg-warning">
+                                            <div id="package-info">
+                                                <div class="row">
+                                                    <div class="col-2 text-right">
+                                                        <span class="nc-icon nc-pin-3"/>
+                                                    </div>
+                                                    <small class="col-10 text-left">{{ $package->address }}</small>
+                                                </div>
+                                                <div class="row my-2">
+                                                    <div class="col-2 text-right">
+                                                        <span class="nc-icon nc-send"/>
+                                                    </div>
+                                                    <small class="col-10 text-left">+63 {{ $package->phone }}</small>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <small class="col-10 text-left">2/F Zambrano Building Quezon Avenue, San Fernando, La Union</small>
-                                    </div>
-                                    <div class="row my-2">
-                                        <div class="col-2 text-right">
-                                            <span class="nc-icon nc-send"/>
-                                        </div>
-                                        <small class="col-10 text-left">0999 888 0000</small>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card text-white bg-dark rounded m-3">
-                                <div class="card-body">
-                                    <div class="container text-center">
-                                        <h4 class="card-title text-warning">Package Name</h4>
-                                        <p>Catering Service Name</p>
-                                        <small class="mb-1">Menu</small>
-                                        <p class="font-italic font-weight-light">
-                                            Brownies, Nachos, Cheese Dips, Garlic Rice, Plain Rice, Mushroom Soup, Crab and Corn Soup, Chicken Soup, Celery Salad, Broccoli Salad, Sweet Potato Salad, Beef Mushroom, Beef Teriyaki, Pork Spareribs, Iced Tea, Blue Lemonade, House Blend Iced Tea
-                                        </p> 
-                                        <small class="mb-1">Inclusions</small>
-                                        <p class="font-italic font-weight-light">Sound System, Decorations, Crew</p>
-                                        <p>Good for 50 pax</p>
-                                        <h4>PHP 5000.00</h4>
-                                    </div>
-                                    <div class="text-center">
-                                        <button class="btn btn-round btn-warning">Order Now</button>
-                                    </div>
-                                    <hr class="bg-warning">
-                                    <div class="row">
-                                        <div class="col-2 text-right">
-                                            <span class="nc-icon nc-pin-3"/>
-                                        </div>
-                                        <small class="col-10 text-left">2/F Zambrano Building Quezon Avenue, San Fernando, La Union</small>
-                                    </div>
-                                    <div class="row my-2">
-                                        <div class="col-2 text-right">
-                                            <span class="nc-icon nc-send"/>
-                                        </div>
-                                        <small class="col-10 text-left">0999 888 0000</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card text-white bg-dark rounded m-3">
-                                <div class="card-body">
-                                    <div class="container text-center">
-                                        <h4 class="card-title text-warning">Package Name</h4>
-                                        <p>Catering Service Name</p>
-                                        <small class="mb-1">Menu</small>
-                                        <p class="font-italic font-weight-light">
-                                            Brownies, Nachos, Cheese Dips, Garlic Rice, Plain Rice, Mushroom Soup, Crab and Corn Soup, Chicken Soup, Celery Salad, Broccoli Salad, Sweet Potato Salad, Beef Mushroom, Beef Teriyaki, Pork Spareribs, Iced Tea, Blue Lemonade, House Blend Iced Tea
-                                        </p> 
-                                        <small class="mb-1">Inclusions</small>
-                                        <p class="font-italic font-weight-light">Sound System, Decorations, Crew</p>
-                                        <p>Good for 50 pax</p>
-                                        <h4>PHP 5000.00</h4>
-                                    </div>
-                                    <div class="text-center">
-                                        <button class="btn btn-round btn-warning">Order Now</button>
-                                    </div>
-                                    <hr class="bg-warning">
-                                    <div class="row">
-                                        <div class="col-2 text-right">
-                                            <span class="nc-icon nc-pin-3"/>
-                                        </div>
-                                        <small class="col-10 text-left">2/F Zambrano Building Quezon Avenue, San Fernando, La Union</small>
-                                    </div>
-                                    <div class="row my-2">
-                                        <div class="col-2 text-right">
-                                            <span class="nc-icon nc-send"/>
-                                        </div>
-                                        <small class="col-10 text-left">0999 888 0000</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </section>

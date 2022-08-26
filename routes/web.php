@@ -1,35 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PackageController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ShopController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-
-Route::get('/cart', function () {
-    return view('cart');
-})->name('cart');;
-
-Route::get('/store', function () {
-    return view('store');
-})->name('store');
-
-Route::resource('checkout', 'App\Http\Controllers\CheckoutController')->only(['index']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [PageController::class, 'homepage'])->name('welcome');
+Route::resource('shop', ShopController::class);
+
+Route::resource('checkout', CheckoutController::class)->only(['index']);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController');
@@ -39,16 +27,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 
-	// Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
-
-	Route::resource('category', 'App\Http\Controllers\CategoryController')->only(['index', 'store', 'update', 'destroy']);
-	Route::post('category/{category}/restore', 'App\Http\Controllers\CategoryController@restore')->name('category.restore');
+	Route::resource('category', CategoryController::class);
+	Route::post('category/{category}/restore', [CategoryController::class, 'restore'])->name('category.restore');
 	
-	Route::resource('inventory', 'App\Http\Controllers\ItemController');
-	Route::resource('order', 'App\Http\Controllers\OrderController');
-	Route::resource('package', 'App\Http\Controllers\PackageController');
+	Route::resource('item', ItemController::class);
+	Route::post('item/{item}/restore', [ItemController::class, 'restore'])->name('item.restore');
+	Route::resource('order', OrderController::class);
+	Route::resource('package', PackageController::class);
+	Route::post('package/{package}/restore', [PackageController::class, 'restore'])->name('package.restore');
 });
-
-// Route::get('package', ['as' => 'package.index', 'uses' => 'App\Http\Controllers\PackageController@index']);
 
 

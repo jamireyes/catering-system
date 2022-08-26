@@ -6,105 +6,107 @@
 
 @section('content')
     <div class="container">
-        <nav aria-label="breadcrumb" class="mt-5 ">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('welcome') }}" class="text-muted">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ route('cart') }}" class="text-muted">Store</a>
-                </li>
-            </ol>
-        </nav>
         <div class="row">
-            <div class="col-12">
-                <h2 class="my-5">All Packages</h2>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="mt-5">All Packages</h4>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-md-3">
-                        <p class="font-weight-bold">Category:</p>
-                        <ul id="category-filter" class="list-group">
-                            <button type="button" class="list-group-item list-group-item-action active">All</button>
-                            <button type="button" class="list-group-item list-group-item-action">Weddings</button>
-                            <button type="button" class="list-group-item list-group-item-action">Graduations</button>
-                            <button type="button" class="list-group-item list-group-item-action">Birthdays</button>
-                            <button type="button" class="list-group-item list-group-item-action">Others</button>
-                        </ul>
-                        <p class="font-weight-bold mt-5">Price:</p>
-                        <ul id="price-filter" class="list-group">
-                            <button type="button" class="list-group-item list-group-item-action active">Highest to Lowest</button>
-                            <button type="button" class="list-group-item list-group-item-action">Lowest to Highest</button>
-                        </ul>
+                        <div class="p-4 border">
+                            <p class="text-muted d-flex">
+                                <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                                {{ __('Price Filter') }}
+                            </p>
+                            <form id="filter-form" action="{{ route('shop.index') }}">
+                                @csrf
+                                <p>
+                                    <label for="price-range" class="text-muted">Range: </label>
+                                    <input type="text" id="price-range" data-max="{{ $max_price }}" data-min="{{ $min_price }}" data-filter-min="{{ $filter_min_price }}" data-filter-max="{{ $filter_max_price }}" readonly class="border-0 text-primary font-weight-bold">
+                                    <input type="hidden" name="filter_min_price" value="">
+                                    <input type="hidden" name="filter_max_price" value="">
+                                    <input type="hidden" name="order_by_price" value="{{ $priceOrderBy }}">
+                                </p>
+                                <div id="slider" class="mb-3"></div>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-sm btn-info">Apply</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="col-md-9">
                         <div class="row">
-                            <div class="col-lg-6 col-md-12">
-                                <div class="card border rounded m-3">
+                            <div class="col-md-12">
+                                <div class="mb-2 d-flex flex-md-row flex-column justify-content-between align-items-start">
+                                    <div id="price-filter" class="d-flex flex-row">
+                                        <button id="low-high-btn" class="m-0 btn btn-outline-light rounded-0 @if($priceOrderBy == 'ASC') active @endif">Low to High</button>
+                                        <button id="high-low-btn" class="m-0 btn btn-outline-light rounded-0 @if($priceOrderBy == 'DESC') active @endif">High to Low</button>
+                                    </div>
+                                    <div>
+                                        {{ $packages->links() }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @foreach ($packages as $package)
+                            <div class="col-md-6 col-sm-12">
+                                <div class="card border rounded bg-dark text-white">
                                     <div class="card-body">
-                                        <div class="container text-center">
-                                            <h4 class="card-title text-warning">Package Name</h4>
-                                            <p>Catering Service Name</p>
-                                            <small class="mb-1">Menu</small>
-                                            <p class="font-italic font-weight-light">
-                                                Brownies, Nachos, Cheese Dips, Garlic Rice, Plain Rice, Mushroom Soup, Crab and Corn Soup, Chicken Soup, Celery Salad, Broccoli Salad, Sweet Potato Salad, Beef Mushroom, Beef Teriyaki, Pork Spareribs, Iced Tea, Blue Lemonade, House Blend Iced Tea
-                                            </p> 
-                                            <small class="mb-1">Inclusions</small>
-                                            <p class="font-italic font-weight-light">Sound System, Decorations, Crew</p>
-                                            <p>Good for 50 pax</p>
-                                            <h4>PHP 5000.00</h4>
-                                        </div>
-                                        <div class="text-center">
-                                            <button class="btn btn-round btn-warning">Order Now</button>
-                                        </div>
-                                        <hr class="bg-warning">
-                                        <div class="row">
-                                            <div class="col-2 text-right">
-                                                <span class="nc-icon nc-pin-3"/>
+                                        <div class="m-2">
+                                            <div class="text-center">
+                                                <h5 class="card-title text-warning">{{ $package->name }}</h5>
+                                                <p class="text-xs">{{ $package->user }}</p>
                                             </div>
-                                            <small class="col-10 text-left">2/F Zambrano Building Quezon Avenue, San Fernando, La Union</small>
-                                        </div>
-                                        <div class="row my-2">
-                                            <div class="col-2 text-right">
-                                                <span class="nc-icon nc-send"/>
+                                            <hr class="bg-warning">
+                                            <div id="package-menu">
+                                                <div id="package-items">
+                                                    @foreach ($categoryRules as $cr)
+                                                        @if ($cr->package_id == $package->id)
+                                                        <p class="mb-0 text-xs">{{ $cr->category_name }}</p>
+                                                        <small class="mb-1 text-muted">(Max {{ $cr->quantity }} item/s)</small>
+                                                        <p class="ml-3 text-xs font-italic font-weight-light">
+                                                            @foreach ($items as $item)
+                                                                @if ($item->category_id == $cr->category_id)
+                                                                    {{ $item->name }},
+                                                                @endif
+                                                            @endforeach
+                                                            etc
+                                                        </p>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
                                             </div>
-                                            <small class="col-10 text-left">0999 888 0000</small>
+                                            <div class="text-center mt-4 mb-3">
+                                                <h5 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
+                                                <span>{{ $package->pax }} PAX</span>
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">Order Now</a>
+                                            </div>
+                                            {{-- <hr class="bg-warning">
+                                            <div id="package-info">
+                                                <div class="row">
+                                                    <div class="col-2 text-right">
+                                                        <span class="nc-icon nc-pin-3"/>
+                                                    </div>
+                                                    <small class="col-10 text-left">{{ $package->address }}</small>
+                                                </div>
+                                                <div class="row my-2">
+                                                    <div class="col-2 text-right">
+                                                        <span class="nc-icon nc-send"/>
+                                                    </div>
+                                                    <small class="col-10 text-left">+63 {{ $package->phone }}</small>
+                                                </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="card border rounded m-3">
-                                    <div class="card-body">
-                                        <div class="container text-center">
-                                            <h4 class="card-title text-warning">Package Name</h4>
-                                            <p>Catering Service Name</p>
-                                            <small class="mb-1">Menu</small>
-                                            <p class="font-italic font-weight-light">
-                                                Brownies, Nachos, Cheese Dips, Garlic Rice, Plain Rice, Mushroom Soup, Crab and Corn Soup, Chicken Soup, Celery Salad, Broccoli Salad, Sweet Potato Salad, Beef Mushroom, Beef Teriyaki, Pork Spareribs, Iced Tea, Blue Lemonade, House Blend Iced Tea
-                                            </p> 
-                                            <small class="mb-1">Inclusions</small>
-                                            <p class="font-italic font-weight-light">Sound System, Decorations, Crew</p>
-                                            <p>Good for 50 pax</p>
-                                            <h4>PHP 5000.00</h4>
-                                        </div>
-                                        <div class="text-center">
-                                            <button class="btn btn-round btn-warning">Order Now</button>
-                                        </div>
-                                        <hr class="bg-warning">
-                                        <div class="row">
-                                            <div class="col-2 text-right">
-                                                <span class="nc-icon nc-pin-3"/>
-                                            </div>
-                                            <small class="col-10 text-left">2/F Zambrano Building Quezon Avenue, San Fernando, La Union</small>
-                                        </div>
-                                        <div class="row my-2">
-                                            <div class="col-2 text-right">
-                                                <span class="nc-icon nc-send"/>
-                                            </div>
-                                            <small class="col-10 text-left">0999 888 0000</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -114,6 +116,8 @@
 @endsection
 
 @push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $(document).ready(() => {
             $('#category-filter button').click(function(){
@@ -125,6 +129,45 @@
                 $('#price-filter button.active').removeClass('active');
                 $(this).addClass('active')
             })
+
+            var min_price = Math.floor($('#price-range').data('min'))
+            var max_price = Math.floor($('#price-range').data('max'))
+            
+            var val_min = ($('#price-range').data('filter-min').length === 0) ? min_price : Math.floor($('#price-range').data('filter-min'))
+            var val_max = ($('#price-range').data('filter-max').length === 0) ? max_price : Math.floor($('#price-range').data('filter-max'))
+            
+            $("#slider").slider({
+                range: true,
+                min: min_price,
+                max: max_price,
+                step: 1000,
+                values: [ val_min, val_max ],
+                slide: function( event, ui ) {
+                    $("#price-range").val( "$" + numberWithCommas(ui.values[0]) + " - $" + numberWithCommas(ui.values[1]) );
+                    $('input[name="filter_min_price"]').val(ui.values[0])
+                    $('input[name="filter_max_price"]').val(ui.values[1])
+                }
+            });
+
+            $( "#price-range" ).val( "$" + numberWithCommas(val_min) + " - $" + numberWithCommas(val_max) );
+
+            $('input[name="filter_min_price"]').val($('#price-range').data('filter_min'))
+            $('input[name="filter_max_price"]').val($('#price-range').data('filter_max'))
+
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            $('#high-low-btn').click(function(){
+                $('[name="order_by_price"]').val('DESC')
+                $('#filter-form').submit()
+            })
+
+            $('#low-high-btn').click(function(){
+                $('[name="order_by_price"]').val('ASC')
+                $('#filter-form').submit()
+            })
+
         })
     </script>
 @endpush

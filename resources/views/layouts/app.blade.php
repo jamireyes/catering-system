@@ -40,6 +40,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 
 <body class="{{ $class }} position-relative">
@@ -54,7 +55,6 @@ The above copyright notice and this permission notice shall be included in all c
             @include('layouts.page_templates.guest')
         @endguest
     @endif
-
     <script src="{{ asset('paper') }}/js/core/jquery.min.js"></script>
     <script src="{{ asset('paper') }}/js/core/popper.min.js"></script>
     <script src="{{ asset('paper') }}/js/core/bootstrap.min.js"></script>

@@ -36,6 +36,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['full_address'];
+
     public function package()
     {
         return $this->hasMany(Package::class);
@@ -69,5 +71,10 @@ class User extends Authenticatable
         }
         
         return $enum;
+    }
+
+    public function getFullAddressAttribute() 
+    {
+        return $this->address_1.' '.$this->address_2.' '.$this->city.' '.$this->state.' '.$this->zipcode;
     }
 }

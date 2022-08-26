@@ -10,89 +10,113 @@ use DB;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(){
+        $this->rules = [
+            'category_id' => 'required',
+            'name' => 'required',
+            'description' => 'required'
+        ];
+        $this->messages = [
+            'category_id.required' => 'The category field is required.',
+            'name.required' => 'The item name field is required.',
+            'description.required' => 'The item description field is required.'
+        ];
+    }
+
+    // Displays all the data for both the categories and items
     public function index()
     {
         if(Auth::user()->role == 'ADMIN'){
-            $categories = Category::withTrashed()->get();
-            $items = Item::with('category')->get();
+            $items = DB::table('items')
+                ->select('items.*', 'categories.name as category_name', 'users.name as user')
+                ->join('categories', 'items.category_id', '=', 'categories.id')
+                ->join('users', 'items.user_id', '=', 'users.id')
+                ->paginate(10);
+        }elseif(Auth::user()->role == 'SELLER'){
+            $items = DB::table('items')
+                ->join('categories', 'items.category_id', '=', 'categories.id')
+                ->select('items.*', 'categories.name as category_name')
+                ->where('items.user_id', Auth::id())
+                ->where('items.deleted_at', NULL)
+                ->paginate(10);
+
         }else{
-            // $categories = Category::where('user_id', Auth::id())->get();
-            // $items = Item::where('user_id', Auth::id())->get();
+            return back();
         }
-
-        // dd($items);
-
-        return view('pages.inventory.index')->with(compact('categories', 'items'));
+        return view('pages.item.index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Shows the create item page
     public function create()
-    {
-        return view('pages.inventory.create');
+    {   
+        $category = Category::where('user_id', Auth::id())->get();
+
+        return view('pages.item.create', compact('category'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // Creates a new item
     public function store(Request $request)
     {
-        //
+        $request->validate($this->rules, $this->messages);
+
+        $item = new Item;
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->category_id = $request->category_id;
+        $item->user_id = Auth::id();
+        $item->save();
+        
+        $message = 'Successfully added '.$request->name.'!';
+
+        return redirect()->route('item.index')->with('success', $message);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Item $item)
+    // Shows the edit item page
+    public function edit($id)
     {
-        //
+        $item = Item::find($id);
+        
+        $category = Category::where('user_id', $item->user_id)->get();
+
+        return view('pages.item.edit', compact(['item', 'category']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Item $item)
+    // Update the item
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate($this->rules, $this->messages);
+
+        $item = new Item;
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->category_id = $request->category_id;
+        $item->user_id = Auth::id();
+        $item->save();
+        
+        $message = 'Successfully added '.$request->name.'!';
+
+        return redirect()->route('item.index')->with('success', $message);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Item $item)
+    // Soft deletes the item
+    public function destroy($id)
     {
-        //
+        $item = Item::find($id);
+        $item->delete();
+
+        $message = 'Successfully deleted '.$item->name.'!';
+
+        return back()->with('info', $message);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Item $item)
+    // Restores the item
+    public function restore($id)
     {
-        //
+        $item = Item::withTrashed()->find($id);
+        $item->restore();
+
+        $message = 'Successfully restored '.$item->name.'!';
+
+        return back()->with('info', $message);
     }
 }

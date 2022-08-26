@@ -133,16 +133,10 @@ tbody > tr.selected {
     cursor: pointer;
 }
 
-#category-filter .list-group-item-action.active {
+.list-group-item.active {
     border-color: #e9ecef !important;
     background-color: #e9ecef !important;
-    color: #6c757d!important;
-}
-
-#price-filter .list-group-item-action.active {
-    border-color: #e9ecef !important;
-    background-color: #e9ecef !important;
-    color: #6c757d!important;
+    color: #6c757d !important;
 }
 
 .category-edit-btn, .category-delete-btn {
@@ -154,3 +148,84 @@ tbody > tr.selected {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
 }
+
+.hr-text {
+    line-height: 1em;
+    position: relative;
+    outline: 0;
+    border: 0;
+    color: #6c757d;
+    text-align: center;
+    height: 1.5em;
+}
+
+.hr-text::before {
+    content: '';
+    background: #6c757d;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+}
+
+.hr-text::after {
+    content: attr(data-content);
+    position: relative;
+    display: inline-block;
+    color: #6c757d;
+    padding: 0 0.5em;
+    line-height: 1.5em;
+    background-color: #fff;
+}
+
+#package-menu {
+    height: 17rem;
+    max-height: 17rem;
+    overflow-y: auto;
+}
+
+#package-info {
+    height: 5rem;
+    max-height: 5rem;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #e9ecef !important;
+    border-color: #e9ecef !important;
+}
+
+.pagination .page-item .page-link {
+    color: #6c757d !important;
+}
+
+
+.breadcrumb-item, .breadcrumb-item a {
+    color: #6c757d !important;
+}
+
+.breadcrumb-item.active {
+    color: black !important;
+}
+
+.btn-outline-light {
+    background-color: transparent;
+    border: 1px solid #e9ecef !important;
+    color: #6c757d !important;
+}
+
+.btn-outline-light.active {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+}
+
+.btn-outline-light.focus {
+    background-color: #343a40 !important;
+    color: #e9ecef !important;
+}
+
+.btn-outline-light:hover {
+    background-color: #6c757d !important;
+    color: #e9ecef !important;
+}
+
