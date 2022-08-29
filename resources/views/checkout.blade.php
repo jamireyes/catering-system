@@ -6,19 +6,23 @@
 
 @section('content')
     <div class="container">
-        <nav aria-label="breadcrumb" class="mt-5 ">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('welcome') }}" class="text-muted">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a class="text-muted">Checkout</a>
-                </li>
-            </ol>
-        </nav>
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb" class="mt-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('welcome') }}" class="text-muted">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a class="text-muted">Checkout</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <h2 class="mt-5">Checkout</h2>
@@ -42,7 +46,7 @@
                     </div>
                     <div class="form-group col-md-5">
                         <label for="phone_number">Phone Number</label>
-                        <input type="text" class="form-control" name="phone_number" placeholder="0999 000 8888" value="+63{{ Auth::user()->phone_number }}" required>
+                        <input type="text" class="form-control" name="phone_number" placeholder="0999 000 8888" value="0{{ Auth::user()->phone_number }}" required>
                     </div>
                 </div>
 
@@ -86,42 +90,56 @@
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center my-5">
-                    <a class="btn btn-outline-default" href="{{ route('cart') }}" role="button">
-                        Back
-                    </a>
-                    <a id="place-order-btn" class="btn btn-success" href="#" role="button">
-                        Place Order
-                    </a>
+                    <a class="btn btn-outline-default" href="{{ route('shop.index') }}" role="button">Back</a>
+                    <a class="btn btn-success" href="{{ route('checkout.confirm') }}" role="button">Place Order</a>
                 </div>
             </div>
             <div class="col-md-4">
-                <h5>Your Order</h5>
+                <h5 class="">Your Order</h5>
                 <div class="card border rounded">
-                    <div class="card-body">
-                        <div class="container text-center">
-                            <h4 class="card-title text-warning">Package Name</h4>
-                            <p>Catering Service Name</p>
-                            <small class="mb-1">Menu</small>
-                            <p class="font-italic font-weight-light">
-                                Brownies, Nachos, Cheese Dips, Garlic Rice, Plain Rice, Mushroom Soup, Crab and Corn Soup, Chicken Soup, Celery Salad, Broccoli Salad, Sweet Potato Salad, Beef Mushroom, Beef Teriyaki, Pork Spareribs, Iced Tea, Blue Lemonade, House Blend Iced Tea
-                            </p> 
-                            <small class="mb-1">Inclusions</small>
-                            <p class="font-italic font-weight-light">Sound System, Decorations, Crew</p>
-                            <p>Good for 50 pax</p>
-                            <h4>PHP 5000.00</h4>
-                        </div>
-                        <hr class="bg-warning">
-                        <div class="row">
-                            <div class="col-2 text-right">
-                                <span class="nc-icon nc-pin-3"/>
+                    <div class="card-body">                         
+                        <div class="m-2">
+                            <div class="text-center">
+                                @foreach (Cart::content() as $row)
+                                    @if($row->id == 'package')
+                                        <h5 class="card-title">{{ $row->name }}</h5>
+                                        <p class="mb-1">{{ $row->options->user }}</p>
+                                        <small class="mb-0 text-muted">({{ $row->options->pax }} PAX)</small>
+                                    @endif
+                                @endforeach
                             </div>
-                            <small class="col-10 text-left">2/F Zambrano Building Quezon Avenue, San Fernando, La Union</small>
-                        </div>
-                        <div class="row my-2">
-                            <div class="col-2 text-right">
-                                <span class="nc-icon nc-send"/>
+                            <hr class="bg-warning">
+                            <div>
+                                @foreach ($categories as $c)
+                                    <p class="text-xs">{{ $c->name }}</p>
+                                    @foreach (Cart::content() as $row)
+                                        @if ($row->id != 'package' && $row->options->category == $c->name)
+                                            <p class="ml-3 text-xs font-italic font-weight-light">{{ $row->name }}<small class="mb-1 text-muted"> x {{ $row->qty }}</small></p>                                                         
+                                        @endif
+                                    @endforeach
+                                @endforeach
+
+                                @foreach (Cart::content() as $row)
+                                    @if($row->id == 'package' && $row->options->inclusion != NULL)
+                                        <p class="text-xs">{{ __('Inclusions') }}</p>
+                                        <p class="ml-3 text-xs font-italic font-weight-light">{{ $row->options->inclusion }}</p>                                     
+                                    @endif
+                                @endforeach
                             </div>
-                            <small class="col-10 text-left">0999 888 0000</small>
+                            <div>
+                                @foreach (Cart::content() as $row)
+                                    @if($row->id == 'package')
+                                        <table class="table table-sm">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-left">{{ __('Grand Total') }}</td>
+                                                    <td class="text-right">₱ {{ number_format($row->price, 2, '.', ',') }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,11 +147,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(() => {
-            
-        })
-    </script>
-@endpush

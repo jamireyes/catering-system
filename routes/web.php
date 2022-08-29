@@ -14,14 +14,16 @@ use App\Http\Controllers\ShopController;
 Auth::routes();
 
 Route::get('/', [PageController::class, 'homepage'])->name('welcome');
-Route::resource('shop', ShopController::class);
-
-Route::resource('checkout', CheckoutController::class)->only(['index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::resource('shop', ShopController::class)->only(['index', 'show']);
+Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController');
 	Route::post('user/{user}/restore', 'App\Http\Controllers\UserController@restore')->name('user.restore');
+
+	Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+	Route::get('checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');
 
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);

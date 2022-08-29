@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Admin',
+                'name' => 'Three Catering Services',
                 'email' => 'admin@mail.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('secret'),
@@ -34,6 +34,13 @@ class UsersTableSeeder extends Seeder
         ];
         
         DB::table('users')->insert($users);
-        User::factory()->count(25)->create();
+        User::factory()->count(10)->create();
+        
+        for($x = 0; $x < 10; $x++){
+            User::factory()->create([
+                'name' => fake()->unique()->company(),
+                'role' => 'SELLER'
+            ]);
+        }
     }
 }

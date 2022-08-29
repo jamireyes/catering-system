@@ -14,7 +14,8 @@ class Package extends Model
         'user_id',
         'name',
         'pax',
-        'price'
+        'price',
+        'inclusion'
     ];
 
     public function user()

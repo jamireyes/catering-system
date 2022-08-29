@@ -62,6 +62,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'password' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'phone_number' => 'required|unique:users',
             'address_1' => 'required|string|max:255',
@@ -73,6 +74,7 @@ class UserController extends Controller
 
         $user = new User;
         $user->name = $request->name;
+        $user->password = $request->password;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
         $user->address_1 = $request->address_1;
@@ -91,6 +93,7 @@ class UserController extends Controller
     {   
         $request->validate([
             'name' => 'required|string|max:255',
+            'password' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'phone_number' => 'required|unique:users',
             'address_1' => 'required|string|max:255',
@@ -102,6 +105,7 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->name = $request->name;
+        $user->password = $request->password;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
         $user->address_1 = $request->address_1;

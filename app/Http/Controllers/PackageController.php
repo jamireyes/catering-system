@@ -90,6 +90,7 @@ class PackageController extends Controller
         $package->name = $request->name;
         $package->pax = $request->pax;
         $package->price = $request->price;
+        $package->inclusion = $request->inclusion;
         $package->save();
         
         // Stores the package categories with set limit per category
@@ -152,6 +153,7 @@ class PackageController extends Controller
         $package->name = $request->name;
         $package->pax = $request->pax;
         $package->price = $request->price;
+        $package->inclusion = $request->inclusion;
         $package->save();
         
         // Updates the package categories with set limit per category

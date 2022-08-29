@@ -19,10 +19,24 @@ class ShopController extends Controller
         $min_price = Package::min('price');
         $max_price = Package::max('price');
 
-        $filter_min_price = $request->filter_min_price;
-        $filter_max_price = $request->filter_max_price;
-        
-        $priceOrderBy = $request->order_by_price ?: 'ASC';
+        if($request->filter_min_price && $request->filter_max_price){
+            session(['filter_min' => $request->filter_min_price]);
+            session(['filter_max' => $request->filter_max_price]);
+        }
+
+        $filter_min_price = session('filter_min');
+        $filter_max_price = session('filter_max');
+
+        if($request->order_by_price == NULL && session('priceOrderBy') == NULL){
+            session(['priceOrderBy' => 'ASC']);
+        }
+
+        if($request->order_by_price == NULL && session('priceOrderBy') != NULL){
+            $priceOrderBy = session('priceOrderBy');
+        }elseif($request->order_by_price != NULL){
+            session(['priceOrderBy' => $request->order_by_price]);
+            $priceOrderBy = session('priceOrderBy');
+        }
 
         if($filter_min_price && $filter_max_price){
             $packages = DB::table('packages')
@@ -50,16 +64,6 @@ class ShopController extends Controller
         return view('store', compact(['packages', 'items', 'categoryRules', 'max_price', 'min_price', 'filter_min_price', 'filter_max_price', 'priceOrderBy']));
     }
 
-    public function create()
-    {
-        
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show($id)
     {
         $package = Package::selectRaw("packages.*, users.name as user, users.phone_number as phone, CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address")
@@ -77,20 +81,5 @@ class ShopController extends Controller
 
 
         return view('product', compact(['package', 'items', 'categoryRules']));
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }

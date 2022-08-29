@@ -94,7 +94,7 @@
                         <h5 class="text-light">Make Reservations Anytime!</h5>
                     </div>
                     <div>
-                        <button class="btn btn-warning" onclick="alert('hello')">Reserve Now</button>
+                        <a href="{{ route('shop.index') }}" class="btn btn-warning">Reserve Now</a>
                     </div>
                 </div>
             </div>
@@ -157,25 +157,25 @@
                 <div class="text-center pb-4">
                     <h4 class="text-muted">Featured Packges</h4>
                 </div>
-                <div class="d-flex justify-content-between text-center">
+                <div class="d-flex justify-content-between">
                     <div class="row">
                         @foreach ($packages as $package)
                             <div class="col-lg-4 col-md-6 col-sm-12">
-                                <div class="card border rounded bg-dark text-white">
+                                <div class="card border rounded">
                                     <div class="card-body">
-                                        <div class="container">
+                                        <div class="m-2">
                                             <div class="text-center">
-                                                <h4 class="card-title text-warning">{{ $package->name }}</h4>
-                                                <p>{{ $package->user }}</p>
+                                                <h5 class="card-title text-warning">{{ $package->name }}</h5>
+                                                <p class="text-xs">{{ $package->user }}</p>
                                             </div>
                                             <hr class="bg-warning">
                                             <div id="package-menu">
                                                 <div id="package-items">
                                                     @foreach ($categoryRules as $cr)
                                                         @if ($cr->package_id == $package->id)
-                                                        <p class="mb-0">{{ $cr->category_name }}</p>
+                                                        <p class="mb-0 text-xs">{{ $cr->category_name }}</p>
                                                         <small class="mb-1 text-muted">(Max {{ $cr->quantity }} item/s)</small>
-                                                        <p class="ml-3 font-italic font-weight-light">
+                                                        <p class="ml-3 text-xs font-italic font-weight-light">
                                                             @foreach ($items as $item)
                                                                 @if ($item->category_id == $cr->category_id)
                                                                     {{ $item->name }},
@@ -185,11 +185,18 @@
                                                         </p>
                                                         @endif
                                                     @endforeach
+                                                    @if($package->inclusion)
+                                                        <p class="mb-0 text-xs">{{ __('Inclusions') }}</p>
+                                                        <p class="ml-3 text-xs font-italic font-weight-light">{{ $package->inclusion }}</p>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            <div class="text-center">
-                                                <h4 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h4>
+                                            <div class="text-center mt-4 mb-3">
+                                                <h5 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
                                                 <span>{{ $package->pax }} PAX</span>
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">Order Now</a>
                                             </div>
                                             <hr class="bg-warning">
                                             <div id="package-info">

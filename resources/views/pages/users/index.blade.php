@@ -71,6 +71,24 @@
                                     <input readonly type="text" class="form-control" id="address_2" name="address_2" placeholder="">
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="city" class="col-sm-3 col-form-label">City</label>
+                                <div class="col-sm-9">
+                                    <input readonly type="text" class="form-control" id="city" name="city" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="state" class="col-sm-3 col-form-label">Province</label>
+                                <div class="col-sm-9">
+                                    <input readonly type="text" class="form-control" id="state" name="state" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="zipcode" class="col-sm-3 col-form-label">Zipcode</label>
+                                <div class="col-sm-9">
+                                    <input readonly type="text" class="form-control" id="zipcode" name="zipcode" placeholder="">
+                                </div>
+                            </div>
                             <div class="form-check text-left mt-4">
                                 <label class="form-check-label">
                                     <input class="form-check-input" id="agreement" type="checkbox" required>
@@ -168,6 +186,9 @@
                 $('#role').val(rowData.role)
                 $('#address_1').val(rowData.address_1)
                 $('#address_2').val(rowData.address_2)
+                $('#city').val(rowData.city)
+                $('#state').val(rowData.state)
+                $('#zipcode').val(rowData.zipcode)
                 $('#phone_number').val("0"+rowData.phone_number)
 
                 if(!$('#created_at').is(':empty') && !$('#updated_at').is(':empty')){

@@ -22,10 +22,9 @@
                         <img src="{{ asset('assets/img/catering-img-2.jpg') }}" alt="...">
                     </div>
                     <div class="author">
-                        <a href="#">
-                            <img class="avatar border-gray bg-light" src="{{ asset('assets/img/user.png') }}" alt="...">
-                            <h4 class="text-primary mt-2">Welcome, {{ Auth::user()->name }}!</h4>
-                        </a>
+                        <img class="avatar border-gray bg-light" src="{{ asset('assets/img/user.png') }}" alt="...">
+                        <h5 class="text-primary mt-2">Welcome, {{ Auth::user()->name }}!</h5>
+                        <span class="badge badge-pill badge-primary mb-4">{{ Auth::user()->role }}</span>
                     </div>
                     <hr>
                     <div class="card-body" style="min-height:auto!important;">
@@ -80,7 +79,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>{{ __('Phone Number') }}</label>
-                                    <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ auth()->user()->phone_number }}" required>
+                                    <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" value="0{{ auth()->user()->phone_number }}" required>
                                     @if ($errors->has('phone_number'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
                                             <strong>{{ $errors->first('phone_number') }}</strong>

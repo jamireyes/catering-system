@@ -1,3 +1,7 @@
+.wrapper {
+    background-color: #f4f3ef !important;
+}
+
 .login-page, .register-page {
     background-color:#f4f3ef !important;
 }
@@ -209,7 +213,7 @@ tbody > tr.selected {
 }
 
 .btn-outline-light {
-    background-color: transparent;
+    background-color: #fff;
     border: 1px solid #e9ecef !important;
     color: #6c757d !important;
 }
@@ -227,5 +231,31 @@ tbody > tr.selected {
 .btn-outline-light:hover {
     background-color: #6c757d !important;
     color: #e9ecef !important;
+}
+
+ol.breadcrumb {
+    background-color: white !important;
+    border-radius: 0!important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.input-group-icon {
+    position: relative;
+}
+
+.input-icon {
+    background-color: #e9ecef;
+    color: #6c757d;
+    position: absolute !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    top: 0px !important; 
+    right: 0px !important; 
+    bottom: 0px !important;
+    padding-right: .8rem;
+    padding-left: .8rem;
+    border: 1px solid #dee2e6;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 

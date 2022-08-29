@@ -186,7 +186,6 @@ return [
          * Package Service Providers...
          */
         Yajra\DataTables\DataTablesServiceProvider::class,
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -212,7 +211,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
     ])->toArray(),
 
 ];

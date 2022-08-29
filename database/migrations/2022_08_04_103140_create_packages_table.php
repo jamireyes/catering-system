@@ -16,10 +16,11 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->onDelete('cascade');;
+            $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->string('name');
             $table->integer('pax');
             $table->decimal('price', 8, 2);
+            $table->string('inclusion');
             $table->timestamps();
             $table->softDeletes();
         });

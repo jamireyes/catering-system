@@ -26,73 +26,81 @@
 
         <div class="row">
             @foreach ($packages as $package)
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card border rounded">
-                    <div class="card-body">
-                        <div class="container">
-                            <div class="text-center">
-                                <h4 class="card-title text-warning">{{ $package->name }}</h4>
-                                <p>{{ $package->user }}</p>
-                            </div>
-                            <hr class="bg-warning">
-                            <div id="package-menu">
-                                <div id="package-items">
-                                    @foreach ($categoryRules as $cr)
-                                        @if ($cr->package_id == $package->id)
-                                        <p class="mb-0">{{ $cr->category_name }}</p>
-                                        <small class="mb-1 text-muted">(Max {{ $cr->quantity }} item/s)</small>
-                                        <p class="ml-3 font-italic font-weight-light">
-                                            @foreach ($items as $item)
-                                                @if ($item->category_id == $cr->category_id)
-                                                    {{ $item->name }}
-                                                @endif
-                                            @endforeach
-                                        </p>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card border rounded">
+                        <div class="card-body">
+                            <div class="m-2">
+                                <div class="text-center">
+                                    <h5 class="card-title text-warning">{{ $package->name }}</h5>
+                                    <p class="text-xs">{{ $package->user }}</p>
+                                </div>
+                                <hr class="bg-warning">
+                                <div id="package-menu">
+                                    <div id="package-items">
+                                        @foreach ($categoryRules as $cr)
+                                            @if ($cr->package_id == $package->id)
+                                            <p class="mb-0 text-xs">{{ $cr->category_name }}</p>
+                                            <small class="mb-1 text-muted">(Max {{ $cr->quantity }} item/s)</small>
+                                            <p class="ml-3 text-xs font-italic font-weight-light">
+                                                @foreach ($items as $item)
+                                                    @if ($item->category_id == $cr->category_id)
+                                                        {{ $item->name }},
+                                                    @endif
+                                                @endforeach
+                                                etc
+                                            </p>
+                                            @endif
+                                        @endforeach
+                                        @if($package->inclusion)
+                                            <p class="mb-0 text-xs">{{ __('Inclusions') }}</p>
+                                            <p class="ml-3 text-xs font-italic font-weight-light">{{ $package->inclusion }}</p>
                                         @endif
-                                    @endforeach
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <h4 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h4>
-                                <span>{{ $package->pax }} PAX</span>
-                            </div>
-                            <hr class="bg-warning">
-                            <div id="package-info">
-                                <div class="row">
-                                    <div class="col-2 text-right">
-                                        <span class="nc-icon nc-pin-3"/>
                                     </div>
-                                    <small class="col-10 text-left">{{ $package->address }}</small>
                                 </div>
-                                <div class="row my-2">
-                                    <div class="col-2 text-right">
-                                        <span class="nc-icon nc-send"/>
+                                <div class="text-center mt-4 mb-3">
+                                    <h5 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
+                                    <span>{{ $package->pax }} PAX</span>
+                                </div>
+                                <div class="text-center">
+                                    <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">Order Now</a>
+                                </div>
+                                <hr class="bg-warning">
+                                <div id="package-info">
+                                    <div class="row">
+                                        <div class="col-2 text-right">
+                                            <span class="nc-icon nc-pin-3"/>
+                                        </div>
+                                        <small class="col-10 text-left">{{ $package->address }}</small>
                                     </div>
-                                    <small class="col-10 text-left">+63 {{ $package->phone }}</small>
+                                    <div class="row my-2">
+                                        <div class="col-2 text-right">
+                                            <span class="nc-icon nc-send"/>
+                                        </div>
+                                        <small class="col-10 text-left">+63 {{ $package->phone }}</small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>                        
-                        <div class="d-flex justify-content-center mt-4">
-                            @if($package->deleted_at == NULL)
-                                <form action="{{ route('package.edit', ['package' => $package->id]) }}" method="GET">
-                                    <button type="submit" class="btn btn-sm btn-warning">Edit</button>
-                                </form>
-                                <form action="{{ route('package.destroy', ['package' => $package->id]) }}" method="POST">
-                                    @method('delete')
-                                    @csrf
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </form>
-                            @else
-                                <form action="{{ route('package.restore', ['package' => $package->id]) }}" method="POST">
-                                    @csrf
-                                    <button class="btn btn-sm btn-primary">Restore</button>
-                                </form>
-                            @endif
+                            <div class="d-flex justify-content-center">
+                                @if($package->deleted_at == NULL)
+                                    <form action="{{ route('package.edit', ['package' => $package->id]) }}" method="GET">
+                                        <button type="submit" class="btn btn-sm btn-warning">Edit</button>
+                                    </form>
+                                    <form action="{{ route('package.destroy', ['package' => $package->id]) }}" method="POST">
+                                        @method('delete')
+                                        @csrf
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('package.restore', ['package' => $package->id]) }}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-sm btn-primary">Restore</button>
+                                    </form>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            @endforeach
+                @endforeach
         </div>
     </div>
 @endsection

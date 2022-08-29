@@ -109,11 +109,11 @@
                                     @endif
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="province">Province</label>
-                                    <input type="text" class="form-control" name="province">
-                                    @if ($errors->has('province'))
+                                    <label for="state">Province</label>
+                                    <input type="text" class="form-control" name="state">
+                                    @if ($errors->has('state'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
-                                            <strong>{{ $errors->first('province') }}</strong>
+                                            <strong>{{ $errors->first('state') }}</strong>
                                         </span>
                                     @endif
                                 </div>

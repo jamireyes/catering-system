@@ -70,6 +70,12 @@
                     </a>
                 </li>
             @endif
+            <li class="{{ $elementActive == 'order' ? 'active' : '' }}">
+                <a href="{{ route('order.index') }}">
+                    <i class="nc-icon nc-single-copy-04"></i>
+                    <p>{{ __('Order History') }}</p>
+                </a>
+            </li>
             {{-- <li class="{{ $elementActive == 'user' || $elementActive == 'profile' ? 'active' : '' }}">
                 <a data-toggle="collapse" aria-expanded="true" href="#laravelExamples">
                     <i class="nc-icon"><img src="{{ asset('paper/img/laravel.svg') }}"></i>

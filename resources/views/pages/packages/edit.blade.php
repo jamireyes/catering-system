@@ -38,6 +38,15 @@
                                     </span>
                                 @endif
                             </div>
+                            <div class="form-group">
+                                <label for="inclusion">Enter Package's Inclusions</label>
+                                <input type="text" class="form-control" name="inclusion" placeholder="Package's Inclusions" value="{{ $package->inclusion }}">
+                                @if ($errors->has('inclusion'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('inclusion') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="pax">Enter Number of Person/s (PAX)</label>

@@ -16,7 +16,7 @@
                 
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="p-4 border">
+                        <div class="p-4 border bg-white">
                             <p class="text-muted d-flex">
                                 <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                                 {{ __('Price Filter') }}
@@ -26,13 +26,13 @@
                                 <p>
                                     <label for="price-range" class="text-muted">Range: </label>
                                     <input type="text" id="price-range" data-max="{{ $max_price }}" data-min="{{ $min_price }}" data-filter-min="{{ $filter_min_price }}" data-filter-max="{{ $filter_max_price }}" readonly class="border-0 text-primary font-weight-bold">
-                                    <input type="hidden" name="filter_min_price" value="">
-                                    <input type="hidden" name="filter_max_price" value="">
+                                    <input type="hidden" name="filter_min_price" value="{{ $filter_min_price }}">
+                                    <input type="hidden" name="filter_max_price" value="{{ $filter_max_price }}">
                                     <input type="hidden" name="order_by_price" value="{{ $priceOrderBy }}">
                                 </p>
                                 <div id="slider" class="mb-3"></div>
                                 <div class="text-right">
-                                    <button type="submit" class="btn btn-sm btn-info">Apply</button>
+                                    <button type="submit" class="btn btn-sm btn-info mb-0">Apply</button>
                                 </div>
                             </form>
                         </div>
@@ -54,7 +54,7 @@
                         <div class="row">
                             @foreach ($packages as $package)
                             <div class="col-md-6 col-sm-12">
-                                <div class="card border rounded bg-dark text-white">
+                                <div class="card border rounded">
                                     <div class="card-body">
                                         <div class="m-2">
                                             <div class="text-center">
@@ -78,6 +78,10 @@
                                                         </p>
                                                         @endif
                                                     @endforeach
+                                                    @if($package->inclusion)
+                                                        <p class="mb-0 text-xs">{{ __('Inclusions') }}</p>
+                                                        <p class="ml-3 text-xs font-italic font-weight-light">{{ $package->inclusion }}</p>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="text-center mt-4 mb-3">
@@ -87,7 +91,7 @@
                                             <div class="text-center">
                                                 <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">Order Now</a>
                                             </div>
-                                            {{-- <hr class="bg-warning">
+                                            <hr class="bg-warning">
                                             <div id="package-info">
                                                 <div class="row">
                                                     <div class="col-2 text-right">
@@ -101,7 +105,7 @@
                                                     </div>
                                                     <small class="col-10 text-left">+63 {{ $package->phone }}</small>
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -151,8 +155,8 @@
 
             $( "#price-range" ).val( "$" + numberWithCommas(val_min) + " - $" + numberWithCommas(val_max) );
 
-            $('input[name="filter_min_price"]').val($('#price-range').data('filter_min'))
-            $('input[name="filter_max_price"]').val($('#price-range').data('filter_max'))
+            // $('input[name="filter_min_price"]').val($('#price-range').data('filter_min'))
+            // $('input[name="filter_max_price"]').val($('#price-range').data('filter_max'))
 
             function numberWithCommas(x) {
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
