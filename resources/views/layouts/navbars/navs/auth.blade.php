@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-white">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-absolute sticky-top navbar-transparent" style="padding-left:30px!important;padding-right:30px!important;">
+    {{-- <div class="container p-0 ml-4 mr-4"> --}}
         <div class="navbar-wrapper">
             <div class="navbar-toggle">
                 <button type="button" class="navbar-toggler">
@@ -43,5 +43,5 @@
                 </li>
             </ul>
         </div>
-    </div>
+    {{-- </div> --}}
 </nav>

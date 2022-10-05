@@ -5,15 +5,15 @@
 
 @section('content')
     <div class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-                    <div class="card card-signup">
-                        <div class="card-header ">
-                            <h4 class="card-title">{{ __('Sign Up') }}</h4>
-                            <p class="text-muted">Have an account? <a href="{{ route('login') }}">Login here!</a></p>
-                        </div>
-                        <div class="card-body text-center">
+                    <div class="card">
+                        <div class="p-4">
+                            <div>
+                                <h4 >{{ __('Sign Up') }}</h4>
+                                <p class="text-muted">Have an account? <a href="{{ route('login') }}">Login here!</a></p>
+                            </div>
                             <form class="form" method="POST" action="{{ route('register') }}">
                                 @csrf
                                 <div class="input-group{{ $errors->has('name') ? ' has-danger' : '' }}">
@@ -82,7 +82,9 @@
                                         </span>
                                     @endif
                                 </div>
-                                <button type="submit" class="btn btn-info my-4">{{ __('Get Started') }}</button>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-info my-4">{{ __('Get Started') }}</button>
+                                </div>
                             </form>
                         </div>
                     </div>

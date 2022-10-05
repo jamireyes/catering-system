@@ -22,68 +22,68 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
-<body class="welcome-page position-relative">
-    <nav class="navbar navbar-expand-lg py-4 m-0 fixed-top">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-            </button>
-            <div class="navbar-wrapper">
-                <a href="{{ route('welcome') }}"><img src="../assets/img/banner.png" height="40" alt="Logo"></a>
-            </div>
-            
-            <div style="background-color:transparent;width:37px;"></div>
-            <div class="collapse navbar-collapse justify-content-between" id="navigation">
-                <ul id="nav-left" class="navbar-nav">
+<body class="lock-page position-relative">
+    <nav class="navbar navbar-expand-lg m-0 fixed-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar bar1"></span>
+            <span class="navbar-toggler-bar bar2"></span>
+            <span class="navbar-toggler-bar bar3"></span>
+        </button>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="{{ route('welcome') }}" class="nav-link"><img src="../assets/img/banner.png" height="40" alt="Logo"></a>
+            </li>
+        </ul>
+        
+        <div style="background-color:transparent;width:37px;"></div>
+        <div class="collapse navbar-collapse justify-content-between" id="navigation">
+            <ul class="navbar-nav navbar-center">
+                <li class="nav-item">
+                    <a href="{{ route('shop.index') }}" class="nav-link">{{ __('Store') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">{{ __('About') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#featured" class="nav-link">{{ __('Featured') }}</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="{{ route('checkout.index') }}" class="nav-link">
+                        <i class="nc-icon nc-cart-simple mr-1"></i>{{ __('Cart') }}
+                    </a>
+                </li>
+                @guest
                     <li class="nav-item">
-                        <a href="{{ route('shop.index') }}" class="nav-link">{{ __('Store') }}</a>
+                        <a href="{{ route('login') }}" class="nav-link">
+                            <img src="{{ asset('assets') }}/img/svg/log-in.svg" alt="login" class="mr-2">{{ __('Login') }}
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#about" class="nav-link">{{ __('About') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#featured" class="nav-link">{{ __('Featured') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#feedback" class="nav-link">{{ __('Feedback') }}</a>
-                    </li>
-                </ul>
-                <ul id="nav-right" class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a href="{{ route('checkout.index') }}" class="nav-link">{{ __('Cart') }}</a>
-                    </li>
-                    @guest
-                        <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link">
-                                {{ __('Login') }}
-                            </a>
-                        </li>
-                    @endguest
-                    @auth
-                        <li class="nav-item btn-rotate dropdown">
-                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ __('Account') }}
-                            </a>
-                            <div class="dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
-                                <form class="dropdown-item" action="{{ route('logout') }}" id="formLogOut" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
-                                    <a class="dropdown-item" onclick="document.getElementById('formLogOut').submit();">{{ __('Log out') }}</a>
-                                </div>
+                @endguest
+                @auth
+                    <li class="nav-item btn-rotate dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="nc-icon nc-single-02"></i>
+                            {{ __('Account') }}
+                        </a>
+                        <div class="dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
+                            <form class="dropdown-item" action="{{ route('logout') }}" id="formLogOut" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
+                                <a class="dropdown-item" onclick="document.getElementById('formLogOut').submit();">{{ __('Log out') }}</a>
                             </div>
-                        </li>
-                    @endauth
-                </ul>
-            </div>
+                        </div>
+                    </li>
+                @endauth
+            </ul>
         </div>
     </nav>
-
-    <div class="full-page section-image" style="height:100vh;!important">
+    <div class="section-image" style="height:100vh;!important">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <div style="z-index:10;" data-aos="fade-up" data-aos-duration="1500" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center text-center">
                 <div class="d-flex flex-column">
@@ -124,150 +124,145 @@
             </a>
         </div>
 
-        <div class="container">
-            {{-- About section --}}
-            <section id="about" class="my-5 py-5" data-aos="fade-up">
-                <div class="d-flex flex-column justify-content-center text-center">
-                    <h5 class="text-warning text-uppercase text-spacing-5">Serving you since 2022</h5>
-                    <h1 class="my-4">Welcome to Three Catering Services</h1>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 text-center py-5">
-                        <img src="{{ asset('assets') }}/img/about/circle.png" alt="circle" class="position-relative">
-                        <img src="{{ asset('assets') }}/img/about/shape1.png" alt="shape1" class="position-absolute float-up" style="top:38%; left:50%; transform: translate(-50%, -50%);">
-                        <h5 class="text-muted text-uppercase mt-3">Fast in Action</h5>
-                    </div>
-                    <div class="col-md-4 text-center py-5">
-                        <img src="{{ asset('assets') }}/img/about/circle.png" alt="circle" class="position-relative">
-                        <img src="{{ asset('assets') }}/img/about/shape2.png" alt="shape2" class="position-absolute float-up" style="top:38%; left:50%; transform: translate(-50%, -50%);">
-                        <h5 class="text-muted text-uppercase mt-3">Budget Frienly</h5>
-                    </div>
-                    <div class="col-md-4 text-center py-5">
-                        <img src="{{ asset('assets') }}/img/about/circle.png" alt="circle" class="position-relative">
-                        <img src="{{ asset('assets') }}/img/about/shape3.png" alt="shape3" class="position-absolute float-up" style="top:38%; left:50%; transform: translate(-50%, -50%);">
-                        <h5 class="text-muted text-uppercase mt-3">Premium Services</h5>
-                    </div>
-                </div>
-            </section>
-            
-            <hr>
-
-            {{-- Featured section --}}
-            <section id="featured" class="mb-5 py-5" data-aos="fade-up">
-                <div class="text-center pb-4">
-                    <h4 class="text-muted">Featured Packges</h4>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <div class="row">
-                        @foreach ($packages as $package)
-                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                <div class="card border rounded">
-                                    <div class="card-body">
-                                        <div class="m-2">
-                                            <div class="text-center">
-                                                <h5 class="card-title text-warning">{{ $package->name }}</h5>
-                                                <p class="text-xs">{{ $package->user }}</p>
-                                            </div>
-                                            <hr class="bg-warning">
-                                            <div id="package-menu">
-                                                <div id="package-items">
-                                                    @foreach ($categoryRules as $cr)
-                                                        @if ($cr->package_id == $package->id)
-                                                        <p class="mb-0 text-xs">{{ $cr->category_name }}</p>
-                                                        <small class="mb-1 text-muted">(Max {{ $cr->quantity }} item/s)</small>
-                                                        <p class="ml-3 text-xs font-italic font-weight-light">
-                                                            @foreach ($items as $item)
-                                                                @if ($item->category_id == $cr->category_id)
-                                                                    {{ $item->name }},
-                                                                @endif
-                                                            @endforeach
-                                                            etc
-                                                        </p>
-                                                        @endif
-                                                    @endforeach
-                                                    @if($package->inclusion)
-                                                        <p class="mb-0 text-xs">{{ __('Inclusions') }}</p>
-                                                        <p class="ml-3 text-xs font-italic font-weight-light">{{ $package->inclusion }}</p>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="text-center mt-4 mb-3">
-                                                <h5 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
-                                                <span>{{ $package->pax }} PAX</span>
-                                            </div>
-                                            <div class="text-center">
-                                                <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">Order Now</a>
-                                            </div>
-                                            <hr class="bg-warning">
-                                            <div id="package-info">
-                                                <div class="row">
-                                                    <div class="col-2 text-right">
-                                                        <span class="nc-icon nc-pin-3"/>
-                                                    </div>
-                                                    <small class="col-10 text-left">{{ $package->address }}</small>
-                                                </div>
-                                                <div class="row my-2">
-                                                    <div class="col-2 text-right">
-                                                        <span class="nc-icon nc-send"/>
-                                                    </div>
-                                                    <small class="col-10 text-left">+63 {{ $package->phone }}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </section>
-            
-            <hr>
-
-            {{-- Feedback section --}}
-            <section id="feedback" class="py-5" data-aos="fade-up">
-                <div class="text-center pb-4">
-                    <h4 class="text-muted">Customer Feedback</h4>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 col-sm-3">
-                        <div class="d-flex justify-content-md-end justify-content-center">
-                            <div class="card text-white bg-warning" style="width:7rem;height:7rem;">
-                                <div class="card-body text-center p-0">
-                                    <div class="h-100 d-flex flex-column justify-content-center align-items-center">
-                                        <h2 class="m-0">4.9</h2>
-                                        <p class="m-0">out of 5</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-9">
-                        <div class="progress mb-2">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">121</div>
-                        </div>
-                        <div class="progress mb-2">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">23</div>
-                        </div>
-                        <div class="progress mb-2">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">10</div>
-                        </div>
-                        <div class="progress mb-2">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">5</div>
-                        </div>
-                        <div class="progress mb-2">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">1</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
         <div class="position-fixed" style="bottom:10px;right:10px;z-index:1020!important;">
             <a id="backToTop" href="#carouselExampleIndicators" class="btn" style="opacity: 0!important;">
                 <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
             </a>
         </div>
     </div>
+    <section id="about" class="my-5 py-5" data-aos="fade-up">
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center text-center">
+                <h5 class="text-warning text-uppercase text-spacing-5">Serving you since 2022</h5>
+                <h1 class="my-4">Welcome to Three Catering Services</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-4 text-center py-5">
+                    <img src="{{ asset('assets') }}/img/about/circle.png" alt="circle" class="position-relative">
+                    <img src="{{ asset('assets') }}/img/about/shape1.png" alt="shape1" class="position-absolute float-up" style="top:38%; left:50%; transform: translate(-50%, -50%);">
+                    <h5 class="text-muted text-uppercase mt-3">Fast in Action</h5>
+                </div>
+                <div class="col-md-4 text-center py-5">
+                    <img src="{{ asset('assets') }}/img/about/circle.png" alt="circle" class="position-relative">
+                    <img src="{{ asset('assets') }}/img/about/shape2.png" alt="shape2" class="position-absolute float-up" style="top:38%; left:50%; transform: translate(-50%, -50%);">
+                    <h5 class="text-muted text-uppercase mt-3">Budget Friendly</h5>
+                </div>
+                <div class="col-md-4 text-center py-5">
+                    <img src="{{ asset('assets') }}/img/about/circle.png" alt="circle" class="position-relative">
+                    <img src="{{ asset('assets') }}/img/about/shape3.png" alt="shape3" class="position-absolute float-up" style="top:38%; left:50%; transform: translate(-50%, -50%);">
+                    <h5 class="text-muted text-uppercase mt-3">Premium Services</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section id="featured" class="mb-5 py-5">
+        <div class="container" data-aos="zoom-in">
+            <div class="text-center pb-4">
+                <h4 class="text-muted">Featured Packages</h4>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="row">
+                    @foreach ($packages as $package)
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="card border rounded">
+                                <div class="card-body">
+                                    <div class="m-2">
+                                        <div class="text-center">
+                                            <h5 class="card-title text-warning">{{ $package->name }}</h5>
+                                            <p class="text-xs">{{ $package->user }}</p>
+                                        </div>
+                                        <hr class="bg-warning">
+                                        <div id="package-menu">
+                                            <div id="package-items">
+                                                @foreach ($categoryRules as $cr)
+                                                    @if ($cr->package_id == $package->id)
+                                                    <p class="mb-0 text-xs">{{ $cr->category_name }}</p>
+                                                    <small class="mb-1 text-muted">(Max {{ $cr->quantity }} item/s)</small>
+                                                    <p class="ml-3 text-xs font-italic font-weight-light">
+                                                        @foreach ($items as $item)
+                                                            @if ($item->category_id == $cr->category_id)
+                                                                {{ $item->name }},
+                                                            @endif
+                                                        @endforeach
+                                                        etc
+                                                    </p>
+                                                    @endif
+                                                @endforeach
+                                                @if($package->inclusion)
+                                                    <p class="mb-0 text-xs">{{ __('Inclusions') }}</p>
+                                                    <p class="ml-3 text-xs font-italic font-weight-light">{{ $package->inclusion }}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-4 mb-3">
+                                            <h5 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
+                                            <span>{{ $package->pax }} PAX</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">Order Now</a>
+                                        </div>
+                                        <hr class="bg-warning">
+                                        <div id="package-info">
+                                            <div class="row">
+                                                <div class="col-2 text-right">
+                                                    <span class="nc-icon nc-pin-3"/>
+                                                </div>
+                                                <small class="col-10 text-left">{{ $package->address }}</small>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-2 text-right">
+                                                    <span class="nc-icon nc-send"/>
+                                                </div>
+                                                <small class="col-10 text-left">+63 {{ $package->phone }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- <section id="feedback" class="py-5">
+        <div class="text-center pb-4">
+            <h4 class="text-muted">Customer Feedback</h4>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-3">
+                <div class="d-flex justify-content-md-end justify-content-center">
+                    <div class="card text-white bg-warning" style="width:7rem;height:7rem;">
+                        <div class="card-body text-center p-0">
+                            <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+                                <h2 class="m-0">4.9</h2>
+                                <p class="m-0">out of 5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-9">
+                <div class="progress mb-2">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">121</div>
+                </div>
+                <div class="progress mb-2">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">23</div>
+                </div>
+                <div class="progress mb-2">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">10</div>
+                </div>
+                <div class="progress mb-2">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">5</div>
+                </div>
+                <div class="progress mb-2">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">1</div>
+                </div>
+            </div>
+        </div>
+    </section> --}}
+    @include('layouts.footer')
 
     <script src="{{ asset('paper') }}/js/core/jquery.min.js"></script>
     <script src="{{ asset('paper') }}/js/core/popper.min.js"></script>
@@ -286,6 +281,7 @@
                     $('html, body').animate({
                         scrollTop: $(hash).offset().top - $('nav').outerHeight()
                     }, 800);
+                    $('.navbar-toggler:not(.collapsed):visible').click()
                 }
             });
 

@@ -1,13 +1,5 @@
-<div class="sidebar" data-color="white" data-active-color="primary">
+<div class="sidebar" data-color="black" data-active-color="warning">
     <div class="logo d-flex justify-content-center">
-        {{-- <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-            <div class="logo-image-small">
-                <img src="{{ asset('paper') }}/img/logo-small.png">
-            </div>
-        </a> --}}
-        {{-- <a href="{{ route('welcome') }}" class="simple-text logo-normal">
-            {{ config('app.name') }}
-        </a> --}}
         <a href="{{ route('welcome') }}"><img class="my-3" src="{{ asset('assets') }}/img/banner.png" height="40" alt="Logo"></a>
     </div>
     <div class="sidebar-wrapper">

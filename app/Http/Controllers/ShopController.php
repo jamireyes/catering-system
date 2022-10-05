@@ -45,14 +45,14 @@ class ShopController extends Controller
                 ->where('packages.deleted_at', NULL)
                 ->whereBetween('packages.price', [$filter_min_price, $filter_max_price])
                 ->orderBy('packages.price', $priceOrderBy)
-                ->paginate(2);
+                ->paginate(6);
         }else{
             $packages = DB::table('packages')
                 ->selectRaw("packages.*, users.name as user, users.phone_number as phone, CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address")
                 ->join('users', 'packages.user_id', 'users.id')
                 ->where('packages.deleted_at', NULL)
                 ->orderBy('packages.price', $priceOrderBy)
-                ->paginate(2);
+                ->paginate(6);
         }            
 
         $items = Item::all();
