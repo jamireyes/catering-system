@@ -191,6 +191,8 @@
                 $('#zipcode').val(rowData.zipcode)
                 $('#phone_number').val("0"+rowData.phone_number)
 
+                console.log(rowData)
+
                 if(!$('#created_at').is(':empty') && !$('#updated_at').is(':empty')){
                     $('#created_at').empty();
                     $('#updated_at').empty();
@@ -233,6 +235,7 @@
                 url = url.replace(':id', id);
 
                 if($('#agreement:checked').length != 0){
+                    console.log('hello')
                     $.ajax({
                         type: 'POST',
                         url: url,
@@ -247,7 +250,18 @@
                             )
                         },
                         error: (err) => {
-                            alert(err);
+                            const errors = err.responseJSON.errors
+                            var html = ''
+
+                            Object.values(errors).forEach(val => {
+                                html += "<p>"+val[0]+"</p>"
+                            })
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                html: html,
+                            })
                         }   
                     })
                 }

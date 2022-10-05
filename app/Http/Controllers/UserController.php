@@ -60,13 +60,14 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        dd($request);
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required',
             'password' => 'required',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|email|unique:users',
             'phone_number' => 'required|unique:users',
-            'address_1' => 'required|string|max:255',
-            'address_2' => 'required|string|max:255',
+            'address_1' => 'required',
+            'address_2' => 'required',
             'city' => 'required',
             'state' => 'required',
             'zipcode' => 'required',
@@ -86,18 +87,17 @@ class UserController extends Controller
 
         $message = 'Successfully created an account for '.$request->name.'!';
         
-        return redirect()->route('user')->with('success', $message);
+        return redirect()->route('user.index')->with('success', $message);
     }
 
     public function update(Request $request, $id)
     {   
         $request->validate([
-            'name' => 'required|string|max:255',
-            'password' => 'required',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone_number' => 'required|unique:users',
-            'address_1' => 'required|string|max:255',
-            'address_2' => 'required|string|max:255',
+            'name' => 'required',
+            'email' => 'required',
+            'phone_number' => 'required',
+            'address_1' => 'required',
+            'address_2' => 'required',
             'city' => 'required',
             'state' => 'required',
             'zipcode' => 'required',
@@ -105,7 +105,6 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->name = $request->name;
-        $user->password = $request->password;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
         $user->address_1 = $request->address_1;
