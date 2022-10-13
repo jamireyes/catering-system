@@ -20,7 +20,7 @@
             <div class="col-md-5 mx-auto">
                 <form action="{{ route('order.index') }}">
                     @csrf
-                    <div class="bg-white border rounded-0 p-3 mb-5">
+                    <div class="bg-white border rounded shadow-sm p-3 mb-5">
                         <div class="d-flex justify-content-center w-100">
                             <div class="mr-2 w-100">
                                 <label for="">Start Date</label>

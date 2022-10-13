@@ -9,6 +9,7 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
+use App\Notifications\WelcomeUser;
 
 
 Auth::routes();
@@ -37,6 +38,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('order', OrderController::class);
 	Route::resource('package', PackageController::class);
 	Route::post('package/{package}/restore', [PackageController::class, 'restore'])->name('package.restore');
+});
+
+Route::get('send', function () {
+	$user = App\Models\User::find(22);
+	$user->notify(new WelcomeUser($user));
 });
 
 
