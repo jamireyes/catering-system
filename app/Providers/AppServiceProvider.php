@@ -21,9 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Event::listen(MigrationsStarted::class, function (){
-        //     DB::statement('SET SESSION sql_require_primary_key=0');
-        // });
+        Event::listen(MigrationsStarted::class, function (){
+            DB::statement('SET SESSION sql_require_primary_key=0');
+        });
     }
 
     /**
