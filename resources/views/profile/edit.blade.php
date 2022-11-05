@@ -28,24 +28,30 @@
                     </div>
                     <hr>
                     <div class="card-body" style="min-height:auto!important;">
-                        <div class="row">
-                            <div class="col-2 text-right">
-                                <span class="nc-icon nc-pin-3"/>
+                        @if(Auth::user()->full_address == ' ')
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    <span class="nc-icon nc-pin-3"/>
+                                </div>
+                                <small class="col-10 text-left">{{ Auth::user()->full_address }}</small>
                             </div>
-                            <small class="col-10 text-left">{{ Auth::user()->full_address }}</small>
-                        </div>
-                        <div class="row my-2">
-                            <div class="col-2 text-right">
-                                <span class="nc-icon nc-send"/>
+                        @endif
+                        @if(Auth::user()->phone_number)
+                            <div class="row my-2">
+                                <div class="col-2 text-right">
+                                    <span class="nc-icon nc-send"/>
+                                </div>
+                                <small class="col-10 text-left">+63 {{ Auth::user()->phone_number }}</small>
                             </div>
-                            <small class="col-10 text-left">+63 {{ Auth::user()->phone_number }}</small>
-                        </div>
-                        <div class="row">
-                            <div class="col-2 text-right">
-                                <span class="nc-icon nc-email-85"/>
+                        @endif
+                        @if(Auth::user()->email)
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    <span class="nc-icon nc-email-85"/>
+                                </div>
+                                <small class="col-10 text-left">{{ Auth::user()->email }}</small>
                             </div>
-                            <small class="col-10 text-left">{{ Auth::user()->email }}</small>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="content">
-        <div class="row mb-4">
+        <div class="row">
             <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 mx-auto">
+            <div class="col-md-12 mx-auto">
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-2 d-flex justify-content-between align-items-center">
@@ -41,7 +41,7 @@
                                     <tbody>
                                         @foreach ($items as $item)
                                             <tr>
-                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
                                                 <td>{{ $item->name }}</td>
                                                 <td>
                                                     @isset($item->category_name)
@@ -54,7 +54,7 @@
                                                 @isset($item->user)
                                                     <td>{{ $item->user }}</td>
                                                 @endisset
-                                                <td class="text-center">
+                                                <td>
                                                     @if($item->deleted_at == NULL)
                                                         <div class="d-flex justify-content-center">
                                                             <form action="{{ route('item.edit', ['item' => $item->id]) }}" method="GET">

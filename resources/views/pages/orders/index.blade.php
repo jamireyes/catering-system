@@ -20,7 +20,7 @@
             <div class="col-md-5 mx-auto">
                 <form action="{{ route('order.index') }}">
                     @csrf
-                    <div class="bg-white border rounded shadow-sm p-3 mb-5">
+                    <div class="bg-white border rounded shadow-sm p-3 mb-3">
                         <div class="d-flex justify-content-center w-100">
                             <div class="mr-2 w-100">
                                 <label for="">Start Date</label>
@@ -48,45 +48,43 @@
                 </form>
             </div>
         </div>
-        <div class="row">
+        <div class="order-container">
             @isset($orders)
                 @foreach ($orders as $order)
-                <div class="col-md-5 mx-auto">
-                    <div class="card border rounded">
-                        <div class="card-body">                         
-                            <div class="m-2">
-                                <small class="text-muted">Date: {{ $order->order_date }}</small>
-                                <div class="text-center">
-                                    <h5 class="card-title">{{ $order->package_name }}</h5>
-                                    <p class="mb-1">{{ $order->company }}</p>
-                                    <small class="mb-0 text-muted">({{ $order->pax }} PAX)</small>
-                                </div>
-                                <hr>
-                                <div>
-                                    @foreach ($categories as $c)
-                                        <p class="text-xs">{{ $c->name }}</p>
-                                        @foreach ($items as $item)
-                                            @if ($item->category == $c->name)
-                                                <p class="ml-3 text-xs font-italic font-weight-light">{{ $item->name }}<small class="mb-1 text-muted"> x {{ $item->qty }}</small></p>
-                                            @endif
-                                        @endforeach
+                <div class="card border rounded">
+                    <div class="card-body">                         
+                        <div class="m-2">
+                            <small class="text-muted">Date: {{ $order->order_date }}</small>
+                            <div class="text-center">
+                                <h5 class="card-title">{{ $order->package_name }}</h5>
+                                <p class="mb-1">{{ $order->company }}</p>
+                                <small class="mb-0 text-muted">({{ $order->pax }} PAX)</small>
+                            </div>
+                            <hr>
+                            <div>
+                                @foreach ($categories as $c)
+                                    <p class="text-xs">{{ $c->name }}</p>
+                                    @foreach ($items as $item)
+                                        @if ($item->category == $c->name)
+                                            <p class="ml-3 text-xs font-italic font-weight-light">{{ $item->name }}<small class="mb-1 text-muted"> x {{ $item->qty }}</small></p>
+                                        @endif
                                     @endforeach
-                                                                    
-                                    @if ($order->inclusion != NULL)    
-                                        <p class="text-xs">{{ __('Inclusions') }}</p>
-                                        <p class="ml-3 text-xs font-italic font-weight-light">{{ $order->inclusion }}</p> 
-                                    @endif
-                                </div>
-                                <div>
-                                    <table class="table table-sm">
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-left">{{ __('Grand Total') }}</td>
-                                                <td class="text-right">₱ {{ number_format($order->price, 2, '.', ',') }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                @endforeach
+                                                                
+                                @if ($order->inclusion != NULL)    
+                                    <p class="text-xs">{{ __('Inclusions') }}</p>
+                                    <p class="ml-3 text-xs font-italic font-weight-light">{{ $order->inclusion }}</p> 
+                                @endif
+                            </div>
+                            <div>
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-left">{{ __('Grand Total') }}</td>
+                                            <td class="text-right">₱ {{ number_format($order->price, 2, '.', ',') }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

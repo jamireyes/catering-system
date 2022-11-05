@@ -20,7 +20,9 @@ class UserFactory extends Factory
     protected $model = User::class;
 
     public function definition()
-    {
+    {   
+        $date = $this->faker->dateTimeBetween('-1 years');
+        
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
@@ -33,7 +35,9 @@ class UserFactory extends Factory
             'city' => fake()->city(),
             'state' => fake()->state(),
             'zipcode' => fake()->numberBetween(1000, 9000),
-            'phone_number' => fake()->unique()->numberBetween(9000000000, 9999999999)
+            'phone_number' => fake()->unique()->numberBetween(9000000000, 9999999999),
+            'created_at' => $date,
+            'updated_at' => $date
         ];
     }
 

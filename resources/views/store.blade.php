@@ -22,16 +22,18 @@
                         </p>
                         <form id="filter-form" action="{{ route('shop.index') }}">
                             @csrf
-                            <p>
-                                <label for="price-range" class="text-muted">Range: </label>
-                                <input type="text" id="price-range" data-max="{{ $max_price }}" data-min="{{ $min_price }}" data-filter-min="{{ $filter_min_price }}" data-filter-max="{{ $filter_max_price }}" readonly class="border-0 text-primary font-weight-bold">
+                            {{-- <p> --}}
+                            <div class="form-group">
+                                <label for="price-range" class="text-muted text-xs">Range: </label>
+                                <input type="text" id="price-range" data-max="{{ $max_price }}" data-min="{{ $min_price }}" data-filter-min="{{ $filter_min_price }}" data-filter-max="{{ $filter_max_price }}" readonly class="border-0 text-primary font-weight-bold text-xs">
                                 <input type="hidden" name="filter_min_price" value="{{ $filter_min_price }}">
                                 <input type="hidden" name="filter_max_price" value="{{ $filter_max_price }}">
                                 <input type="hidden" name="order_by_price" value="{{ $priceOrderBy }}">
-                            </p>
-                            <div id="slider" class="mb-3"></div>
-                            <div class="text-right">
-                                <button type="submit" class="btn btn-sm btn-info mb-0">Apply</button>
+                                {{-- </p> --}}
+                                <div id="slider" class="my-3"></div>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-sm btn-info mb-0">Apply</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -39,10 +41,10 @@
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="d-flex flex-md-row flex-column justify-content-between align-items-center align-items-md-start">
+                            <div class="d-flex flex-row justify-content-between align-items-center align-items-md-start">
                                 <div id="price-filter" class="d-flex flex-row mb-2 shadow-sm">
-                                    <button id="low-high-btn" class="m-0 btn btn-outline-light rounded-0 @if($priceOrderBy == 'ASC') active @endif">Low to High</button>
-                                    <button id="high-low-btn" class="m-0 btn btn-outline-light rounded-0 @if($priceOrderBy == 'DESC') active @endif">High to Low</button>
+                                    <button id="low-high-btn" class="m-0 btn btn-outline-light @if($priceOrderBy == 'ASC') active @endif">Low to High</button>
+                                    <button id="high-low-btn" class="m-0 btn btn-outline-light @if($priceOrderBy == 'DESC') active @endif">High to Low</button>
                                 </div>
                                 <div class="mb-2">
                                     {{ $packages->links() }}
@@ -158,10 +160,7 @@
                 }
             });
 
-            $( "#price-range" ).val( "₱" + numberWithCommas(val_min) + " - ₱" + numberWithCommas(val_max) );
-
-            // $('input[name="filter_min_price"]').val($('#price-range').data('filter_min'))
-            // $('input[name="filter_max_price"]').val($('#price-range').data('filter_max'))
+            $("#price-range").val( "₱" + numberWithCommas(val_min) + " - ₱" + numberWithCommas(val_max) );
 
             function numberWithCommas(x) {
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

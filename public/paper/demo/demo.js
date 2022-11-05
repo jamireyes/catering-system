@@ -142,7 +142,7 @@ demo = {
       },
       options: {
         legend: {
-          display: false
+          display: true
         },
 
         tooltips: {

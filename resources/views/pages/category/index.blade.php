@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 mx-auto">
+            <div class="col-md-12 mx-auto">
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-2 d-flex justify-content-between align-items-center">
@@ -37,22 +37,22 @@
                             </div>   
                         </div>
                         @isset($categories)
-                            <div class="table-responsive-sm">
+                            {{-- <div class="table-responsive-sm"> --}}
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">No.</th>
-                                            <th>Name</th>
+                                            <th scope="col" class="text-center">No.</th>
+                                            <th scope="col">Name</th>
                                             @isset($categories[0]->user)
-                                                <th>Added by</th>
+                                                <th scope="col">Added by</th>
                                             @endisset
-                                            <th class="text-center">Action</th>
+                                            <th scope="col" class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($categories as $category)
                                         <tr>
-                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <th scope="row" class="text-center">{{ $loop->iteration }}</th>
                                             <td>{{ $category->name }}</td>
                                             @isset($category->user)
                                                 <td>{{ $category->user }}</td>
@@ -92,7 +92,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                            </div>  
+                            {{-- </div>   --}}
                         @endisset
                         @empty($categories)
                             <div class="alert alert-warning" role="alert">

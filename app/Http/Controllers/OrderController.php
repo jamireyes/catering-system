@@ -17,11 +17,15 @@ class OrderController extends Controller
     public function index(Request $request)
     {   
         $message = 'No records found! Please try again.';
+
+
+        if(isset($request->start)){
+            $start = Carbon::createFromFormat('m/d/Y', $request->start);
+            $end = Carbon::createFromFormat('m/d/Y', $request->end);
+        }
         
         if($request->start && $request->end){
             if(Auth::user()->role == 'ADMIN'){
-                $start = Carbon::createFromFormat('m/d/Y', $request->start);
-                $end = Carbon::createFromFormat('m/d/Y', $request->end);
     
                 $orders = Order::selectRaw("orders.id, DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date, users.name as company, users.id as user_id, packages.name as package_name, packages.pax, packages.price, packages.inclusion, CONCAT_WS(' ', users.address_1, users.address_2, users.city, users.state, users.zipcode) as address, users.phone_number as phone")
                     ->join('packages', 'orders.package_id', 'packages.id')
@@ -46,9 +50,7 @@ class OrderController extends Controller
                     Session::flash('info', $message);
                 }
             }elseif(Auth::user()->role == 'SELLER'){
-                $start = Carbon::createFromFormat('m/d/Y', $request->start);
-                $end = Carbon::createFromFormat('m/d/Y', $request->end);
-    
+   
                 $orders = Order::selectRaw("orders.id, DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date, users.name as company, users.id as user_id, packages.name as package_name, packages.pax, packages.price, packages.inclusion, CONCAT_WS(' ', users.address_1, users.address_2, users.city, users.state, users.zipcode) as address, users.phone_number as phone")
                     ->join('packages', 'orders.package_id', 'packages.id')
                     ->join('users', 'packages.user_id', 'users.id')
@@ -73,9 +75,6 @@ class OrderController extends Controller
                     Session::flash('info', $message);
                 }
             }else{
-                $start = Carbon::createFromFormat('m/d/Y', $request->start);
-                $end = Carbon::createFromFormat('m/d/Y', $request->end);
-    
                 $orders = Order::selectRaw("orders.id, DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date, users.name as company, users.id as user_id, packages.name as package_name, packages.pax, packages.price, packages.inclusion, CONCAT_WS(' ', users.address_1, users.address_2, users.city, users.state, users.zipcode) as address, users.phone_number as phone")
                     ->join('packages', 'orders.package_id', 'packages.id')
                     ->join('users', 'packages.user_id', 'users.id')

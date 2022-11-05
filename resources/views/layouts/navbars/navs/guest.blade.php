@@ -16,13 +16,13 @@
         <ul id="nav-right" class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a href="{{ route('checkout.index') }}" class="nav-link">
-                    <i class="nc-icon nc-cart-simple mr-1"></i>{{ __('Cart') }}
+                    <i class="nc-icon nc-cart-simple"></i>
                 </a>
             </li>
             @guest
             <li class="nav-item">
                 <a href="{{ route('login') }}" class="nav-link">
-                    <img src="{{ asset('assets') }}/img/svg/log-in.svg" alt="login" class="mr-2">{{ __('Login') }}
+                    <img src="{{ asset('assets') }}/img/svg/log-in.svg" alt="login">
                 </a>
             </li>
             @endguest
@@ -31,7 +31,6 @@
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="nc-icon nc-single-02"></i>
-                    {{ __('Account') }}
                 </a>
                 <div class="dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
                     <form class="dropdown-item" action="{{ route('logout') }}" id="formLogOut" method="POST" style="display: none;">
