@@ -111,47 +111,42 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                {{-- <div class="card rounded">
-                    <div class="card-header ">
-                        <h5 class="card-title">Users Behavior</h5>
-                        <p class="card-category">24 Hours performance</p>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id=chartHours width="400" height="100"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-history"></i> Updated 3 minutes ago
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="card">
-                    <div class="card-header ">
-                        <h5 class="card-title">Monthly New Users</h5>
-                        {{-- <p class="card-category">2022</p> --}}
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Unique Users per Month</h5>
+                            <form action="" class="w-25">
+                                <div class="form-group">
+                                    <label>Filter by Year</label>
+                                    <select class="form-control" name="" id="">
+                                        <option></option>
+                                        <option></option>
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="chartWrapper">
                             <div class="chartAreaWrapper">
-                                <canvas id="monthlyUsersChart"></canvas>
+                                <canvas id="monthlyUsersChart" height="500"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-4">
                 <div class="card ">
-                    <div class="card-header ">
+                    <div class="card-header">
                         <h5 class="card-title">Email Statistics</h5>
                         <p class="card-category">Last Campaign Performance</p>
                     </div>
-                    <div class="card-body ">
-                        {{-- <canvas id="chartEmail"></canvas> --}}
+                    <div class="card-body">
                     </div>
-                    <div class="card-footer ">
+                    <div class="card-footer">
                         <div class="legend">
                             <i class="fa fa-circle text-primary"></i> Opened
                             <i class="fa fa-circle text-warning"></i> Read
@@ -172,7 +167,6 @@
                         <p class="card-category">Line Chart with Points</p>
                     </div>
                     <div class="card-body">
-                        {{-- <canvas id="speedChart" width="400" height="100"></canvas> --}}
                     </div>
                     <div class="card-footer">
                         <div class="chart-legend">
@@ -186,7 +180,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
 
@@ -244,6 +238,7 @@
                         align: 'start'
                     },
                     responsive: true,
+                    maintainAspectRatio: false,
                 }
             }
 

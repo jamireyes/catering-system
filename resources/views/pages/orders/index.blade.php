@@ -4,6 +4,7 @@
 ])
 
 @section('content')
+    {{-- {{ dd(Session::has('error')) }} --}}
     <div class="content">
         <div class="row">
             <div class="col-12">
@@ -17,24 +18,24 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-5 mx-auto">
+            <div class="col-md-4">
                 <form action="{{ route('order.index') }}">
                     @csrf
                     <div class="bg-white border rounded shadow-sm p-3 mb-3">
                         <div class="d-flex justify-content-center w-100">
                             <div class="mr-2 w-100">
-                                <label for="">Start Date</label>
+                                <label class="text-muted text-xs">Start Date</label>
                                 <div class="input-group-icon">
-                                    <input type="text" id="from" name="start" class="form-control" required>
+                                    <input type="text" id="from" name="start" class="form-control" autocomplete="off" required>
                                     <div class="input-icon" style="">
                                         <i class="nc-icon nc-calendar-60"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="w-100">
-                                <label for="">End Date</label>
+                                <label class="text-muted text-xs">End Date</label>
                                 <div class="input-group-icon">
-                                    <input type="text" id="to" name="end" class="form-control" required>
+                                    <input type="text" id="to" name="end" class="form-control" autocomplete="off" required>
                                     <div class="input-icon" style="">
                                         <i class="nc-icon nc-calendar-60"></i>
                                     </div>
@@ -47,50 +48,52 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <div class="order-container">
-            @isset($orders)
-                @foreach ($orders as $order)
-                <div class="card border rounded">
-                    <div class="card-body">                         
-                        <div class="m-2">
-                            <small class="text-muted">Date: {{ $order->order_date }}</small>
-                            <div class="text-center">
-                                <h5 class="card-title">{{ $order->package_name }}</h5>
-                                <p class="mb-1">{{ $order->company }}</p>
-                                <small class="mb-0 text-muted">({{ $order->pax }} PAX)</small>
-                            </div>
-                            <hr>
-                            <div>
-                                @foreach ($categories as $c)
-                                    <p class="text-xs">{{ $c->name }}</p>
-                                    @foreach ($items as $item)
-                                        @if ($item->category == $c->name)
-                                            <p class="ml-3 text-xs font-italic font-weight-light">{{ $item->name }}<small class="mb-1 text-muted"> x {{ $item->qty }}</small></p>
+            <div class="col-md-8">
+                <div class="order-container">
+                    @isset($orders)
+                        @foreach ($orders as $order)
+                        <div class="card card-order border rounded">
+                            <div class="card-body">                         
+                                <div class="m-2">
+                                    <small class="text-muted">Date: {{ $order->order_date }}</small>
+                                    <div class="text-center">
+                                        <h5 class="card-title">{{ $order->package_name }}</h5>
+                                        <p class="mb-1">{{ $order->company }}</p>
+                                        <small class="mb-0 text-muted">({{ $order->pax }} PAX)</small>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        @foreach ($categories as $c)
+                                            <p class="text-xs">{{ $c->name }}</p>
+                                            @foreach ($items as $item)
+                                                @if ($item->category == $c->name)
+                                                    <p class="ml-3 text-xs font-italic font-weight-light">{{ $item->name }}<small class="mb-1 text-muted"> x {{ $item->qty }}</small></p>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                                                        
+                                        @if ($order->inclusion != NULL)    
+                                            <p class="text-xs">{{ __('Inclusions') }}</p>
+                                            <p class="ml-3 text-xs font-italic font-weight-light">{{ $order->inclusion }}</p> 
                                         @endif
-                                    @endforeach
-                                @endforeach
-                                                                
-                                @if ($order->inclusion != NULL)    
-                                    <p class="text-xs">{{ __('Inclusions') }}</p>
-                                    <p class="ml-3 text-xs font-italic font-weight-light">{{ $order->inclusion }}</p> 
-                                @endif
-                            </div>
-                            <div>
-                                <table class="table table-sm">
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-left">{{ __('Grand Total') }}</td>
-                                            <td class="text-right">₱ {{ number_format($order->price, 2, '.', ',') }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                    </div>
+                                    <div>
+                                        <table class="table table-sm">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-left">{{ __('Grand Total') }}</td>
+                                                    <td class="text-right">₱ {{ number_format($order->price, 2, '.', ',') }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        @endforeach
+                    @endisset
                 </div>
-                @endforeach
-            @endisset
+            </div>
         </div>
     </div>
 @endsection

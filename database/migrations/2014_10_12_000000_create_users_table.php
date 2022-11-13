@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->integer('zipcode')->nullable();
             $table->bigInteger('phone_number')->nullable();
+            $table->string('image')->default('user.png');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

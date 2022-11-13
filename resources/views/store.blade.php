@@ -15,7 +15,7 @@
             
             <div class="row">
                 <div class="col-md-3">
-                    <div class="p-4 mb-4 border bg-white shadow-sm">
+                    <div class="p-4 mb-4 border bg-white">
                         <p class="text-muted d-flex">
                             <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                             {{ __('Price Filter') }}

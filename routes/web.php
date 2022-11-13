@@ -9,6 +9,8 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ProfileController;
+
 use App\Notifications\WelcomeUser;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -49,6 +51,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	Route::post('profile', [ProfileController::class, 'upload'])->name('profile.upload');
 
 	Route::resource('category', CategoryController::class);
 	Route::post('category/{category}/restore', [CategoryController::class, 'restore'])->name('category.restore');
