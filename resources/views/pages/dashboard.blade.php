@@ -42,7 +42,7 @@
                             </div>
                             <div class="col-9">
                                 <div class="numbers">
-                                    <p class="card-category">Monthly Orders</p>
+                                    <p class="card-category">Total Orders</p>
                                     <p class="card-title">{{ $monthly_order  }}<p>
                                 </div>
                             </div>
@@ -110,19 +110,27 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <h5 class="card-title">Unique Users per Month</h5>
-                            <form action="" class="w-25">
-                                <div class="form-group">
-                                    <label>Filter by Year</label>
-                                    <select class="form-control" name="" id="">
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
+                            <h5 class="card-title text-muted">Monthly Users Chart</h5>
+                            <form action="{{ 'home' }}" method="GET" style="width:15rem;">
+                                <label>Filter by Year</label>
+                                <div class="input-group">
+                                    <select id="inputGroupSelect04" class="custom-select" name="filter_users_year">
+                                        <option disabled selected>Select Year</option>
+                                        @foreach ($years as $year)
+                                            @if (request()->get('filter_users_year') == $year->year)
+                                                <option value="{{ $year->year }}" selected>{{ $year->year }}</option>
+                                            @else
+                                                <option value="{{ $year->year }}">{{ $year->year }}</option>
+                                            @endif
+                                        @endforeach
                                     </select>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-default m-0" type="submit">Filter</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -130,7 +138,41 @@
                     <div class="card-body">
                         <div class="chartWrapper">
                             <div class="chartAreaWrapper">
-                                <canvas id="monthlyUsersChart" height="500"></canvas>
+                                <canvas id="monthlyUsersChart" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title text-muted">Monthly Sales Chart</h5>
+                            <form action="{{ 'home' }}" method="GET" style="width:15rem;">
+                                <label>Filter by Year</label>
+                                <div class="input-group">
+                                    <select id="inputGroupSelect04" class="custom-select" name="filter_sales_year">
+                                        <option disabled selected>Select Year</option>
+                                        @foreach ($order_years as $year)
+                                            @if (request()->get('filter_sales_year') == $year->year)
+                                                <option value="{{ $year->year }}" selected>{{ $year->year }}</option>
+                                            @else
+                                                <option value="{{ $year->year }}">{{ $year->year }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-default m-0" type="submit">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chartWrapper">
+                            <div class="chartAreaWrapper">
+                                <canvas id="monthlySalesChart" height="400"></canvas>
                             </div>
                         </div>
                     </div>
@@ -188,64 +230,119 @@
     <script>
         $(document).ready(function() {
 
-            // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-            // demo.initChartsPages();
-
             const currentMonth = new Date().toLocaleString('default', {month: 'long'})
 
             $('.sales-desc').append('For ' + currentMonth)
             $('.order-desc').append('For ' + currentMonth)
 
-            const monthly_users_label = {!! $monthly_users_label !!};
-            const monthly_users_datasets = [
-                {
-                    label: 'Users by Month',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: {!! $monthly_users_data !!},
-                }
-            ]
+            const chart_labels = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+            ];
 
-            const data = {
-                labels: monthly_users_label,
+            // Monthly Users Chart
+
+            const monthly_users_datasets = [{
+                label: 'Users by Month',
+                backgroundColor: 'rgb(81, 188, 218)',
+                data: {!! $monthly_users_data !!},
+            }]
+
+            const monthly_users_data = {
+                labels: chart_labels,
                 datasets: monthly_users_datasets
-            }
-
-            const config = {
-                type: 'bar',
-                data: data,
-                options: {
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                fontSize: 12,
-                                display: true,
-                                autoSkip: false,
-                                maxTicksLimit: 12
-                            }
-                        }],
-                        yAxes: [{
-                            display: true,
-                            ticks: {
-                                suggestedMin: 0,
-                                beginAtZero: true
-                            }
-                        }]
-                    },
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        align: 'start'
-                    },
-                    responsive: true,
-                    maintainAspectRatio: false,
-                }
             }
 
             const monthly_users_chart = new Chart(
                 document.querySelector('#monthlyUsersChart'),
-                config
-            ) 
+                {
+                    type: 'bar',
+                    data: monthly_users_data,
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                ticks: {
+                                    fontSize: 12,
+                                    display: true,
+                                    autoSkip: false,
+                                    maxTicksLimit: 12
+                                }
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    suggestedMin: 0,
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            align: 'start'
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false,
+                    }
+                }) 
+
+
+            // Monthly Sales Chart
+            
+            const monthly_sales_datasets = [{
+                label: 'Sales by Month',
+                backgroundColor: 'rgb(107, 208, 152)',
+                data: {!! $monthly_sales_data !!},
+            }]
+
+            const monthly_sales_data = {
+                labels: chart_labels,
+                datasets: monthly_sales_datasets
+            }
+
+            const monthly_sales_chart = new Chart(
+                document.querySelector('#monthlySalesChart'),
+                {
+                    type: 'bar',
+                    data: monthly_sales_data,
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                ticks: {
+                                    fontSize: 12,
+                                    display: true,
+                                    autoSkip: false,
+                                    maxTicksLimit: 12
+                                }
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    suggestedMin: 0,
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            align: 'start'
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false,
+                    }
+                })
+                
         });
     </script>
 @endpush
