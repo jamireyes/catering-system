@@ -21,9 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Event::listen(MigrationsStarted::class, function (){
-        //     DB::statement('SET SESSION sql_require_primary_key=0');
-        // });
+        if(config('app.sql_require_primary_key') == FALSE){
+            Event::listen(MigrationsStarted::class, function (){
+                DB::statement('SET SESSION sql_require_primary_key=0');
+            });
+        }
     }
 
     /**

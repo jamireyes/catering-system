@@ -213,4 +213,13 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Set Session sql_require_primary_key
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'sql_require_primary_key' => env('SQL_REQUIRE_PRIMARY_KEY'),
+
 ];

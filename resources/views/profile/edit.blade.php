@@ -52,8 +52,8 @@
                         </form>
                         {{-- <span class="badge badge-pill badge-primary mb-4">{{ Auth::user()->role }}</span> --}}
                     </div>
-                    <hr>
-                    <div class="card-body" style="min-height:auto!important;">
+                    <hr class="mb-1">
+                    <div class="card-body pt-0" style="min-height:auto!important;">
                         @if(Auth::user()->full_address == ' ')
                             <div class="row">
                                 <div class="col-2 text-right">

@@ -25,8 +25,9 @@
                     </div>
                     <div class="card-footer">
                         <hr>
-                        <div class="stats sales-desc">
-                            <i class="nc-icon nc-calendar-60"></i>
+                        <div class="stats">
+                            <i class="nc-icon nc-alert-circle-i"></i>
+                            Lifetime
                         </div>
                     </div>
                 </div>
@@ -50,8 +51,9 @@
                     </div>
                     <div class="card-footer">
                         <hr>
-                        <div class="stats order-desc">
-                            <i class="nc-icon nc-calendar-60"></i>
+                        <div class="stats">
+                            <i class="nc-icon nc-alert-circle-i"></i>
+                            Lifetime
                         </div>
                     </div>
                 </div>
@@ -229,12 +231,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-
-            const currentMonth = new Date().toLocaleString('default', {month: 'long'})
-
-            $('.sales-desc').append('For ' + currentMonth)
-            $('.order-desc').append('For ' + currentMonth)
-
+            
             const chart_labels = [
                 'January',
                 'February',

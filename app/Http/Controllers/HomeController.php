@@ -27,8 +27,7 @@ class HomeController extends Controller
         
         // Gets sales reports such as current total monthly sales and total monthly orders.
         $sale_query = Order::selectRaw("SUM(packages.price) as sales, COUNT(orders.id) as count")
-            ->join('packages', 'orders.package_id', 'packages.id')
-            ->whereMonth('orders.created_at', now()->month);
+            ->join('packages', 'orders.package_id', 'packages.id');
 
         // Gets all the years when USERS created an account. (E.g. 2021, 2022, 2023, etc.)
         $years = User::selectRaw('date_format(created_at, "%Y") as year')
