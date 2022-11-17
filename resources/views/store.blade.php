@@ -14,18 +14,18 @@
             </div>
             
             <div class="row">
-                <div class="col-md-3">
-                    <div class="p-4 mb-4 border bg-white">
+                <div class="col-md-2">
+                    <div class="p-4 mb-4 border bg-white" style="border-radius: 0.6rem !important; border:0!important; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;">
                         <p class="text-muted d-flex">
                             <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                             {{ __('Price Filter') }}
                         </p>
                         <form id="filter-form" action="{{ route('shop.index') }}">
-                            @csrf
+                            {{-- @csrf --}}
                             {{-- <p> --}}
                             <div class="form-group">
                                 <label for="price-range" class="text-muted text-xs">Range: </label>
-                                <input type="text" id="price-range" data-max="{{ $max_price }}" data-min="{{ $min_price }}" data-filter-min="{{ $filter_min_price }}" data-filter-max="{{ $filter_max_price }}" readonly class="border-0 text-primary font-weight-bold text-xs">
+                                <input type="text" id="price-range" data-max="{{ $max_price }}" data-min="{{ $min_price }}" data-filter-min="{{ $filter_min_price }}" data-filter-max="{{ $filter_max_price }}" readonly class="border-0 text-primary font-weight-bold text-xs bg-transparent">
                                 <input type="hidden" name="filter_min_price" value="{{ $filter_min_price }}">
                                 <input type="hidden" name="filter_max_price" value="{{ $filter_max_price }}">
                                 <input type="hidden" name="order_by_price" value="{{ $priceOrderBy }}">
@@ -38,15 +38,15 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="d-flex flex-row justify-content-between align-items-center align-items-md-start">
-                                <div id="price-filter" class="d-flex flex-row mb-2 shadow-sm">
+                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-2">
+                                <div id="price-filter" class="d-flex flex-row shadow-sm mb-3">
                                     <button id="low-high-btn" class="m-0 btn btn-outline-light @if($priceOrderBy == 'ASC') active @endif">Low to High</button>
                                     <button id="high-low-btn" class="m-0 btn btn-outline-light @if($priceOrderBy == 'DESC') active @endif">High to Low</button>
                                 </div>
-                                <div class="mb-2">
+                                <div>
                                     {{ $packages->links() }}
                                 </div>
                             </div>

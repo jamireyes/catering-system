@@ -29,12 +29,6 @@ class HomeController extends Controller
         $sale_query = Order::selectRaw("SUM(packages.price) as sales, COUNT(orders.id) as count")
             ->join('packages', 'orders.package_id', 'packages.id');
 
-        // Gets all the years when USERS created an account. (E.g. 2021, 2022, 2023, etc.)
-        $years = User::selectRaw('date_format(created_at, "%Y") as year')
-            ->orderBy('year', 'asc')
-            ->groupBy('year')
-            ->get();
-
         $total_users = User::count(); // Gets total users.
         $total_packages = Package::count(); // Gets total packages.
 
@@ -47,17 +41,23 @@ class HomeController extends Controller
         $monthly_sale = $sales[0]->sales; // Gets current total monthly sales.
         $monthly_order = $sales[0]->count; // Gets current total monthly orders.
 
-        // Monthly Users Charts
-        // Gets number of newly created users by month.
+        // Monthly Users Charts - query
         $monthly_users_query = User::selectRaw("date_format(created_at, '%m') as month, count(id) as total_users, role")
             ->where('role', 'USER')
             ->groupBy('month', 'role');
+            
+        // Monthly Sales Chart - query
+        $monthly_sales_query = Order::selectRaw("date_format(orders.created_at, '%m') as month, SUM(packages.price) as total_orders")
+            ->join('packages', 'orders.package_id', 'packages.id')
+            ->groupBy('month')
+            ->orderBy('month');
 
-        // Checks if user requests to filter by specific year (Unquie Users per Month chart)
-        if($request->filter_users_year){
-            $monthly_users = $monthly_users_query->whereYear('created_at', $request->filter_users_year)->get()->toArray();
+        if($request->filter_year){
+            $monthly_users = $monthly_users_query->whereYear('created_at', $request->filter_year)->get()->toArray();
+            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', $request->filter_year)->get()->toArray();
         }else {
             $monthly_users = $monthly_users_query->whereYear('created_at', now())->get()->toArray();
+            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', now()->year)->get()->toArray();
         }
 
         $collection = collect($monthly_users)->sortBy('month');
@@ -79,26 +79,6 @@ class HomeController extends Controller
         });
 
         $monthly_users_data = $collection->pluck('total_users');
-
-
-
-        // Monthly Sales Chart
-        $order_years = Order::selectRaw('date_format(created_at, "%Y") as year')
-            ->orderBy('year', 'asc')
-            ->groupBy('year')
-            ->get();
-
-        $monthly_sales_query = Order::selectRaw("date_format(orders.created_at, '%m') as month, SUM(packages.price) as total_orders")
-            ->join('packages', 'orders.package_id', 'packages.id')
-            ->groupBy('month')
-            ->orderBy('month');
-
-        // Checks if user requests to filter by specific year (Unquie Users per Month chart)
-        if($request->filter_sales_year){
-            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', $request->filter_sales_year)->get()->toArray();
-        }else {
-            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', now()->year)->get()->toArray();
-        }
 
         $ms_collection = collect($monthly_sales);
 
@@ -125,8 +105,6 @@ class HomeController extends Controller
             'total_users', 
             'total_packages', 
             'monthly_users_data',
-            'years',
-            'order_years',
             'monthly_sales_data',
         ]));
     }

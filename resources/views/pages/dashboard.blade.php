@@ -6,6 +6,25 @@
 @section('content')
     <div class="content">
         <div class="row">
+            <div class="col">
+                <form action="{{ 'home' }}" method="GET" style="width:15rem;">
+                    <label>Filter by Year</label>
+                    <div class="input-group">
+                        <select id="inputGroupSelect04" class="custom-select" name="filter_year">
+                            <option disabled selected>Select Year</option>
+                            @for ($x = Carbon\Carbon::now()->year; $x >= ((Carbon\Carbon::now()->year) - 5); $x--)
+                                <option value="{{ $x }}">{{ $x }}</option>
+                            @endfor
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-default m-0" type="submit">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats rounded">
                     <div class="card-body">
@@ -115,27 +134,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            <h5 class="card-title text-muted">Monthly Users Chart</h5>
-                            <form action="{{ 'home' }}" method="GET" style="width:15rem;">
-                                <label>Filter by Year</label>
-                                <div class="input-group">
-                                    <select id="inputGroupSelect04" class="custom-select" name="filter_users_year">
-                                        <option disabled selected>Select Year</option>
-                                        @foreach ($years as $year)
-                                            @if (request()->get('filter_users_year') == $year->year)
-                                                <option value="{{ $year->year }}" selected>{{ $year->year }}</option>
-                                            @else
-                                                <option value="{{ $year->year }}">{{ $year->year }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-default m-0" type="submit">Filter</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                        <h5 class="card-title text-muted">Monthly Users Chart</h5>
                     </div>
                     <div class="card-body">
                         <div class="chartWrapper">
@@ -149,11 +148,12 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            <h5 class="card-title text-muted">Monthly Sales Chart</h5>
+                        <h5 class="card-title text-muted">Monthly Sales Chart</h5>
+                        {{-- <div class="d-flex justify-content-between">
                             <form action="{{ 'home' }}" method="GET" style="width:15rem;">
                                 <label>Filter by Year</label>
                                 <div class="input-group">
+                                    
                                     <select id="inputGroupSelect04" class="custom-select" name="filter_sales_year">
                                         <option disabled selected>Select Year</option>
                                         @foreach ($order_years as $year)
@@ -169,7 +169,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-body">
                         <div class="chartWrapper">
@@ -231,7 +231,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            
+
             const chart_labels = [
                 'January',
                 'February',
@@ -340,6 +340,13 @@
                     }
                 })
                 
+            function populateYearList() {
+                year = new Date().getFullYear()
+                options = ''
+                for(let x = 10; x < year ; x++){
+                    
+                }
+            }
         });
     </script>
 @endpush

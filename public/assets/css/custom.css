@@ -324,9 +324,9 @@ ol.breadcrumb {
         line-height: 1.25rem;
     }
 
-    #price-filter {
+    /* #price-filter {
         position: absolute !important;
-    }
+    } */
 
     body > nav > #navigation.collapse:not(.show){
         display: block !important;
