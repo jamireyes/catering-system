@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->foreignIdFor(Package::class)->onDelete('cascade');
-            $table->integer('discount');
+            $table->integer('discount')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

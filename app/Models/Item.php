@@ -16,6 +16,7 @@ class Item extends Model
         'name',
         'description'
     ];
+    
     protected $table = 'items';
     public $primaryKey = 'id';
     protected $dates = ['deleted_at'];

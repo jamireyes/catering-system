@@ -42,6 +42,9 @@
                     <a href="{{ route('shop.index') }}" class="nav-link">{{ __('Store') }}</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link">{{ __('Catering') }}</a>
+                </li>
+                <li class="nav-item">
                     <a href="#about" class="nav-link">{{ __('About') }}</a>
                 </li>
                 <li class="nav-item">
@@ -132,7 +135,7 @@
         <div class="container">
             <div class="d-flex flex-column justify-content-center text-center">
                 <h5 class="text-warning text-uppercase text-spacing-5">Serving you since 2022</h5>
-                <h1 class="my-4">Welcome to Three Catering Services</h1>
+                <h3 class="my-4">Welcome to Three Catering Services</h3>
             </div>
             <div class="row">
                 <div class="col-md-4 text-center py-5">
@@ -199,21 +202,6 @@
                                         </div>
                                         <div class="text-center">
                                             <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">Order Now</a>
-                                        </div>
-                                        <hr class="bg-warning">
-                                        <div id="package-info">
-                                            <div class="row">
-                                                <div class="col-2 text-right">
-                                                    <span class="nc-icon nc-pin-3"/>
-                                                </div>
-                                                <small class="col-10 text-left">{{ $package->address }}</small>
-                                            </div>
-                                            <div class="row my-2">
-                                                <div class="col-2 text-right">
-                                                    <span class="nc-icon nc-send"/>
-                                                </div>
-                                                <small class="col-10 text-left">+63 {{ $package->phone }}</small>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

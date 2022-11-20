@@ -69,7 +69,13 @@ class ShopController extends Controller
 
     public function show($id)
     {
-        $package = Package::selectRaw("packages.*, users.name as user, users.phone_number as phone, CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address")
+        $package = Package::selectRaw("
+                packages.*, 
+                users.name as user, 
+                users.phone_number as phone,
+                users.email as email,
+                CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address
+            ")
             ->join('users', 'packages.user_id', 'users.id')
             ->where('packages.id', $id)
             ->get();

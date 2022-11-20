@@ -16,43 +16,66 @@ class OrderController extends Controller
 {        
     public function index(Request $request)
     {   
-        $info = 'No records found! Please try again.';
-        
-        if($request->start && $request->end){
+        $info = 'No records found! Please try again.';        
+
+        $query = Order::selectRaw("
+                orders.id as order_id,
+                DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date,
+                c.id as user_id,
+                c.name as c_name,
+                c.phone_number as c_contact,
+                c.email as c_email,
+                CONCAT_WS(' ', c.address_1, c.address_2, c.city, c.state, c.zipcode) as c_address,
+                u.name as u_name,
+                u.phone_number as u_contact,
+                u.email as u_email,
+                CONCAT_WS(' ', u.address_1, u.address_2, c.city, u.state, u.zipcode) as u_address,
+                packages.name as package_name, 
+                packages.pax, 
+                packages.price, 
+                packages.inclusion
+            ")
+            ->join('packages', 'orders.package_id', 'packages.id')
+            ->join('users AS c', 'packages.user_id', 'c.id')
+            ->join('users AS u', 'orders.user_id', 'u.id')
+            ->orderByDesc('order_date');
+
+        if($request->start && $request->end){            
             $start = Carbon::createFromFormat('m/d/Y', $request->start);
             $end = Carbon::createFromFormat('m/d/Y', $request->end);
-            
-            $query = Order::selectRaw("orders.id, DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date, users.name as company, users.id as user_id, packages.name as package_name, packages.pax, packages.price, packages.inclusion, CONCAT_WS(' ', users.address_1, users.address_2, users.city, users.state, users.zipcode) as address, users.phone_number as phone")
-                ->join('packages', 'orders.package_id', 'packages.id')
-                ->join('users', 'packages.user_id', 'users.id')
-                ->whereBetween('orders.created_at', [$start.' 00:00:00', $end.' 23:59:59']);
-            
-            if(Auth::user()->role == 'ADMIN'){
-                $orders = $query->get();
-            }elseif(Auth::user()->role == 'SELLER'){
-                $orders = $query->where('packages.user_id', Auth::id())->get();
-            }else{
-                $orders = $query->where('orders.user_id', Auth::id())->get();
+
+            $query = $query->whereDate('orders.created_at', '>=', $start)->whereDate('orders.created_at', '<=', $end);
+        }else{
+            $query = $query->limit(5);
+        }
+        
+        if(Auth::user()->role == 'ADMIN'){
+            $orders = $query->get();
+        }elseif(Auth::user()->role == 'SELLER'){
+            $orders = $query->where('packages.user_id', Auth::id())->get();
+        }else{
+            $orders = $query->where('orders.user_id', Auth::id())->get();
+        }
+
+        $count = $orders->count();
+
+        if(!$orders->isEmpty()){
+            foreach($orders as $order){
+                $user_id = $order->user_id;
+                $order_id = $order->order_id;
             }
 
-            if(!$orders->isEmpty()){
-                foreach($orders as $order){
-                    $user_id = $order->user_id;
-                    $order_id = $order->id;
-                }
-    
-                $items = Item::selectRaw('items.name as name, order_items.quantity as qty, categories.name as category')
-                    ->join('order_items', 'items.id', 'order_items.item_id')
-                    ->join('categories', 'items.category_id', 'categories.id')
-                    ->where('order_items.order_id', $order_id)
-                    ->get();
-    
-                $categories = Category::select('name')->where('user_id', $user_id)->get();
+            $items = Item::selectRaw('items.name as name, order_items.quantity as qty, categories.name as category')
+                ->join('order_items', 'items.id', 'order_items.item_id')
+                ->join('categories', 'items.category_id', 'categories.id')
+                ->where('order_items.order_id', $order_id)
+                ->get();
 
-                return view('pages.orders.index', compact(['orders', 'items', 'categories']));
-            }else{
-                Session::now('info', $info);
-            }
+            $categories = Category::select('name')->where('user_id', $user_id)->get();
+
+            return view('pages.orders.index', compact(['orders', 'items', 'categories', 'count']));
+        }else{
+            Session::now('info', $info);
         }
 
         return view('pages.orders.index');

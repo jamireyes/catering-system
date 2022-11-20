@@ -6,70 +6,37 @@
 
 @section('content')
     @foreach ($package as $p)
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb" class="">
-                <ol class="breadcrumb bg-white border rounded-0">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('welcome') }}" class="text-muted">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a class="text-muted">{{ $p->name }}</a>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card border rounded">
-                <div class="p-4">
-                    <h5>{{ $p->name }}</h5>
-                    <hr>
-                    <div>
-                        <div class="row">
-                            <div class="col-1 text-right">
-                                <span class="nc-icon nc-shop"/>
-                            </div>
-                            <p class="col-11 text-left">{{ $p->user }}</p>
-                        </div>
-                        <div class="row">
-                            <div class="col-1 text-right">
-                                <span class="nc-icon nc-pin-3"/>
-                            </div>
-                            <p class="col-11 text-left">{{ $p->address }}</p>
-                        </div>
-                        <div class="row">
-                            <div class="col-1 text-right">
-                                <span class="nc-icon nc-send"/>
-                            </div>
-                            <p class="col-11 text-left">+63 {{ $p->phone }}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="text-center">
-                        <span>{{ $p->pax }} PAX</span>
-                        <h4 id="package-price" class="my-0">₱ {{ number_format($p->price, 2, '.', ',') }}</h4>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('welcome') }}" class="text-muted">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a class="text-muted">{{ $p->name }}</a>
+                        </li>
+                    </ol>
+                </nav>
             </div>
         </div>
-        <div class="col">            
-            <div class="card border rounded">
-                <div class="p-4">
-                    <form id="productForm" action="{{ route('checkout.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="id" value="{{ $p->id }}">
-                        <input type="hidden" name="name" value="{{ $p->name }}">
-                        <input type="hidden" name="pax" value="{{ $p->pax }}">
-                        <input type="hidden" name="price" value="{{ $p->price }}">
-                        <input type="hidden" name="inclusion" value="{{ $p->inclusion }}">
-                        <input type="hidden" name="user" value="{{ $p->user }}">
-                        
-                        <div>
+        <form id="productForm" action="{{ route('checkout.store') }}" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col">            
+                    <div class="card border rounded">
+                        <div class="p-4">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $p->id }}">
+                            <input type="hidden" name="name" value="{{ $p->name }}">
+                            <input type="hidden" name="pax" value="{{ $p->pax }}">
+                            <input type="hidden" name="price" value="{{ $p->price }}">
+                            <input type="hidden" name="inclusion" value="{{ $p->inclusion }}">
+                            <input type="hidden" name="user" value="{{ $p->user }}">
+                            
                             <div id="package-items">
                                 @foreach ($categoryRules as $cr)
                                     @if ($cr->package_id == $p->id)
@@ -95,13 +62,57 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success">Proceed to Checkout</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border rounded">
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-0">{{ $p->name }}</p>
+                                <p class="mb-0">{{ $p->pax }} PAX</p>
+                            </div>
+                            <hr>
+                            <table class="product-details">
+                                <tr>
+                                    <td><i class="nc-icon nc-shop"></i></td>
+                                    <td>{{ $p->user }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="nc-icon nc-pin-3"></i></td>
+                                    <td>{{ $p->address }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="nc-icon nc-send"></i></td>
+                                    <td>0{{ $p->phone }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="nc-icon nc-email-85"></i></td>
+                                    <td>{{ $p->email }}</td>
+                                </tr>
+                            </table>
+                            <hr>
+                            <table class="product-summary">
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td>₱ {{ number_format($p->price, 2, '.', ',') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Discount</td>
+                                    <td>--</td>
+                                </tr>
+                                <tr class="grand-total">
+                                    <td>Grand Total</td>
+                                    <td>₱ {{ number_format($p->price, 2, '.', ',') }}</td>
+                                </tr>
+                            </table>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success">Go to checkout</button>
+                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     @endforeach
 @endsection

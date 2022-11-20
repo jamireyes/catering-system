@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Occasion;
 
 return new class extends Migration
 {
@@ -13,8 +14,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            // $table->dropColumn('discount');
+        Schema::table('packages', function (Blueprint $table) {
+            $table->foreignIdFor(Occasion::class)->onDelete('cascade')->nullable();
         });
     }
 
@@ -25,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            // $table->integer('discount');
+        Schema::table('packages', function (Blueprint $table) {
+            $table->dropColumn('occasion_id');
         });
     }
 };

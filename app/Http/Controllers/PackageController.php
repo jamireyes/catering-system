@@ -33,35 +33,34 @@ class PackageController extends Controller
     // Displays the packages
     public function index()
     {
+        if(Auth::user()->role == 'USER'){
+            return back();
+        }
+
+        $package_query = DB::table('packages')
+            ->selectRaw("packages.*, users.name as user, users.phone_number as phone, CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address")
+            ->join('users', 'packages.user_id', 'users.id');
+            
+        
+        $categoryRule_query = DB::table('category_rules')
+            ->select('category_rules.*', 'categories.name as category_name')
+            ->join('categories', 'category_rules.category_id', '=', 'categories.id');
+            
+
         if(Auth::user()->role == 'ADMIN'){
-            $packages = DB::table('packages')
-                ->selectRaw("packages.*, users.name as user, users.phone_number as phone, CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address")
-                ->join('users', 'packages.user_id', 'users.id')
-                ->paginate(6);
+            $packages = $package_query->paginate(6);
             $items = Item::all();
-            $categoryRules = DB::table('category_rules')
-                ->selectRaw("category_rules.*, categories.name as category_name")
-                ->join('categories', 'category_rules.category_id', '=', 'categories.id')
-                ->get();
-        }elseif(Auth::user()->role == 'SELLER'){
-            $packages = DB::table('packages')
-                ->selectRaw("packages.*, users.name as user, users.phone_number as phone, CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address")
-                ->join('users', 'packages.user_id', 'users.id')
-                ->where('user_id', Auth::id())
+            $categoryRules = $categoryRule_query->get();
+        }else{
+            $packages = $package_query->where('user_id', Auth::id())
                 ->where('packages.deleted_at', NULL)
                 ->paginate(6);
             $items = Item::where('user_id', Auth::id())->get();
-            $categoryRules = DB::table('category_rules')
-                ->join('categories', 'category_rules.category_id', '=', 'categories.id')
-                ->join('packages', 'category_rules.package_id', '=', 'packages.id')
-                ->select('category_rules.*', 'categories.name as category_name')
+            $categoryRules = $categoryRule_query->join('packages', 'category_rules.package_id', '=', 'packages.id')
                 ->where('packages.user_id', Auth::id())
                 ->where('category_rules.deleted_at', NULL)
                 ->get();
-        }else{
-            return back();
         }
-        
 
         return view('pages.packages.index', compact(['packages', 'categoryRules', 'items']));
     }

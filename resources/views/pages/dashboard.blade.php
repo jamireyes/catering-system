@@ -7,20 +7,27 @@
     <div class="content">
         <div class="row">
             <div class="col">
-                <form action="{{ 'home' }}" method="GET" style="width:15rem;">
-                    <label>Filter by Year</label>
-                    <div class="input-group">
-                        <select id="inputGroupSelect04" class="custom-select" name="filter_year">
-                            <option disabled selected>Select Year</option>
-                            @for ($x = Carbon\Carbon::now()->year; $x >= ((Carbon\Carbon::now()->year) - 5); $x--)
-                                <option value="{{ $x }}">{{ $x }}</option>
-                            @endfor
-                        </select>
-                        <div class="input-group-append">
-                            <button class="btn btn-default m-0" type="submit">Filter</button>
+                <div class="d-flex justify-content-between">
+                    <h5 class="text-muted mb-0">Dashboard</h5>
+                    <form action="{{ 'home' }}" method="GET" style="width:14rem;">
+                        {{-- <small class="text-muted">Filter by Year</small> --}}
+                        <div class="input-group mb-0">
+                            <select id="inputGroupSelect04" class="custom-select" name="filter_year" style="height: 2rem;">
+                                <option disabled selected>Select Year</option>
+                                @for ($x = Carbon\Carbon::now()->year; $x >= ((Carbon\Carbon::now()->year) - 5); $x--)
+                                    @if (request()->get('filter_year') == $x)
+                                        <option value="{{ $x }}" selected>{{ $x }}</option>
+                                    @else
+                                        <option value="{{ $x }}">{{ $x }}</option>
+                                    @endif
+                                @endfor
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-default m-0" type="submit">Filter Year</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
         <hr>
@@ -134,20 +141,6 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title text-muted">Monthly Users Chart</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="chartWrapper">
-                            <div class="chartAreaWrapper">
-                                <canvas id="monthlyUsersChart" height="400"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
                         <h5 class="card-title text-muted">Monthly Sales Chart</h5>
                         {{-- <div class="d-flex justify-content-between">
                             <form action="{{ 'home' }}" method="GET" style="width:15rem;">
@@ -175,6 +168,20 @@
                         <div class="chartWrapper">
                             <div class="chartAreaWrapper">
                                 <canvas id="monthlySalesChart" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title text-muted">Monthly Users Chart</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chartWrapper">
+                            <div class="chartAreaWrapper">
+                                <canvas id="monthlyUsersChart" height="400"></canvas>
                             </div>
                         </div>
                     </div>
@@ -231,6 +238,8 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+
+            $('[data-toggle="tooltip"]').tooltip()
 
             const chart_labels = [
                 'January',

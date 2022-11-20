@@ -86,7 +86,7 @@ class ItemController extends Controller
     {
         $request->validate($this->rules, $this->messages);
 
-        $item = new Item;
+        $item = Item::find($id);
         $item->name = $request->name;
         $item->description = $request->description;
         $item->category_id = $request->category_id;

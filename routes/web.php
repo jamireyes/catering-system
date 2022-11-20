@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OccasionController;
 
 use App\Notifications\WelcomeUser;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -61,6 +62,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::resource('order', OrderController::class);
 	Route::resource('package', PackageController::class);
 	Route::post('package/{package}/restore', [PackageController::class, 'restore'])->name('package.restore');
+
+	Route::resource('occasion', OccasionController::class);
+	Route::post('occasion/{occasion}/restore', [OccasionController::class, 'restore'])->name('occasion.restore');
 });
 
 

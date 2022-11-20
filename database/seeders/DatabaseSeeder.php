@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             OrderSeeder::class,
             OrderItemSeeder::class,
             PackageSeeder::class,
+            OccasionSeeder::class,
         ]);
     }
 }
