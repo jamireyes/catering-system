@@ -29,18 +29,35 @@
                                 </div>
                                 <form action="{{ route('package.store') }}" method="POST">
                                     @csrf
-                                    <div class="form-group">
-                                        <label for="name">Enter Package's Name</label>
-                                        <input type="text" class="form-control" name="name" placeholder="Package's Name" value="">
-                                        @if ($errors->has('name'))
-                                            <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('name') }}</strong>
-                                            </span>
-                                        @endif
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="name">Package Name</label>
+                                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required>
+                                            @if ($errors->has('name') && !$errors->has('occasion'))
+                                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <strong>{{ $errors->first('name') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="occasion">Occasion</label>
+                                            <select class="form-control @error('occasion') is-invalid @enderror" name="occasion" required>
+                                                <option selected>Select Occasion</option>
+                                                @foreach ($occasions as $o)
+                                                    <option value="{{ $o->id }}">{{ $o->name }}</option>                                                
+                                                @endforeach
+                                            </select>
+                                            <small class="text-muted">Preferred Occasion is not found in the list? <a href="#" data-toggle="modal" data-target="#add-occasion-modal">Add Occasion!</a></small>
+                                            @if ($errors->has('occasion'))
+                                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <strong>{{ $errors->first('occasion') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inclusion">Enter Package's Inclusions</label>
-                                        <input type="text" class="form-control" name="inclusion" placeholder="Package's Inclusions" value="">
+                                        <label for="inclusion">Inclusions</label>
+                                        <input type="text" class="form-control @error('inclusion') is-invalid @enderror" name="inclusion" required>
                                         @if ($errors->has('inclusion'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
                                                 <strong>{{ $errors->first('inclusion') }}</strong>
@@ -49,20 +66,34 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="pax">Enter Number of Person/s (PAX)</label>
-                                            <input type="number" class="form-control" name="pax" placeholder="Number of Person/s" value="">
+                                            <label for="pax">PAX</label>
+                                            <input type="number" class="form-control @error('pax') is-invalid @enderror" name="pax" required>
                                             @if ($errors->has('pax'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $errors->first('pax') }}</strong>
                                                 </span>
                                             @endif
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="price">Enter Package's Price</label>
-                                            <input type="number" class="form-control" name="price" placeholder="Package's Price" value="">
+                                        <div class="form-group col-md-3">
+                                            <label for="price">Price</label>
+                                            <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" required>
                                             @if ($errors->has('price'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $errors->first('price') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="discount">Discount</label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control @error('discount') is-invalid @enderror" name="discount" required>
+                                                <div class="input-group-append">
+                                                  <span class="input-group-text px-2 py-0 bg-light" id="basic-addon2">%</span>
+                                                </div>
+                                            </div>
+                                            @if ($errors->has('discount'))
+                                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <strong>{{ $errors->first('discount') }}</strong>
                                                 </span>
                                             @endif
                                         </div>
@@ -72,15 +103,7 @@
                                         @foreach ($categories as $c)
                                             <div class="form-group col-4">
                                                 <label>{{ $c->name }}</label>
-                                                <select name="quantity[]" class="form-control">
-                                                    <option selected disabled="disabled">Select category limit</option>
-                                                    <option value="0">0</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                </select>
+                                                <input name="quantity[]" type="number" class="form-control" required>
                                                 <input name="category[]" type="hidden" class="form-control" value="{{ $c->id }}">
                                                 @if ($errors->has('quantity[]'))
                                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -102,5 +125,30 @@
                 </div>                
             @endif
         @endisset
+        <div id="add-occasion-modal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="{{ route('occasion.store') }}" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Enter Occasion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">Occasion</label>
+                                <input type="text" class="form-control" name="occasion">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

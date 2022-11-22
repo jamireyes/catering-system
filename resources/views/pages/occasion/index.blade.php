@@ -17,14 +17,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-md-8 mx-auto">
                 @isset($occasions) 
                     <div class="card">
                         <div class="card-body">
                             <div class="mb-2 d-flex justify-content-between align-items-start">
                                 <div>
                                     <h5 class="mb-0 text-capitalize">{{ __('Occasions') }}</h5>
-                                    <p class="mb-0 text-muted">Manage the type of occasions.</p>
+                                    <p class="mb-0 text-muted">Manage the type of occasions</p>
                                 </div>
                                 <a href="{{ route('occasion.create') }}" class="btn btn-sm btn-primary">Add Occasion</a>
                             </div>                  

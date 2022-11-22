@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Package;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\Occasion;
 use App\Models\CategoryRule;
 use Illuminate\Http\Request;
 use Auth;
@@ -20,6 +21,8 @@ class PackageController extends Controller
             'price' => 'required',
             'category' => 'required',
             'quantity' => 'required',
+            'inclusion' => 'required',
+            'occasion' => 'required'
         ];
         $this->messages = [
             'name.required' => 'The package name field is required.',
@@ -27,6 +30,8 @@ class PackageController extends Controller
             'price.required' => 'The price field is required.',
             'category.required' => 'The category field is required.',
             'quantity.required' => 'The quantity field is required.',
+            'inclusion.required' => 'The inclusion field is required.',
+            'occasion.required' => 'The occasion field is required.'
         ];
     }
 
@@ -69,13 +74,14 @@ class PackageController extends Controller
     public function create()
     {
         $categories = Category::where('user_id', Auth::id())->get();
+        $occasions = Occasion::select('id', 'name')->get();
 
         if($categories->isEmpty()){
             $message = 'No inventory records found! Kindly go to the INVENTORY page and add inventory items';
             session()->now('error', $message);
         }
 
-        return view('pages.packages.create', compact('categories'));
+        return view('pages.packages.create', compact(['categories', 'occasions']));
     }
 
     // Creates new packages
@@ -90,6 +96,8 @@ class PackageController extends Controller
         $package->pax = $request->pax;
         $package->price = $request->price;
         $package->inclusion = $request->inclusion;
+        $package->occasion_id = $request->occasion;
+        $package->discount = $request->discount;
         $package->save();
         
         // Stores the package categories with set limit per category

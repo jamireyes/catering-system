@@ -10,18 +10,21 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">Inventory</li>
-                        <li class="breadcrumb-item active">Package Category</li>
+                        <li class="breadcrumb-item active">Category</li>
                     </ol>
                 </nav>
                 @include('components.alerts')
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 mx-auto">
+            <div class="col-md-8 mx-auto">
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-2 d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Package Category</h5>
+                            <div>
+                                <h5 class="mb-0 text-capitalize">{{ __('Category') }}</h5>
+                                <p class="mb-0 text-muted">Manage the types of categories</p>
+                            </div>
                             <div>
                                 <form id="category-add-form" action="{{ route('category.store') }}" method="POST" class="d-flex justify-content-center align-items-center">
                                     @csrf

@@ -24,16 +24,17 @@ class OccasionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:occasions'
+            'name' => 'required|unique:occasions',
+            'occasion' => 'required|unique:occasions,name'
         ]);
 
         $occasion = new Occasion;
-        $occasion->name = Str::upper($request->name);
+        $occasion->name = Str::upper($request->name|$request->occasion);
         $occasion->save();
 
         $message = 'Successfully added '.Str::upper($request->name).'!';
 
-        return redirect()->route('occasion.index')->with('success', $message);
+        return back()->with('success', $message);
     }
 
     public function edit($id)

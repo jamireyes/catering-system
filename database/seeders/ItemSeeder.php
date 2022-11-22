@@ -22,7 +22,7 @@ class ItemSeeder extends Seeder
                 'category_id' => 1,
                 'user_id' => 1,
                 'name' => 'Chicharon',
-                'description' => '',
+                'description' => 'Chicharon',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -30,7 +30,7 @@ class ItemSeeder extends Seeder
                 'category_id' => 1,
                 'user_id' => 1,
                 'name' => 'Fresh Lumpia',
-                'description' => '',
+                'description' => 'Fresh Lumpia',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -38,7 +38,7 @@ class ItemSeeder extends Seeder
                 'category_id' => 1,
                 'user_id' => 1,
                 'name' => 'Lumpia Shanghai',
-                'description' => '',
+                'description' => 'Lumpia Shanghai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -125,7 +125,7 @@ class ItemSeeder extends Seeder
                 'category_id' => 5,
                 'user_id' => 12,
                 'name' => 'Chicharon',
-                'description' => '',
+                'description' => 'Chicharon',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -133,7 +133,7 @@ class ItemSeeder extends Seeder
                 'category_id' => 5,
                 'user_id' => 12,
                 'name' => 'Fresh Lumpia',
-                'description' => '',
+                'description' => 'Fresh Lumpia',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -141,7 +141,7 @@ class ItemSeeder extends Seeder
                 'category_id' => 5,
                 'user_id' => 12,
                 'name' => 'Lumpia Shanghai',
-                'description' => '',
+                'description' => 'Lumpia Shanghai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
