@@ -49,6 +49,10 @@ class CheckoutController extends Controller
             $categories->push([json_decode($c)->id => json_decode($c)->name]);
         }
 
+        if($request->discount){
+            Cart::setGlobalDiscount(10);
+        }
+
         Cart::add([
             'id' => 'package',
             'name' => $request->name,
@@ -78,7 +82,7 @@ class CheckoutController extends Controller
     }
 
     public function confirm()
-    {
+    {       
         $items = new Collection;
 
         foreach(Cart::content() as $row){
@@ -92,6 +96,8 @@ class CheckoutController extends Controller
         $order = new Order;
         $order->user_id = Auth::id();
         $order->package_id = $package_id;
+        $order->discount = Cart::discount(2, '.', '');
+        $order->subtotal = Cart::initial(2, '.', '');
         $order->save();
 
         foreach($items as $item){
@@ -101,6 +107,8 @@ class CheckoutController extends Controller
             $orderItem->quantity = $item['qty'];
             $orderItem->save();
         }
+
+        Cart::destroy();
 
         return view('confirmation');
     }

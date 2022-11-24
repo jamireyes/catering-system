@@ -129,13 +129,13 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>{{ __('Subtotal') }}</td>
-                                                        <td>₱ {{ number_format($row->subtotal, 2, '.', ',') }}</td>
+                                                        <td>₱ {{ Cart::initial() }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>{{ __('Discount') }}</td>
+                                                        <td>{{ __('Discount') }} </td>
                                                         <td>
                                                             @if ($row->discount)
-                                                                ₱ {{ number_format($row->discount, 2, '.', ',') }}
+                                                                - {{ Cart::discount() }}
                                                             @else
                                                                 --
                                                             @endif
@@ -143,7 +143,7 @@
                                                     </tr>
                                                     <tr class="grand-total">
                                                         <td>{{ __('Grand Total') }}</td>
-                                                        <td>₱ {{ number_format($row->price, 2, '.', ',') }}</td>
+                                                        <td>₱ {{ Cart::total() }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

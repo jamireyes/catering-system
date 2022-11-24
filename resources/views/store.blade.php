@@ -17,34 +17,50 @@
                     
                     <div class="row">
                         <div class="col-md-2">
-                            <div class="p-4 mb-4 border bg-white" style="border-radius: 0.6rem !important; border:0!important; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;">
-                                <p class="text-muted d-flex">
-                                    <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-                                    {{ __('Price Filter') }}
-                                </p>
+                            <div class="mb-4 border bg-white" style="border-radius: 0.6rem !important; border:0!important; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;">
                                 <form id="filter-form" action="{{ route('shop.index') }}">
-                                    {{-- @csrf --}}
-                                    {{-- <p> --}}
-                                    <div class="form-group">
-                                        <label for="price-range" class="text-muted text-xs">Range: </label>
-                                        <input type="text" id="price-range" data-max="{{ $max_price }}" data-min="{{ $min_price }}" data-filter-min="{{ $filter_min_price }}" data-filter-max="{{ $filter_max_price }}" readonly class="border-0 text-primary font-weight-bold text-xs bg-transparent">
-                                        <input type="hidden" name="filter_min_price" value="{{ $filter_min_price }}">
-                                        <input type="hidden" name="filter_max_price" value="{{ $filter_max_price }}">
-                                        <input type="hidden" name="order_by_price" value="{{ $priceOrderBy }}">
-                                        {{-- </p> --}}
-                                        <div id="slider" class="my-3"></div>
-                                        <div class="d-flex justify-content-end align-items-center mt-4">
-                                            {{-- <div id="price-filter" class="mobile d-flex flex-row">
-                                                <button id="low-high-btn" class="m-0 btn btn-sm btn-outline-light @if($priceOrderBy == 'ASC') active @endif">
-                                                    <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
-                                                </button>
-                                                <button id="high-low-btn" class="m-0 btn btn-sm btn-outline-light @if($priceOrderBy == 'DESC') active @endif">
-                                                    <div style="transform: scale(-1,1);">
-                                                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
-                                                    </div>
-                                                </button>
-                                            </div> --}}
-                                            <button type="submit" class="btn btn-sm btn-info my-0">Apply</button>
+                                    <div class="p-4">
+                                        <p class="text-muted d-flex">
+                                            <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                                            {{ __('Price Filter') }}
+                                        </p>
+                                        <div class="form-group">
+                                            <label for="price-range" class="text-muted text-xs">Range: </label>
+                                            <input type="text" id="price-range" readonly class="border-0 text-primary font-weight-bold text-xs bg-transparent"
+                                                data-max="{{ $max_price }}" 
+                                                data-min="{{ $min_price }}" 
+                                                data-filter-min="{{ request()->get('filter_min_price') }}" 
+                                                data-filter-max="{{ request()->get('filter_max_price') }}">
+
+                                            <input type="hidden" name="filter_min_price" value="{{ request()->get('filter_min_price') }}">
+                                            <input type="hidden" name="filter_max_price" value="{{ request()->get('filter_max_price') }}">
+                                            <input type="hidden" name="order_by_price" value="{{ request()->get('order_by_price') }}">
+                                            <input type="hidden" name="filter_occasion" value="{{ request()->get('filter_occasion') }}">
+                                            <div id="slider" class="my-3"></div>
+                                            <div class="d-flex justify-content-end align-items-center mt-4">
+                                                <button type="submit" class="btn btn-sm btn-info my-0">Apply</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="m-0 p-0">
+                                    <div class="occasion-filter">
+                                        <p class="text-muted d-flex">
+                                            <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                                            {{ __('Occasions Filter') }}
+                                        </p>
+                                        
+                                        <div class="list-group">
+                                            @foreach ($occasions as $o_filter)
+                                                @if ($o_filter->id == request()->get('filter_occasion'))
+                                                    <button type="button" class="list-group-item list-group-item-action active" data-val="{{ $o_filter->id }}">
+                                                        {{ $o_filter->name }}
+                                                    </button>
+                                                @else
+                                                    <button type="button" class="list-group-item list-group-item-action" data-val="{{ $o_filter->id }}">
+                                                        {{ $o_filter->name }}
+                                                    </button>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                 </form>
@@ -55,8 +71,8 @@
                                 <div class="col-md-12">
                                     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-2">
                                         <div id="price-filter" class="desktop d-flex flex-row mb-3">
-                                            <button id="low-high-btn" class="m-0 btn btn-outline-light @if($priceOrderBy == 'ASC') active @endif">Low to High</button>
-                                            <button id="high-low-btn" class="m-0 btn btn-outline-light @if($priceOrderBy == 'DESC') active @endif">High to Low</button>
+                                            <button id="low-high-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'ASC') active @endif">Low to High</button>
+                                            <button id="high-low-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'DESC') active @endif">High to Low</button>
                                         </div>
                                         <div>
                                             {{ $packages->links() }}
@@ -71,7 +87,7 @@
                                         <div class="card-body">
                                             <div class="m-2">
                                                 <div class="text-center">
-                                                    <h5 class="card-title text-warning">{{ $package->name }}</h5>
+                                                    <h5 class="card-title">{{ $package->name }}</h5>
                                                     <p class="text-xs">{{ $package->user }}</p>
                                                 </div>
                                                 <hr>
@@ -97,9 +113,14 @@
                                                         @endif
                                                     </div>
                                                 </div>
-                                                <div class="text-center mt-4 mb-3">
-                                                    <h5 class="package-price mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
-                                                    <span class="text-muted">{{ $package->pax }} PAX</span>
+                                                <div class="m-0 d-flex flex-column justify-content-center align-items-center" style="height:5rem;">
+                                                    @if ($package->discount)
+                                                        <p class="text-muted mb-0"><del>₱ {{ $package->price }}</del></p>
+                                                        <h5 id="package-price" class="mb-0">₱ {{ number_format(($package->price * (1 - $package->discount / 100)), 2, '.', ',') }}</h5>
+                                                    @else
+                                                        <h5 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
+                                                    @endif
+                                                    <span>{{ $package->pax }} PAX</span>
                                                 </div>
                                                 <div class="text-center">
                                                     <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">PURCHASE</a>
@@ -165,16 +186,28 @@
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
 
-            $('#high-low-btn').click(function(){
+            $('#high-low-btn').click(function() {
                 $('[name="order_by_price"]').val('DESC')
                 $('#filter-form').submit()
             })
 
-            $('#low-high-btn').click(function(){
+            $('#low-high-btn').click(function() {
                 $('[name="order_by_price"]').val('ASC')
                 $('#filter-form').submit()
             })
 
+            $('.occasion-filter button').click(function() {
+                const filter =  $('[name="filter_occasion"]');
+
+                $(this).hasClass('active') ? filter.val('') : filter.val($(this).data('val'));
+            
+                $('#filter-form').submit()
+            })
+
+            $('.occasion-filter p').click(function() {
+                $(this).toggleClass('show')
+                $('.occasion-filter .list-group').toggleClass('d-block')
+            })
         })
     </script>
 @endpush

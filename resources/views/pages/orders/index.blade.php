@@ -138,15 +138,20 @@
                                                     <table>
                                                         <tr>
                                                             <td>Subtotal</td>
-                                                            <td>₱ {{ number_format($order->price, 2, '.', ',') }}</td>
+                                                            <td>₱ {{ number_format($order->subtotal, 2, '.', ',') }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Discount</td>
-                                                            <td></td>
+                                                            @if ($order->discount)
+                                                                <td>Discount ({{ $order->discount }}% OFF)</td>
+                                                                <td>- {{ number_format($order->discount, 2, '.', ',') }}</td>
+                                                            @else
+                                                                <td>Discount</td>
+                                                                <td>--</td>
+                                                            @endif
                                                         </tr>
                                                         <tr class="grand-total">
                                                             <td>Grand Total</td>
-                                                            <td>₱ {{ number_format($order->price, 2, '.', ',') }}</td>
+                                                            <td>₱ {{ number_format(($order->subtotal - $order->discount), 2, '.', ',') }}</td>
                                                         </tr>
                                                     </table>
                                                 </div>

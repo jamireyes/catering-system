@@ -31,7 +31,7 @@
                                     @csrf
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="name">Package Name</label>
+                                            <label for="name">Title</label>
                                             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required>
                                             @if ($errors->has('name') && !$errors->has('occasion'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
@@ -40,14 +40,16 @@
                                             @endif
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="occasion">Occasion</label>
+                                            <div class="d-flex justify-content-between">
+                                                <label for="occasion">Occasion</label>
+                                                <label>Not in the list? <a href="#" data-toggle="modal" data-target="#add-occasion-modal">Add Occasion!</a></label>
+                                            </div>
                                             <select class="form-control @error('occasion') is-invalid @enderror" name="occasion" required>
-                                                <option selected>Select Occasion</option>
+                                                <option selected></option>
                                                 @foreach ($occasions as $o)
                                                     <option value="{{ $o->id }}">{{ $o->name }}</option>                                                
                                                 @endforeach
                                             </select>
-                                            <small class="text-muted">Preferred Occasion is not found in the list? <a href="#" data-toggle="modal" data-target="#add-occasion-modal">Add Occasion!</a></small>
                                             @if ($errors->has('occasion'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $errors->first('occasion') }}</strong>
@@ -67,7 +69,7 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="pax">PAX</label>
-                                            <input type="number" class="form-control @error('pax') is-invalid @enderror" name="pax" required>
+                                            <input type="number" class="form-control @error('pax') is-invalid @enderror" name="pax" min="0" oninput="this.value = Math.abs(this.value)" required>
                                             @if ($errors->has('pax'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $errors->first('pax') }}</strong>
@@ -76,7 +78,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="price">Price</label>
-                                            <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" required>
+                                            <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" min="0" oninput="this.value = Math.abs(this.value)" required>
                                             @if ($errors->has('price'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $errors->first('price') }}</strong>
@@ -86,7 +88,7 @@
                                         <div class="form-group col-md-3">
                                             <label for="discount">Discount</label>
                                             <div class="input-group mb-3">
-                                                <input type="number" class="form-control @error('discount') is-invalid @enderror" name="discount" required>
+                                                <input type="number" class="form-control @error('discount') is-invalid @enderror" name="discount" min="0" oninput="this.value = Math.abs(this.value)" required>
                                                 <div class="input-group-append">
                                                   <span class="input-group-text px-2 py-0 bg-light" id="basic-addon2">%</span>
                                                 </div>

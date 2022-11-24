@@ -33,6 +33,7 @@
                             <input type="hidden" name="id" value="{{ $p->id }}">
                             <input type="hidden" name="name" value="{{ $p->name }}">
                             <input type="hidden" name="pax" value="{{ $p->pax }}">
+                            <input type="hidden" name="discount" value="{{ $p->discount }}">
                             <input type="hidden" name="price" value="{{ $p->price }}">
                             <input type="hidden" name="inclusion" value="{{ $p->inclusion }}">
                             <input type="hidden" name="user" value="{{ $p->user }}">
@@ -43,23 +44,26 @@
                                     <input type="hidden" name="category[]" value='{"id": "{{ $cr->category_id }}", "name": "{{ $cr->category_name }}"}'>
                                     <p class="mb-0">{{ $cr->category_name }}</p>
                                     <small class="mb-1 text-muted">(Choose {{ $cr->quantity }} item/s)</small>
-                                    <p class="ml-3 font-italic font-weight-light">
-                                        <div class="form-row">
-                                            @for ($i = 0; $i < $cr->quantity; $i++)
-                                            <div class="form-group col">
-                                                <select class="form-control" name="items[]" id="exampleFormControlSelect1">
-                                                    @foreach ($items as $item)
-                                                        @if ($item->category_id == $cr->category_id)
-                                                            <option value='{"id":"{{ $item->id }}","name":"{{ $item->name }}", "category_id": "{{ $cr->category_id }}"}'>{{ $item->name }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            @endfor                                                    
+                                    <div class="form-row my-3">
+                                        @for ($i = 0; $i < $cr->quantity; $i++)
+                                        <div class="form-group col">
+                                            <select class="form-control" name="items[]" id="exampleFormControlSelect1">
+                                                @foreach ($items as $item)
+                                                    @if ($item->category_id == $cr->category_id)
+                                                        <option value='{"id":"{{ $item->id }}","name":"{{ $item->name }}", "category_id": "{{ $cr->category_id }}"}'>{{ $item->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
                                         </div>
-                                    </p>
+                                        @endfor                                                    
+                                    </div>
                                     @endif
                                 @endforeach
+                                <hr class="my-4">
+                                @if ($p->inclusion)
+                                    <p class="mb-0">Inclusions</p>
+                                    <p class="text-muted font-weight-light mt-1 mb-0">{{ $p->inclusion }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -97,12 +101,17 @@
                                     <td>₱ {{ number_format($p->price, 2, '.', ',') }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Discount</td>
-                                    <td>--</td>
+                                    @if ($p->discount)
+                                        <td>Discount ({{ $p->discount }}% OFF)</td>
+                                        <td>- {{ number_format(($p->price * ($p->discount / 100)), 2, '.', ',') }}</td>
+                                    @else
+                                        <td>Discount</td>
+                                        <td>--</td>
+                                    @endif
                                 </tr>
                                 <tr class="grand-total">
                                     <td>Grand Total</td>
-                                    <td>₱ {{ number_format($p->price, 2, '.', ',') }}</td>
+                                    <td>₱ {{ number_format(($p->price * (1 - $p->discount / 100)), 2, '.', ',') }}</td>
                                 </tr>
                             </table>
                             <div class="text-center">

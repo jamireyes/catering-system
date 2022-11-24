@@ -471,6 +471,32 @@ ol.breadcrumb {
         grid-template-columns: 1fr !important;
         gap: 1.5rem !important;
     }
+
+    .occasion-filter p {
+        margin-bottom: 0 !important;
+    }
+
+    .occasion-filter p.show:after {
+        transform: rotate(180deg);
+    }
+
+    .occasion-filter p:after {
+        position: absolute;
+        right: 0;
+        top: .5rem;
+        vertical-align: 0.255rem !important;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent; 
+        border-left: 0.3em solid transparent;
+        transition: all 150ms ease 0s;
+    }
+
+    .occasion-filter .list-group {
+        display: none;
+        transition: all 150ms ease 0s;
+        margin-top: 1.5rem;
+    }
 }
 /**************************************************************/
 
@@ -676,9 +702,13 @@ button[value="Upload"] {
     color: var(--gray);
 }
 
+.package .card-title {
+    color: #fab526;
+}
+
 .product-details tr td {
     vertical-align: text-top !important;
-    padding-right: 2.5rem !important;
+    padding-right: 1rem !important;
     padding-bottom: .5rem;
 }
 
@@ -696,4 +726,32 @@ button[value="Upload"] {
 
 .product-summary .grand-total {
     font-weight: 600;
+}
+
+.pagination {
+    margin-right: 0 !important;
+}
+
+/* .card-user .image[data-color="black"] {
+    background-color: black
+} */
+
+.card-user .avatar {
+    border: 4px solid var(--white) !important;
+}
+
+.occasion-filter {
+    padding: 1.5rem !important;
+}
+
+.occasion-filter p {
+    position: relative;
+}
+
+.input-file {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    border: 1px solid #DDDDDD !important;
+    border-radius: 0.25rem !important;
 }

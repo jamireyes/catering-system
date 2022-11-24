@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="card card-user">
-                    <div class="image">
+                    <div class="image" data-color="black">
                         <img src="{{ asset('assets/img/catering-img-2.jpg') }}" alt="...">
                     </div>
                     <div class="author mx-3">
@@ -36,7 +36,7 @@
                         <form id="image-form" class="d-none" action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="d-flex align-items-center mb-3">
-                                <div class="d-flex align-items-center border rounded w-100">
+                                <div class="input-file">
                                     <div class="py-1 pl-2">
                                         <input id="upload-btn" type="file" name="image" hidden>
                                         <label for="upload-btn" class="btn btn-sm btn-outline-default my-1">Select</label>
@@ -52,8 +52,8 @@
                         </form>
                         {{-- <span class="badge badge-pill badge-primary mb-4">{{ Auth::user()->role }}</span> --}}
                     </div>
-                    <hr class="mb-1">
-                    <div class="card-body pt-0" style="min-height:auto!important;">
+                    <hr class="my-0">
+                    <div class="card-body py-3" style="min-height:auto!important;">
                         @if(Auth::user()->full_address == ' ')
                             <div class="row">
                                 <div class="col-2 text-right">

@@ -53,13 +53,13 @@ class PackageController extends Controller
             
 
         if(Auth::user()->role == 'ADMIN'){
-            $packages = $package_query->paginate(6);
+            $packages = $package_query->paginate(8);
             $items = Item::all();
             $categoryRules = $categoryRule_query->get();
         }else{
             $packages = $package_query->where('user_id', Auth::id())
                 ->where('packages.deleted_at', NULL)
-                ->paginate(6);
+                ->paginate(8);
             $items = Item::where('user_id', Auth::id())->get();
             $categoryRules = $categoryRule_query->join('packages', 'category_rules.package_id', '=', 'packages.id')
                 ->where('packages.user_id', Auth::id())
@@ -125,6 +125,7 @@ class PackageController extends Controller
     // Shows the edit package page
     public function edit($id)
     {
+
         if(Auth::user()->role != 'ADMIN'){
             $packages = DB::table('packages')
                 ->select('packages.*')
@@ -138,13 +139,14 @@ class PackageController extends Controller
                 ->get();
         }
 
+        $occasions = Occasion::select('id', 'name')->get();
         $categories = DB::table('categories')
             ->select('categories.id', 'categories.name', 'category_rules.quantity')
             ->join('category_rules', 'categories.id', 'category_rules.category_id')
             ->where('category_rules.package_id', '=', $id)
             ->get();
 
-        return view('pages.packages.edit', compact(['packages', 'categories']));
+        return view('pages.packages.edit', compact(['packages', 'categories', 'occasions']));
     }
 
     // Updates packages
@@ -161,6 +163,8 @@ class PackageController extends Controller
         $package->pax = $request->pax;
         $package->price = $request->price;
         $package->inclusion = $request->inclusion;
+        $package->occasion_id = $request->occasion;
+        $package->discount = $request->discount;
         $package->save();
         
         // Updates the package categories with set limit per category

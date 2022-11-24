@@ -17,8 +17,8 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">All Packages</h5>
                     <div class="d-flex justify-content-center align-items-center">
+                        <a class="btn btn-info mr-2" href="{{ route('package.create') }}" role="button">Add Package</a>
                         {{ $packages->links() }}
-                        <a class="btn btn-primary" href="{{ route('package.create') }}" role="button">Add Package</a>
                     </div>
                 </div>
             </div>
@@ -26,12 +26,12 @@
 
         <div class="row">
             @foreach ($packages as $package)
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="card border rounded">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="package card border rounded">
                         <div class="card-body">
                             <div class="m-2">
                                 <div class="text-center">
-                                    <h5 class="card-title text-warning">{{ $package->name }}</h5>
+                                    <h5 class="card-title">{{ $package->name }}</h5>
                                     <p class="text-xs">{{ $package->user }}</p>
                                 </div>
                                 <hr class="bg-warning">
@@ -57,27 +57,14 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="text-center mt-4 mb-3">
-                                    <h5 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
+                                <div class="m-0 d-flex flex-column justify-content-center align-items-center" style="height:5rem;">
+                                    @if ($package->discount)
+                                        <p class="text-muted mb-0"><del>₱ {{ $package->price }}</del></p>
+                                        <h5 id="package-price" class="mb-0">₱ {{ number_format(($package->price * (1 - $package->discount / 100)), 2, '.', ',') }}</h5>
+                                    @else
+                                        <h5 id="package-price" class="mb-0">₱ {{ number_format($package->price, 2, '.', ',') }}</h5>
+                                    @endif
                                     <span>{{ $package->pax }} PAX</span>
-                                </div>
-                                <div class="text-center">
-                                    <a href="{{ route('shop.show', ['shop' => $package->id]) }}" class="btn btn btn-warning">Order Now</a>
-                                </div>
-                                <hr class="bg-warning">
-                                <div id="package-info">
-                                    <div class="row">
-                                        <div class="col-2 text-right">
-                                            <span class="nc-icon nc-pin-3"/>
-                                        </div>
-                                        <small class="col-10 text-left">{{ $package->address }}</small>
-                                    </div>
-                                    <div class="row my-2">
-                                        <div class="col-2 text-right">
-                                            <span class="nc-icon nc-send"/>
-                                        </div>
-                                        <small class="col-10 text-left">+63 {{ $package->phone }}</small>
-                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">

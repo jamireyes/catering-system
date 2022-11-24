@@ -21,6 +21,8 @@ class OrderController extends Controller
         $query = Order::selectRaw("
                 orders.id as order_id,
                 DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date,
+                orders.subtotal as subtotal,
+                orders.discount as discount,
                 c.id as user_id,
                 c.name as c_name,
                 c.phone_number as c_contact,
@@ -31,14 +33,13 @@ class OrderController extends Controller
                 u.email as u_email,
                 CONCAT_WS(' ', u.address_1, u.address_2, c.city, u.state, u.zipcode) as u_address,
                 packages.name as package_name, 
-                packages.pax, 
-                packages.price, 
+                packages.pax,
                 packages.inclusion
             ")
             ->join('packages', 'orders.package_id', 'packages.id')
             ->join('users AS c', 'packages.user_id', 'c.id')
             ->join('users AS u', 'orders.user_id', 'u.id')
-            ->orderByDesc('order_date');
+            ->orderByDesc('orders.created_at');
 
         if($request->start && $request->end){            
             $start = Carbon::createFromFormat('m/d/Y', $request->start);

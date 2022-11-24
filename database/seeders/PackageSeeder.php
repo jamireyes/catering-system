@@ -24,6 +24,7 @@ class PackageSeeder extends Seeder
                 'price' => '10000.00', 
                 'inclusion' => 'Speakers, Accommodation, Venue', 
                 'occasion_id' => 2,
+                'discount' => 10,
                 'created_at' => '2022-08-26 06:27:32', 
                 'updated_at' => '2022-08-26 06:27:32'
             ],
@@ -34,6 +35,7 @@ class PackageSeeder extends Seeder
                 'price' => '20000.00', 
                 'inclusion' => 'Speakers, Accommodation, Venue', 
                 'occasion_id' => 2,
+                'discount' => NULL,
                 'created_at' => '2022-08-26 06:28:03', 
                 'updated_at' => '2022-08-26 06:28:03'
             ],
@@ -44,6 +46,7 @@ class PackageSeeder extends Seeder
                 'price' => '30000.00', 
                 'inclusion' => 'Speakers, Accommodation, Venue', 
                 'occasion_id' => 2,
+                'discount' => NULL,
                 'created_at' => '2022-08-26 06:30:28', 
                 'updated_at' => '2022-08-26 06:30:28'
             ],        
@@ -54,6 +57,7 @@ class PackageSeeder extends Seeder
                 'price' => '40000.00', 
                 'inclusion' => 'Speakers, Venue', 
                 'occasion_id' => 1,
+                'discount' => NULL,
                 'created_at' => '2022-08-26 06:52:02', 
                 'updated_at' => '2022-08-26 06:52:02'
             ],
@@ -64,6 +68,7 @@ class PackageSeeder extends Seeder
                 'price' => '50000.00', 
                 'inclusion' => 'Speakers, Venue', 
                 'occasion_id' => 1,
+                'discount' => NULL,
                 'created_at' => '2022-08-26 06:52:24',
                 'updated_at' => '2022-08-26 06:52:24'
             ],
@@ -74,6 +79,7 @@ class PackageSeeder extends Seeder
                 'price' => '60000.00', 
                 'inclusion' => 'Speakers, Venue', 
                 'occasion_id' => 1,
+                'discount' => NULL,
                 'created_at' => '2022-08-26 06:52:47',
                 'updated_at' => '2022-08-26 06:52:47'
             ],
@@ -84,6 +90,7 @@ class PackageSeeder extends Seeder
                 'price' => '100000.00', 
                 'inclusion' => 'Speakers, Decorations, Venue',
                 'occasion_id' => 3,
+                'discount' => NULL,
                 'created_at' => '2022-08-27 04:24:46', 
                 'updated_at' => '2022-08-27 04:24:46'
             ]
