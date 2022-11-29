@@ -19,6 +19,27 @@
                         <div class="col-md-2">
                             <div class="mb-4 border bg-white" style="border-radius: 0.6rem !important; border:0!important; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;">
                                 <form id="filter-form" action="{{ route('shop.index') }}">
+                                    <div class="occasion-filter">
+                                        <p class="text-muted d-flex">
+                                            <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                                            {{ __('Occasions Filter') }}
+                                        </p>
+                                        
+                                        <div class="list-group">
+                                            @foreach ($occasions as $o_filter)
+                                                @if ($o_filter->id == request()->get('filter_occasion'))
+                                                    <button type="button" class="list-group-item list-group-item-action active" data-val="{{ $o_filter->id }}">
+                                                        {{ $o_filter->name }}
+                                                    </button>
+                                                @else
+                                                    <button type="button" class="list-group-item list-group-item-action" data-val="{{ $o_filter->id }}">
+                                                        {{ $o_filter->name }}
+                                                    </button>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <hr class="m-0 p-0">
                                     <div class="p-4">
                                         <p class="text-muted d-flex">
                                             <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
@@ -40,27 +61,6 @@
                                             <div class="d-flex justify-content-end align-items-center mt-4">
                                                 <button type="submit" class="btn btn-sm btn-info my-0">Apply</button>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <hr class="m-0 p-0">
-                                    <div class="occasion-filter">
-                                        <p class="text-muted d-flex">
-                                            <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
-                                            {{ __('Occasions Filter') }}
-                                        </p>
-                                        
-                                        <div class="list-group">
-                                            @foreach ($occasions as $o_filter)
-                                                @if ($o_filter->id == request()->get('filter_occasion'))
-                                                    <button type="button" class="list-group-item list-group-item-action active" data-val="{{ $o_filter->id }}">
-                                                        {{ $o_filter->name }}
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="list-group-item list-group-item-action" data-val="{{ $o_filter->id }}">
-                                                        {{ $o_filter->name }}
-                                                    </button>
-                                                @endif
-                                            @endforeach
                                         </div>
                                     </div>
                                 </form>
