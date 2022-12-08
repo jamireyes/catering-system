@@ -6,6 +6,7 @@
 
 @section('content')
     <div class="container-fluid">
+        <div class="overlay"></div>
         <div class="px-2 py-4">
             <div class="row">
                 <div class="col-md-12">
@@ -14,56 +15,85 @@
                             <h4 class="mt-0">Packages</h4>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-2">
-                            <div class="mb-4 border bg-white" style="border-radius: 0.6rem !important; border:0!important; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;">
-                                <form id="filter-form" action="{{ route('shop.index') }}">
-                                    <div class="occasion-filter">
-                                        <p class="text-muted d-flex">
-                                            <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
-                                            {{ __('Occasions Filter') }}
-                                        </p>
-                                        
-                                        <div class="list-group">
-                                            @foreach ($occasions as $o_filter)
-                                                @if ($o_filter->id == request()->get('filter_occasion'))
-                                                    <button type="button" class="list-group-item list-group-item-action active" data-val="{{ $o_filter->id }}">
-                                                        {{ $o_filter->name }}
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="list-group-item list-group-item-action" data-val="{{ $o_filter->id }}">
-                                                        {{ $o_filter->name }}
-                                                    </button>
-                                                @endif
-                                            @endforeach
+                            <div class="filter-wrapper">
+                                <div class="search-container-mobile">
+                                    <div class="w-100">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="nc-icon nc-zoom-split"></i>
+                                                </span>
+                                            </div>
+                                            <input id="search" type="search" class="form-control">
                                         </div>
+                                        <span class="search-box">
+                                            {{-- <div class="search-item">hel</div> --}}
+                                        </span>
                                     </div>
-                                    <hr class="m-0 p-0">
-                                    <div class="p-4">
-                                        <p class="text-muted d-flex">
-                                            <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-                                            {{ __('Price Filter') }}
-                                        </p>
-                                        <div class="form-group">
-                                            <label for="price-range" class="text-muted text-xs">Range: </label>
-                                            <input type="text" id="price-range" readonly class="border-0 text-primary font-weight-bold text-xs bg-transparent"
-                                                data-max="{{ $max_price }}" 
-                                                data-min="{{ $min_price }}" 
-                                                data-filter-min="{{ request()->get('filter_min_price') }}" 
-                                                data-filter-max="{{ request()->get('filter_max_price') }}">
-
-                                            <input type="hidden" name="filter_min_price" value="{{ request()->get('filter_min_price') }}">
-                                            <input type="hidden" name="filter_max_price" value="{{ request()->get('filter_max_price') }}">
-                                            <input type="hidden" name="order_by_price" value="{{ request()->get('order_by_price') }}">
-                                            <input type="hidden" name="filter_occasion" value="{{ request()->get('filter_occasion') }}">
-                                            <div id="slider" class="my-3"></div>
-                                            <div class="d-flex justify-content-end align-items-center mt-4">
-                                                <button type="submit" class="btn btn-sm btn-info my-0">Apply</button>
+                                    <div>
+                                        <button type="button" class="btn-light">
+                                            <div class="d-flex align-items-center">
+                                                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="filter">
+                                    <form id="filter-form" action="{{ route('shop.index') }}">
+                                        <div class="occasion-filter filter-item">
+                                            <p class="filter-header">
+                                                <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                                                <span class="filter-label">{{ __('Occasions Filter') }}</span>
+                                            </p>
+                                            <div class="filter-body">
+                                                <div class="list-group">
+                                                    @foreach ($occasions as $o_filter)
+                                                        @if ($o_filter->id == request()->get('filter_occasion'))
+                                                            <button type="button" class="list-group-item list-group-item-action active" data-val="{{ $o_filter->id }}">
+                                                                {{ $o_filter->name }}
+                                                            </button>
+                                                        @else
+                                                            <button type="button" class="list-group-item list-group-item-action" data-val="{{ $o_filter->id }}">
+                                                                {{ $o_filter->name }}
+                                                            </button>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                        <hr class="m-0 p-0">
+                                        <div class="filter-item">
+                                            <p class="filter-header">
+                                                <svg class="align-self-center mr-2" viewBox="0 0 24 24" height=".9rem" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                                                <span class="filter-label">{{ __('Price Filter') }}</span>
+                                            </p>
+                                            <div class="filter-body">
+                                                <label for="price-range" class="text-muted text-xs">Range: </label>
+                                                <input type="text" id="price-range" readonly class="border-0 text-primary font-weight-bold text-xs bg-transparent"
+                                                    data-max="{{ $max_price }}" 
+                                                    data-min="{{ $min_price }}" 
+                                                    data-filter-min="{{ request()->get('filter_min_price') }}" 
+                                                    data-filter-max="{{ request()->get('filter_max_price') }}">
+
+                                                <input type="hidden" name="filter_min_price" value="{{ request()->get('filter_min_price') }}">
+                                                <input type="hidden" name="filter_max_price" value="{{ request()->get('filter_max_price') }}">
+                                                <input type="hidden" name="order_by_price" value="{{ request()->get('order_by_price') }}">
+                                                <input type="hidden" name="filter_occasion" value="{{ request()->get('filter_occasion') }}">
+                                                <div id="slider" class="my-3"></div>
+                                                <div class="d-flex justify-content-between align-items-center mt-4">
+                                                    <div id="price-filter" class="d-flex flex-row">
+                                                        <button id="low-high-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'ASC') active @endif">Low to High</button>
+                                                        <button id="high-low-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'DESC') active @endif">High to Low</button>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-info my-0">Apply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-10">
@@ -74,8 +104,18 @@
                                             <button id="low-high-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'ASC') active @endif">Low to High</button>
                                             <button id="high-low-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'DESC') active @endif">High to Low</button>
                                         </div>
-                                        <div>
-                                            {{ $packages->links() }}
+                                        <div class="search-container">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="nc-icon nc-zoom-split"></i>
+                                                    </span>
+                                                </div>
+                                                <input id="search" type="search" class="form-control">
+                                            </div>
+                                            <span class="search-box">
+                                                {{-- <div class="search-item">hel</div> --}}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -204,10 +244,53 @@
                 $('#filter-form').submit()
             })
 
-            $('.occasion-filter p').click(function() {
-                $(this).toggleClass('show')
-                $('.occasion-filter .list-group').toggleClass('d-block')
+            $('#search').on('keyup', function(){
+                var query = $(this).val();
+
+                if(query.length > 0){
+                    $.ajax({
+                        url: 'api/shop/search',
+                        type: 'GET',
+                        data: { 'search': query },
+                        success: function(data) {
+                            $('.search-box').html(data)
+                        },
+                    })
+                }else{
+                    setTimeout(() => {
+                        $('.search-box').empty()
+                    }, 200)
+                }
             })
+
+            // $('#search').focusout(function(){
+            //     setTimeout(() => {
+            //         $('.search-box').empty()
+            //         $(this).val('')
+            //     }, 200)
+            // })
+
+            $('.search-item').on('click', function(){
+                console.log($(this).data('id'))
+            })
+
+            $('.search-container-mobile .btn-light').click(function() {
+                $('.overlay').toggle();
+                $('.search-container-mobile + #filter').removeClass('animate__animated animate__fadeOutDownBig animate__faster');
+                $('.search-container-mobile + #filter').addClass('animate__animated animate__fadeInUpBig animate__faster');
+                $('.search-container-mobile + #filter').toggle();
+            })
+
+            $('.overlay').click(function() {
+                $('.search-container-mobile + #filter').removeClass('animate__animated animate__fadeInUpBig animate__faster');
+                $('.search-container-mobile + #filter').addClass('animate__animated animate__fadeOutDownBig animate__faster');
+                
+                setTimeout(function(){
+                    $('.overlay').toggle();
+                    $('.search-container-mobile + #filter').toggle();
+                }, 500);
+            })
+
         })
     </script>
 @endpush

@@ -5,18 +5,28 @@
 
 @section('content')
     <div class="content">
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('password_status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('password_status') }}
-            </div>
-        @endif
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-10 mx-auto">
+                @if (session('status'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('status') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                @if (session('password_status'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('password_status') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 ml-auto">
                 <div class="card card-user">
                     <div class="image" data-color="black">
                         <img src="{{ asset('assets/img/catering-img-2.jpg') }}" alt="...">
@@ -81,14 +91,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6 mr-auto">
                 <div class="row">
                     <form class="col-md-12" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card py-2">
                             <div class="card-header">
-                                <h5 class="title text-center">{{ __('Edit Profile') }}</h5>
+                                <h5 class="text-center">{{ __('Edit Profile') }}</h5>
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
@@ -112,13 +122,28 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>{{ __('Phone Number') }}</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">+63</span>
+                                            </div>
+                                            <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ auth()->user()->phone_number }}" required>
+                                            @if ($errors->has('phone_number'))
+                                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <strong>{{ $errors->first('phone_number') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="form-group col-md-6">
+                                        <label>{{ __('Phone Number') }}</label>
                                         <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" value="0{{ auth()->user()->phone_number }}" required>
                                         @if ($errors->has('phone_number'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
                                                 <strong>{{ $errors->first('phone_number') }}</strong>
                                             </span>
                                         @endif
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="form-group">
                                     <label>{{ __('Address Line 1') }}</label>
@@ -180,9 +205,9 @@
                     <form class="col-md-12" action="{{ route('profile.password') }}" method="POST">
                         @csrf
                         @method('PUT')
-                        <div class="card py-2 text-center">
-                            <div class="card-header">
-                                <h5 class="title">{{ __('Change Password') }}</h5>
+                        <div class="card py-2">
+                            <div class="card-header text-center">
+                                <h5>{{ __('Change Password') }}</h5>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -234,6 +259,33 @@
                             </div>
                         </div>
                     </form>
+                    @if (Auth::user()->role == 'ADMIN')
+                        <form class="col-md-12" action="{{ route('invite.generateInvite') }}" method="POST">
+                            <div class="card py-2 text-center">
+                                <div class="card-header">
+                                    <h5>Invite Admin Registration</h5>
+                                </div>
+                                <div class="card-body">
+                                    @csrf
+                                    <div class="row">
+                                        <label class="col-md-3 col-form-label">{{ __('Send Invitation') }}</label>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input type="text" name="email" class="form-control" placeholder="Enter Email Address" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer ">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <button type="submit" class="btn btn-info">{{ __('Send') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OccasionController;
+use App\Http\Controllers\InviteController;
 
 use App\Notifications\WelcomeUser;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -49,7 +50,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 	Route::get('checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');
 
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
+	Route::get('settings', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 	Route::post('profile', [ProfileController::class, 'upload'])->name('profile.upload');
@@ -67,4 +68,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('occasion/{occasion}/restore', [OccasionController::class, 'restore'])->name('occasion.restore');
 });
 
+// Route::group(['middleware' => ['protected_by_invite_codes']], function () {
+// });
 
+Route::get('register-admin', [InviteController::class, 'showInviteRegistration'])->name('invite.showInviteRegistration');
+Route::post('generate-invite', [InviteController::class, 'generateInvite'])->name('invite.generateInvite');

@@ -22,6 +22,9 @@ return new class extends Migration
             $table->integer('discount')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('package_id')->references('id')->on('packages');
         });
     }
 

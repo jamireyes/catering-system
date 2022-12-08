@@ -22,6 +22,9 @@ return new class extends Migration
             $table->integer('quantity');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('item_id')->references('id')->on('items');
         });
     }
 

@@ -22,6 +22,9 @@ return new class extends Migration
             $table->integer('quantity');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('package_id')->references('id')->on('packages');
         });
     }
 

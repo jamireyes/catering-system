@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             CategorySeeder::class,
             ItemSeeder::class,
+            OccasionSeeder::class,
+            PackageSeeder::class,
             CategoryRulesSeeder::class,
             OrderSeeder::class,
             OrderItemSeeder::class,
-            PackageSeeder::class,
-            OccasionSeeder::class,
         ]);
     }
 }

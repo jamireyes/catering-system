@@ -84,4 +84,22 @@ class ShopController extends Controller
 
         return view('product', compact(['package', 'items', 'categoryRules']));
     }
+
+    public function search(Request $request) 
+    {
+        if($request->ajax()){
+            $data = Package::where('name', 'like', '%'.$request->search.'%')->get();
+
+            $output = '';
+            if($data->isNotEmpty()){
+                foreach($data as $d){
+                    $output .= '<div class="search-item" data-id="'.$d->id.'">'.$d->name.'</div>';
+                }
+            }else {
+                $output .= '<div class="search-item">No results</div>';
+            }
+        }
+
+        return $output;
+    }
 }

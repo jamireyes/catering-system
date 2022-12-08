@@ -186,6 +186,8 @@ return [
          * Package Service Providers...
          */
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Junges\InviteCodes\InviteCodesServiceProvider::class,
+        Junges\InviteCodes\InviteCodesEventServiceProvider::class,
 
         /*
          * Application Service Providers...

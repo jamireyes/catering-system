@@ -9,10 +9,11 @@
             <div class="p-4 w-100">
                 <div>
                     <h4 >{{ __('Sign Up') }}</h4>
-                    <p class="text-muted">Have an account? <a href="{{ route('login') }}">Login here!</a></p>
+                    <p class="text-muted">Create an <span class="text-warning">administration</span> account!</p>
                 </div>
-                <form class="form" method="POST" action="{{ route('register') }}">
+                <form class="form" method="POST" action="">
                     @csrf
+                    <input type="hidden" name="code" value="{{ request()->get('code') }}">
                     <div class="input-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -85,18 +86,6 @@
                             </span>
                         @endif
                     </div>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="nc-icon nc-badge"></i>
-                            </span>
-                        </div>
-                        <select name="role" class="form-control" required>
-                            <option value="USER">USER</option>
-                            <option value="SELLER">SELLER</option>
-                            <option value="ADMIN">ADMIN</option>
-                        </select>
-                    </div>
 
                     <div class="form-check text-left">
                         <label class="form-check-label ml-0">
@@ -112,7 +101,7 @@
                         @endif
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-info my-4">{{ __('Get Started') }}</button>
+                        <button type="submit" class="btn btn-warning my-4">{{ __('Get Started') }}</button>
                     </div>
                 </form>
             </div>

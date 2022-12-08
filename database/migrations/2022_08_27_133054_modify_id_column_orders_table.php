@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        // Schema::table('orders', function (Blueprint $table) {
+            
+        // });
 
         DB::statement("ALTER TABLE orders AUTO_INCREMENT = 5000;");
     }
@@ -27,8 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        // Schema::table('orders', function (Blueprint $table) {
+        //     //
+        // });
     }
 };
