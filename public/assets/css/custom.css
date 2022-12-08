@@ -505,14 +505,6 @@ ol.breadcrumb {
         display: none;
     }
 
-    #price-filter.desktop {
-        display: none !important;
-    }
-
-    .search-container-mobile + #filter #price-filter {
-        display: block !important;
-    }
-
     .search-container {
         width: 100%;
         display: none;
@@ -918,19 +910,4 @@ button[value="Upload"] {
 
 .input-group-text .noeye:hover, .input-group-text .eye:hover {
     transform: scale(1.1);
-}
-
-
-#price-filter.desktop {
-    display: block;
-}
-
-.search-container-mobile + #filter #price-filter {
-    display: none !important;
-}
-
-#price-filter:not(.desktop) + [type="submit"] {
-    font-size: 0.8571em !important;
-    border-radius: 3px !important;
-    padding: 5px 15px !important;
 }

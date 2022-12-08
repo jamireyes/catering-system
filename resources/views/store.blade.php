@@ -83,12 +83,20 @@
                                                 <input type="hidden" name="order_by_price" value="{{ request()->get('order_by_price') }}">
                                                 <input type="hidden" name="filter_occasion" value="{{ request()->get('filter_occasion') }}">
                                                 <div id="slider" class="my-3"></div>
-                                                <div class="d-flex justify-content-between align-items-center mt-4">
-                                                    <div id="price-filter" class="d-flex flex-row">
-                                                        <button id="low-high-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'ASC') active @endif">Low to High</button>
-                                                        <button id="high-low-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'DESC') active @endif">High to Low</button>
+                                                <div class="d-flex flex-column align-items-center mt-4">
+                                                    <div id="price-filter" class="d-flex w-100">
+                                                        <button id="low-high-btn" class="m-0 btn btn-block btn-outline-light @if(request()->get('order_by_price') == 'ASC') active @endif">
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <svg height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" points="144 167.994 184 207.994 223.999 168"/><line x1="184" x2="184" y1="111.993" y2="207.993" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><line x1="48" x2="119.999" y1="127.994" y2="127.994" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><line x1="48" x2="183.999" y1="63.994" y2="63.994" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><line x1="48" x2="104" y1="191.994" y2="191.994" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/></svg>
+                                                            </div>
+                                                        </button>
+                                                        <button id="high-low-btn" class="m-0 btn btn-block btn-outline-light @if(request()->get('order_by_price') == 'DESC') active @endif">
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <svg height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" points="144 87.994 184 47.994 223.999 87.987"/><line x1="184" x2="184" y1="143.994" y2="47.994" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><line x1="48" x2="119.999" y1="127.994" y2="127.994" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><line x1="48" x2="103.999" y1="63.994" y2="63.994" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><line x1="48" x2="183.999" y1="191.994" y2="191.994" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/></svg>
+                                                            </div>
+                                                        </button>
                                                     </div>
-                                                    <button type="submit" class="btn btn-info my-0">Apply</button>
+                                                    <button type="submit" class="btn btn-info btn-block">Apply</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -100,9 +108,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-2">
-                                        <div id="price-filter" class="desktop d-flex flex-row mb-3">
-                                            <button id="low-high-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'ASC') active @endif">Low to High</button>
-                                            <button id="high-low-btn" class="m-0 btn btn-outline-light @if(request()->get('order_by_price') == 'DESC') active @endif">High to Low</button>
+                                        <div>
+                                            {{ $packages->links() }}
                                         </div>
                                         <div class="search-container">
                                             <div class="input-group">
@@ -170,13 +177,6 @@
                                     </div>
                                 </div>
                                 @endforeach
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="d-flex justify-content-center justify-content-md-end">
-                                        {{ $packages->links() }}
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
