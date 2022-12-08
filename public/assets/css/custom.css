@@ -926,7 +926,7 @@ button[value="Upload"] {
 }
 
 .search-container-mobile + #filter #price-filter {
-    display: none;
+    display: none !important;
 }
 
 #price-filter:not(.desktop) + [type="submit"] {
