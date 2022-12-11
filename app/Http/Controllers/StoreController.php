@@ -14,7 +14,8 @@ class StoreController extends Controller
 
     public function index()
     {
-        $stores = User::where('role', '!=', 'USER')->get();
+        $stores = User::where('role', '!=', 'USER')
+            ->paginate(12);
 
         return view('pages.stores.index', compact(['stores']));  
     }

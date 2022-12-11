@@ -278,8 +278,8 @@
                 }
             })
 
-            $('.search-item').on('click', function(){
-                console.log($(this).data('id'))
+            $('.search-box .search-item').click(function(){
+                
             })
 
             $('.search-container-mobile .btn-light').click(function() {
@@ -299,6 +299,10 @@
                 }, 500);
             })
 
+            $('body').click(function(){
+                $('.search').val('');
+                $('.search').keyup();
+            })
         })
     </script>
 @endpush

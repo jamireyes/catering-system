@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->foreignIdFor(Package::class)->onDelete('cascade');
             $table->integer('discount')->nullable();
+            $table->enum('status', ['CONFIRMED', 'PENDING', 'CANCELLED']);
             $table->timestamps();
             $table->softDeletes();
 

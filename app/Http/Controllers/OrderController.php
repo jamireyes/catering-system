@@ -23,6 +23,7 @@ class OrderController extends Controller
                 DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date,
                 orders.subtotal as subtotal,
                 orders.discount as discount,
+                orders.status as status,
                 c.id as user_id,
                 c.name as c_name,
                 c.phone_number as c_contact,
@@ -102,9 +103,15 @@ class OrderController extends Controller
         //
     }
 
-    public function update(Request $request, Order $order)
+    public function update(Request $request, $id)
     {
-        //
+        $order = Order::find($id);
+        $order->status = $request->status;
+        $order->save();
+
+        $message = 'Order status is updated to '.$request->status.'.';
+
+        return back()->with('success', $message);
     }
 
     public function destroy(Order $order)

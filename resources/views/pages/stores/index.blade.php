@@ -23,6 +23,13 @@
             </div>
             <div class="row">
                 <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        {{ $stores->links() }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
                     <div class="grid-container">
                         @foreach ($stores as $s)
                             <div class="card store-card" data-id="{{ $s->id }}" data-route="{{ route('store.show', ['store' => $s->id]) }}">
@@ -60,6 +67,13 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mx-auto mt-3">
+                    <div class="d-flex justify-content-center">
+                        {{ $stores->links() }}
                     </div>
                 </div>
             </div>

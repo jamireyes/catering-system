@@ -95,6 +95,20 @@
                                             <div class="d-flex justify-content-between">
                                                 <h5>{{ $order->package_name }} ({{ $order->pax }} pax)</h5>
                                                 <div class="d-flex flex-column text-right">
+                                                    @if (Auth::user()->role != 'USER')
+                                                        <form class="form-inline mb-2" action="{{ route('order.update', ['order' => $order->order_id]) }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <div class="form-group">
+                                                                <select class="custom-select custom-select-sm" name="status">
+                                                                    <option value="CONFIRMED" @if ($order->status == 'CONFIRMED') selected @endif>CONFIRMED</option>
+                                                                    <option value="PENDING" @if ($order->status == 'PENDING') selected @endif>PENDING</option>
+                                                                    <option value="CANCELLED" @if ($order->status == 'CANCELLED') selected @endif>CANCELLED</option>
+                                                                </select>
+                                                            </div>
+                                                            <button class="btn btn-sm btn-icon btn-info ml-2 m-0"><i class="fa-solid fa-rotate-right"></i></button>
+                                                        </form>
+                                                    @endif
                                                     <small class="text-muted"><strong>Date:</strong> {{ $order->order_date }}</small>
                                                     <small class="text-muted"><strong>Order No.:</strong> {{ $order->order_id }}</small>
                                                 </div>

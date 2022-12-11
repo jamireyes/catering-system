@@ -98,6 +98,7 @@ class CheckoutController extends Controller
         $order->package_id = $package_id;
         $order->discount = Cart::discount(2, '.', '');
         $order->subtotal = Cart::initial(2, '.', '');
+        $order->status = 'PENDING';
         $order->save();
 
         foreach($items as $item){
