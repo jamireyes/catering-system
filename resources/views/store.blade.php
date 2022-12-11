@@ -9,15 +9,31 @@
         <div class="overlay"></div>
         <div class="px-2 py-4">
             <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('welcome') }}" class="text-muted">Home</a>
+                            </li>
+                            {{-- <li class="breadcrumb-item">
+                                <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
+                            </li> --}}
+                            <li class="breadcrumb-item">
+                                <a class="text-dark">Packages</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="mt-0">Packages</h4>
                         </div>
                     </div>
-
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-lg-2">
                             <div class="filter-wrapper">
                                 <div class="search-container-mobile">
                                     <div class="w-100">
@@ -27,7 +43,7 @@
                                                     <i class="nc-icon nc-zoom-split"></i>
                                                 </span>
                                             </div>
-                                            <input id="search" type="search" class="form-control">
+                                            <input type="search" class="search form-control">
                                         </div>
                                         <span class="search-box">
                                             {{-- <div class="search-item">hel</div> --}}
@@ -104,7 +120,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-lg-10">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-2">
@@ -118,10 +134,9 @@
                                                         <i class="nc-icon nc-zoom-split"></i>
                                                     </span>
                                                 </div>
-                                                <input id="search" type="search" class="form-control">
+                                                <input type="search" class="search form-control">
                                             </div>
                                             <span class="search-box">
-                                                {{-- <div class="search-item">hel</div> --}}
                                             </span>
                                         </div>
                                     </div>
@@ -244,7 +259,7 @@
                 $('#filter-form').submit()
             })
 
-            $('#search').on('keyup', function(){
+            $('.search').on('keyup', function(){
                 var query = $(this).val();
 
                 if(query.length > 0){
@@ -262,13 +277,6 @@
                     }, 200)
                 }
             })
-
-            // $('#search').focusout(function(){
-            //     setTimeout(() => {
-            //         $('.search-box').empty()
-            //         $(this).val('')
-            //     }, 200)
-            // })
 
             $('.search-item').on('click', function(){
                 console.log($(this).data('id'))

@@ -67,6 +67,7 @@ class ShopController extends Controller
                 users.name as user, 
                 users.phone_number as phone,
                 users.email as email,
+                users.id as cater_id,
                 CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address
             ")
             ->join('users', 'packages.user_id', 'users.id')

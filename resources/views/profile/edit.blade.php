@@ -64,7 +64,7 @@
                     </div>
                     <hr class="my-0">
                     <div class="card-body py-3" style="min-height:auto!important;">
-                        @if(Auth::user()->full_address == ' ')
+                        @if(Auth::user()->full_address != ' ')
                             <div class="row">
                                 <div class="col-2 text-right">
                                     <span class="nc-icon nc-pin-3"/>

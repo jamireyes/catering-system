@@ -36,10 +36,10 @@
         <div class="collapse navbar-collapse justify-content-between" id="navigation">
             <ul class="navbar-nav navbar-center">
                 <li class="nav-item">
-                    <a href="{{ route('shop.index') }}" class="nav-link">{{ __('Store') }}</a>
+                    <a href="{{ route('store.index') }}" class="nav-link">{{ __('Stores') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">{{ __('Catering') }}</a>
+                    <a href="{{ route('shop.index') }}" class="nav-link">{{ __('Packages') }}</a>
                 </li>
                 <li class="nav-item">
                     <a href="#about" class="nav-link">{{ __('About') }}</a>

@@ -12,6 +12,8 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OccasionController;
 use App\Http\Controllers\InviteController;
+use App\Http\Controllers\StoreController;
+use App\Http\Controllers\FeedbackController;
 
 use App\Notifications\WelcomeUser;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -73,3 +75,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 Route::get('register-admin', [InviteController::class, 'showInviteRegistration'])->name('invite.showInviteRegistration');
 Route::post('generate-invite', [InviteController::class, 'generateInvite'])->name('invite.generateInvite');
+
+Route::resource('store', StoreController::class);
+Route::resource('feedback', FeedbackController::class);
