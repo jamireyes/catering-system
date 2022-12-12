@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="filter-wrapper">
-                                <div class="search-container-mobile">
+                                {{-- <div class="search-container-mobile">
                                     <div class="w-100">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -45,9 +45,7 @@
                                             </div>
                                             <input type="search" class="search form-control">
                                         </div>
-                                        <span class="search-box">
-                                            {{-- <div class="search-item">hel</div> --}}
-                                        </span>
+                                        <span class="search-box"></span>
                                     </div>
                                     <div>
                                         <button type="button" class="btn-light">
@@ -56,7 +54,7 @@
                                             </div>
                                         </button>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div id="filter">
                                     <form id="filter-form" action="{{ route('shop.index') }}">
                                         <div class="occasion-filter filter-item">
@@ -127,7 +125,7 @@
                                         <div>
                                             {{ $packages->links() }}
                                         </div>
-                                        <div class="search-container">
+                                        {{-- <div class="search-container">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">
@@ -136,9 +134,8 @@
                                                 </div>
                                                 <input type="search" class="search form-control">
                                             </div>
-                                            <span class="search-box">
-                                            </span>
-                                        </div>
+                                            <span class="search-box"></span>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
