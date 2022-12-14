@@ -29,6 +29,12 @@ class HomeController extends Controller
         $sale_query = Order::selectRaw("SUM(packages.price) as sales, COUNT(orders.id) as count")
             ->join('packages', 'orders.package_id', 'packages.id');
 
+        // Monthly Sales Chart - query
+        $monthly_sales_query = Order::selectRaw("date_format(orders.created_at, '%m') as month, SUM(packages.price) as total_orders")
+            ->join('packages', 'orders.package_id', 'packages.id')
+            ->groupBy('month')
+            ->orderBy('month');
+
         $total_users = User::count(); // Gets total users.
         $total_packages = Package::count(); // Gets total packages.
 
@@ -36,6 +42,7 @@ class HomeController extends Controller
             $sales = $sale_query->get();
         }else if(Auth::user()->role == 'SELLER'){                
             $sales = $sale_query->where('packages.user_id', Auth::id())->get();
+            $monthly_sales_query = $monthly_sales_query->where('packages.user_id', Auth::id());
         }
 
         $monthly_sale = $sales[0]->sales; // Gets current total monthly sales.
@@ -45,12 +52,6 @@ class HomeController extends Controller
         $monthly_users_query = User::selectRaw("date_format(created_at, '%m') as month, count(id) as total_users, role")
             ->where('role', 'USER')
             ->groupBy('month', 'role');
-            
-        // Monthly Sales Chart - query
-        $monthly_sales_query = Order::selectRaw("date_format(orders.created_at, '%m') as month, SUM(packages.price) as total_orders")
-            ->join('packages', 'orders.package_id', 'packages.id')
-            ->groupBy('month')
-            ->orderBy('month');
 
         if($request->filter_year){
             $monthly_users = $monthly_users_query->whereYear('created_at', $request->filter_year)->get()->toArray();

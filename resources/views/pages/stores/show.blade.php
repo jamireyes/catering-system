@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="card card-user">
                             <div class="card-body" style="min-height:0 !important;">
                                 <div class="d-flex flex-column flex-lg-row align-items-center">
@@ -67,48 +67,50 @@
                                 <div class="header-rating p-2">
                                     <div class="header-rating-wrapper">
                                         <div class="star-rating">
-                                            <i class="fa-solid fa-star checked"></i>
-                                            <i class="fa-solid fa-star checked"></i>
-                                            <i class="fa-solid fa-star checked"></i>
-                                            <i class="fa-solid fa-star checked"></i>
-                                            <i class="fa-solid fa-star"></i>
+                                            <div class="stars-inner"></div>
                                         </div>
-                                        <div class="overall-rating">
-                                            <p class="text-gray m-0 ml-2">4 out of 5</p>
-                                        </div>
+                                        <div class="overall-rating" data-avg="{{ $avg_rating }}"></div>
                                     </div>
                                 </div>
                                 <div class="progress-rating">
-                                    <div class="progress-wrapper">
-                                        <p>5</p>
-                                        <div class="progress">
-                                            <div class="progress-bar w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="progress-wrapper">
-                                        <p>4</p>
-                                        <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="progress-wrapper">
-                                        <p>3</p>
-                                        <div class="progress">
-                                            <div class="progress-bar w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="progress-wrapper">
-                                        <p>2</p>
-                                        <div class="progress">
-                                            <div class="progress-bar w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="progress-wrapper">
-                                        <p>1</p>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
+                                    @foreach ($ratings as $rating)
+                                        @if($rating['rating'] == 5) 
+                                            <div class="progress-wrapper">
+                                                <p>5</p>
+                                                <div class="progress">
+                                                    <div class="rating_5 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        @elseif($rating['rating'] == 4)
+                                            <div class="progress-wrapper">
+                                                <p>4</p>
+                                                <div class="progress">
+                                                    <div class="rating_4 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        @elseif($rating['rating'] == 3)
+                                            <div class="progress-wrapper">
+                                                <p>3</p>
+                                                <div class="progress">
+                                                    <div class="rating_3 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        @elseif($rating['rating'] == 2)
+                                            <div class="progress-wrapper">
+                                                <p>2</p>
+                                                <div class="progress">
+                                                    <div class="rating_2 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        @elseif($rating['rating'] == 1)
+                                            <div class="progress-wrapper">
+                                                <p>1</p>
+                                                <div class="progress">
+                                                    <div class="rating_1 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                                 <hr>
                                 <div class="feedback">
@@ -125,12 +127,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="comment">Rating</label>
-                                            <div class="star-rating input-rating">
-                                                <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                                                <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                                                <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                                                <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                                                <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                            <div class="input-rating">
+                                                <input type="radio" name="rating" value="5" id="5"><label for="5"><i class="fa-regular fa-star"></i></label>
+                                                <input type="radio" name="rating" value="4" id="4"><label for="4"><i class="fa-regular fa-star"></i></label>
+                                                <input type="radio" name="rating" value="3" id="3"><label for="3"><i class="fa-regular fa-star"></i></label>
+                                                <input type="radio" name="rating" value="2" id="2"><label for="2"><i class="fa-regular fa-star"></i></label>
+                                                <input type="radio" name="rating" value="1" id="1"><label for="1"><i class="fa-regular fa-star"></i></label>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-default btn-block mt-4">Submit</button>
@@ -140,7 +142,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-9">
                         <div class="row">
                             @foreach ($packages as $package)
                                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -195,6 +197,31 @@
                     </div>
                 </div>
             </div>
+              
+            <div class="modal fade" id="rating-modal" tabindex="-1" role="dialog" aria-labelledby="rating-modal-label" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-lg" id="rating-modal-label"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{-- <div class="comments">
+                                <p class="comment-name">Jami</p>
+                                <div class="star-rating">
+                                    <div class="stars-inner"></div><span class="comment-date"> - Dec 12, 2022</span>
+                                </div>
+                                <p class="comment-body mb-0">Excellent</p>
+                            </div> --}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endforeach
     </div>
 @endsection
@@ -202,9 +229,57 @@
 @push('scripts')
     <script>
         $(document).ready(() => {
-            // $('.input-rating [type="radio"]').click(function(){
 
-            // })
+            function ratings() {
+                const rating_5 = $('.rating_5').attr('aria-valuenow')
+                const rating_4 = $('.rating_4').attr('aria-valuenow')
+                const rating_3 = $('.rating_3').attr('aria-valuenow')
+                const rating_2 = $('.rating_2').attr('aria-valuenow')
+                const rating_1 = $('.rating_1').attr('aria-valuenow')
+
+                const total = parseInt(rating_5) + parseInt(rating_4) + parseInt(rating_3) + parseInt(rating_2) + parseInt(rating_1);
+
+                $('.rating_5').css('width', ((rating_5 / total) * 100)+'%')
+                $('.rating_4').css('width', ((rating_4 / total) * 100)+'%')
+                $('.rating_3').css('width', ((rating_3 / total) * 100)+'%')
+                $('.rating_2').css('width', ((rating_2 / total) * 100)+'%')
+                $('.rating_1').css('width', ((rating_1 / total) * 100)+'%')
+            }
+
+            function avg_rating() {
+                const avg_rating = $('.overall-rating').data('avg')
+                const avg_rating_percentage = `${(avg_rating / 5) * 100}%`
+
+                $('.overall-rating').html(`<p class="text-gray m-0 ml-2">${avg_rating} out of 5</p>`);
+                $('.header-rating-wrapper .stars-inner').css('width', avg_rating_percentage)
+            }
+
+            $('.progress-bar[class*="rating"]').click(function(){
+                const id = $(this).data('id')
+                const route = $(this).data('url')
+                var html = '';
+
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        $('#rating-modal').modal('toggle')
+                        $('#rating-modal-label').empty()
+                        $('#rating-modal .modal-body').empty()
+                        $('#rating-modal-label').append(`${id} Star`)
+                        for(let row of data) {
+                            var tempRating = ((row.rating / 5) * 100) + '%'
+                            var tempDate = (new Date(row.created_at)).toDateString()
+                            $('#rating-modal .modal-body').append(`<div class="comments"><p class="comment-name">${row.name}<span class="comment-date"> - ${tempDate}</span></p><div class="star-rating"><div class="stars-inner" style="width:${tempRating}"></div></div><p class="comment-body mb-0">${row.comment}</p></div>`)
+                        }
+                    }
+                })
+            })
+            // $('#rating-modal').modal('toggle')
+            ratings()
+            avg_rating()
         })
     </script>
 @endpush

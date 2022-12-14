@@ -8,9 +8,10 @@ use App\Models\Item;
 use App\Models\Occasion;
 use App\Models\CategoryRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Auth;
 use DB;
-use Carbon\Carbon;
 
 class PackageController extends Controller
 {
@@ -18,6 +19,7 @@ class PackageController extends Controller
         $this->rules = [
             'name' => 'required',
             'pax' => 'required',
+            'cost_price' => 'required',
             'price' => 'required',
             'category' => 'required',
             'quantity' => 'required',
@@ -27,7 +29,8 @@ class PackageController extends Controller
         $this->messages = [
             'name.required' => 'The package name field is required.',
             'pax.required' => 'The pax field is required.',
-            'price.required' => 'The price field is required.',
+            'cost_price.required' => 'The cost price field is required.',
+            'price.required' => 'The selling price field is required.',
             'category.required' => 'The category field is required.',
             'quantity.required' => 'The quantity field is required.',
             'inclusion.required' => 'The inclusion field is required.',
@@ -94,6 +97,7 @@ class PackageController extends Controller
         $package->user_id = Auth::id();
         $package->name = $request->name;
         $package->pax = $request->pax;
+        $package->cost_price = $request->cost_price;
         $package->price = $request->price;
         $package->inclusion = $request->inclusion;
         $package->occasion_id = $request->occasion;
@@ -161,6 +165,7 @@ class PackageController extends Controller
         }
         $package->name = $request->name;
         $package->pax = $request->pax;
+        $package->cost_price = $request->cost_price;
         $package->price = $request->price;
         $package->inclusion = $request->inclusion;
         $package->occasion_id = $request->occasion;

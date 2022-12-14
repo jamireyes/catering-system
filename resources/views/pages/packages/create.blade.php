@@ -59,7 +59,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="inclusion">Inclusions</label>
-                                        <input type="text" class="form-control @error('inclusion') is-invalid @enderror" name="inclusion" required>
+                                        {{-- <input type="text" class="form-control @error('inclusion') is-invalid @enderror" name="inclusion" required> --}}
+                                        <textarea class="form-control @error('inclusion') is-invalid @enderror" name="inclusion" cols="30" rows="10" required></textarea>
                                         @if ($errors->has('inclusion'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
                                                 <strong>{{ $errors->first('inclusion') }}</strong>
@@ -67,7 +68,7 @@
                                         @endif
                                     </div>
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-3">
                                             <label for="pax">PAX</label>
                                             <input type="number" class="form-control @error('pax') is-invalid @enderror" name="pax" min="0" oninput="this.value = Math.abs(this.value)" required>
                                             @if ($errors->has('pax'))
@@ -77,7 +78,16 @@
                                             @endif
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="price">Price</label>
+                                            <label for="cost_price">Cost Price</label>
+                                            <input type="number" class="form-control @error('cost_price') is-invalid @enderror" name="cost_price" min="0" oninput="this.value = Math.abs(this.value)" required>
+                                            @if ($errors->has('cost_price'))
+                                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <strong>{{ $errors->first('cost_price') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="price">Selling Price</label>
                                             <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" min="0" oninput="this.value = Math.abs(this.value)" required>
                                             @if ($errors->has('price'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
@@ -86,9 +96,9 @@
                                             @endif
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="discount">Discount</label>
+                                            <label for="discount">Discount (Optional)</label>
                                             <div class="input-group mb-3">
-                                                <input type="number" class="form-control @error('discount') is-invalid @enderror" name="discount" min="0" oninput="this.value = Math.abs(this.value)" required>
+                                                <input type="number" class="form-control @error('discount') is-invalid @enderror" name="discount" min="0" oninput="this.value = Math.abs(this.value)">
                                                 <div class="input-group-append">
                                                   <span class="input-group-text px-2 py-0 bg-light" id="basic-addon2">%</span>
                                                 </div>
@@ -117,7 +127,7 @@
                                     </div>
                                     
                                     <div class="d-flex justify-content-center">
-                                        <button type="reset" class="btn btn-warning">Reset</button>
+                                        <button type="reset" class="btn btn-default">Reset</button>
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </form>
@@ -146,7 +156,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </form>
                 </div>

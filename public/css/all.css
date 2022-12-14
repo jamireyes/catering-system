@@ -7755,15 +7755,31 @@ button[value="Upload"] {
 }
 
 .star-rating {
-    color: var(--gray);
+    position: relative;
+    display: inline-block;
 }
 
-.star-rating i {
-    font-size: 1.2rem;
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
 }
-
-.star-rating .checked {
-    color: var(--warning);
+  
+.star-rating::before {
+    content: "\f005 \f005 \f005 \f005 \f005";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #ccc;
+}
+  
+.stars-inner::before {
+    content: "\f005 \f005 \f005 \f005 \f005";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #f8ce0b;
 }
 
 .progress-rating {
@@ -7887,14 +7903,16 @@ button[value="Upload"] {
 
 .input-rating > label {
     position: relative;
-    width: 1.8rem;
-    font-size: 2rem;
+    width: 1.2rem;
+    font-size: 1rem;
     color: var(--warning);
     cursor: pointer;
 }
 
 .input-rating > label::before{ 
-    content: "\2605";
+    content: "\f005";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
     position: absolute;
     opacity: 0;
 }
@@ -7910,4 +7928,45 @@ button[value="Upload"] {
 
 .input-rating:hover > input:checked ~ label:before   { 
     opacity: 0.4; 
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--light-gray);
+}
+
+.nav-pills .nav-link {
+    color: var(--light-gray);
+}
+
+.tab-content {
+    padding-top: 1rem;
+}
+
+#rating-modal .modal-header, #rating-modal .modal-footer {
+    border: 0 !important;
+}
+
+.comments {
+    padding: 1rem!important;
+    background-color: #f8f9fa!important;
+    border-radius: var(--border-radius) !important;
+    margin-bottom: 1rem;
+}
+
+.comment-name {
+    font-weight: 700!important;
+    margin-bottom: 0.25rem!important;
+}
+
+.comment-date {
+    color: #6c757d!important;
+    font-weight: 500!important;
+}
+
+.comments .star-rating {
+    margin-bottom: 0.8rem!important;
+}
+
+.comment-body {
+    margin-bottom: 0!important;
 }

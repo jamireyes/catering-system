@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="filter-wrapper">
-                                {{-- <div class="search-container-mobile">
+                                <div class="search-container-mobile">
                                     <div class="w-100">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -54,7 +54,7 @@
                                             </div>
                                         </button>
                                     </div>
-                                </div> --}}
+                                </div>
                                 <div id="filter">
                                     <form id="filter-form" action="{{ route('shop.index') }}">
                                         <div class="occasion-filter filter-item">

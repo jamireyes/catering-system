@@ -8,6 +8,7 @@ use App\Models\Package;
 use App\Models\Category;
 use App\Models\CategoryRule;
 use App\Models\Item;
+use App\Models\Feedback;
 
 class StoreController extends Controller
 {
@@ -38,9 +39,26 @@ class StoreController extends Controller
             abort(404);
         }
 
+        $avg_rating = number_format(Feedback::avg('rating'), 1, '.', ',');
+        $ratings = Feedback::selectRaw('Count(rating) as total_rating, rating')
+            ->groupBy('rating')
+            ->orderBy('rating', 'desc')
+            ->get();
+
+        $temp = collect($ratings->toArray());
+
+        for($x = 1; $x < 6; $x++){
+            if(!$temp->contains('rating', $x)){
+                $temp->push(['total_rating' => 0, 'rating' => $x]);
+            }
+        }
+
+        $ratings = $temp->sortByDesc('rating');
 
         $min_price = Package::min('price');
         $max_price = Package::max('price');
+
+        $items = Item::where('user_id', $id)->get();
 
         $query = Package::selectRaw("packages.*, users.name as user, users.phone_number as phone, CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address")
             ->join('users', 'packages.user_id', 'users.id')
@@ -64,7 +82,6 @@ class StoreController extends Controller
 
         $packages = $query->paginate(6);
 
-        $items = Item::where('user_id', $id)->get();
         $categoryRules = CategoryRule::selectRaw("category_rules.*, categories.name as category_name")
             ->join('categories', 'category_rules.category_id', '=', 'categories.id')
             ->whereIn('package_id', $packages->pluck('id')->toArray())
@@ -76,7 +93,9 @@ class StoreController extends Controller
             'items', 
             'categoryRules',
             'max_price', 
-            'min_price'
+            'min_price',
+            'avg_rating',
+            'ratings'
         ]));
     }
 
