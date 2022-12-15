@@ -94,7 +94,6 @@
                         <select name="role" class="form-control" required>
                             <option value="USER">USER</option>
                             <option value="SELLER">SELLER</option>
-                            <option value="ADMIN">ADMIN</option>
                         </select>
                     </div>
 

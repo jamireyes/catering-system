@@ -89,18 +89,9 @@ class ShopController extends Controller
     public function search(Request $request) 
     {
         if($request->ajax()){
-            $data = Package::where('name', 'like', '%'.$request->search.'%')->get();
-
-            $output = '';
-            if($data->isNotEmpty()){
-                foreach($data as $d){
-                    $output .= '<div class="search-item" data-id="'.$d->id.'">'.$d->name.'</div>';
-                }
-            }else {
-                $output .= '<div class="search-item">No results</div>';
-            }
+            $query = Package::where('name', 'like', '%'.$request->search.'%')->get();
         }
 
-        return $output;
+        return response()->json($query);
     }
 }

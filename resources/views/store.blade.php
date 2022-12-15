@@ -125,7 +125,7 @@
                                         <div>
                                             {{ $packages->links() }}
                                         </div>
-                                        {{-- <div class="search-container">
+                                        <div class="search-container">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">
@@ -135,7 +135,7 @@
                                                 <input type="search" class="search form-control">
                                             </div>
                                             <span class="search-box"></span>
-                                        </div> --}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -256,7 +256,18 @@
                 $('#filter-form').submit()
             })
 
-            $('.search').on('keyup', function(){
+            function delay(callback, ms) {
+                var timer = 0;
+                return function() {
+                    var context = this, args = arguments;
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        callback.apply(context, args);
+                    }, ms || 0);
+                };
+            }
+
+            $('.search').keyup(delay(function (e) {
                 var query = $(this).val();
 
                 if(query.length > 0){
@@ -265,7 +276,11 @@
                         type: 'GET',
                         data: { 'search': query },
                         success: function(data) {
-                            $('.search-box').html(data)
+                            var temp = '';
+                            for(let row of data){
+                                temp += `<div class="search-item" aria-id="${row.id}" onclick="clickMe(${row.id})">${row.name}</div>`
+                            }
+                            $('.search-box').html(temp);
                         },
                     })
                 }else{
@@ -273,11 +288,8 @@
                         $('.search-box').empty()
                     }, 200)
                 }
-            })
+            }, 500));
 
-            $('.search-box .search-item').click(function(){
-                
-            })
 
             $('.search-container-mobile .btn-light').click(function() {
                 $('.overlay').toggle();
@@ -301,5 +313,10 @@
                 $('.search').keyup();
             })
         })
+    </script>
+    <script>
+        function clickMe(id) {
+            window.location.assign(`/shop/${id}`)
+        }
     </script>
 @endpush
