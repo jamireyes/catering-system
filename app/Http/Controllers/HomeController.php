@@ -30,7 +30,7 @@ class HomeController extends Controller
             ->join('packages', 'orders.package_id', 'packages.id');
 
         // Monthly Sales Chart - query
-        $monthly_sales_query = Order::selectRaw("date_format(orders.created_at, '%m') as month, SUM(packages.price) as total_orders")
+        $monthly_sales_query = Order::selectRaw("date_format(orders.created_at, '%m') as month, COUNT(orders.id) as total_orders, SUM(orders.subtotal - IFNULL(orders.discount, 0)) as total_sales, SUM((orders.subtotal - IFNULL(orders.discount, 0)) - packages.cost_price) as total_profits")
             ->join('packages', 'orders.package_id', 'packages.id')
             ->groupBy('month')
             ->orderBy('month');
@@ -85,7 +85,7 @@ class HomeController extends Controller
 
         for($x = 1;$x <= 12; $x++){
             if(!$ms_collection->contains('month', $x)){
-                $ms_collection->push(['month' => $x, 'total_orders' => 0]);
+                $ms_collection->push(['month' => $x, 'total_orders' => 0, 'total_sales' => 0, 'total_profits' => 0]);
             }
         } 
 
@@ -94,11 +94,15 @@ class HomeController extends Controller
         $monthly_sales = $ms_collection->map(function($item){
             return collect([
                 'month' => date("F", mktime(0, 0, 0, (int)$item['month'], 10)),
-                'total_orders' => $item['total_orders']
+                'total_orders' => $item['total_orders'],
+                'total_sales' => $item['total_sales'],
+                'total_profits' => $item['total_profits']
             ]);
         });
 
-        $monthly_sales_data = $monthly_sales->pluck('total_orders');
+        $monthly_total_orders = $monthly_sales->pluck('total_orders');
+        $monthly_total_sales = $monthly_sales->pluck('total_sales');
+        $monthly_total_profits = $monthly_sales->pluck('total_profits');
 
         return view('pages.dashboard', compact([
             'monthly_sale', 
@@ -106,7 +110,9 @@ class HomeController extends Controller
             'total_users', 
             'total_packages', 
             'monthly_users_data',
-            'monthly_sales_data',
+            'monthly_total_orders',
+            'monthly_total_sales',
+            'monthly_total_profits'
         ]));
     }
 }

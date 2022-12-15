@@ -618,6 +618,11 @@ ol.breadcrumb {
     margin-right: 0.5rem!important;
 }
 
+.card-stats .card-title {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
 #nav-auth a.nav-link {
     color: var(--gray);
 }
