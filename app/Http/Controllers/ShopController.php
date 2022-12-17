@@ -38,7 +38,7 @@ class ShopController extends Controller
             $query = $query->where('occasion_id', $request->filter_occasion);
         }
 
-        $packages = $query->paginate(6);         
+        $packages = $query->paginate(8);         
 
         $items = Item::all();
         $categoryRules = DB::table('category_rules')

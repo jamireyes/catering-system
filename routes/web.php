@@ -14,6 +14,7 @@ use App\Http\Controllers\OccasionController;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\VoucherController;
 
 use App\Notifications\WelcomeUser;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -68,6 +69,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	Route::resource('occasion', OccasionController::class);
 	Route::post('occasion/{occasion}/restore', [OccasionController::class, 'restore'])->name('occasion.restore');
+	
+	Route::resource('voucher', VoucherController::class)->only(['index', 'store', 'destroy']);
+	Route::post('voucher/{voucher}/restore', [VoucherController::class, 'restore'])->name('voucher.restore');
+	Route::post('voucher/redeem', [VoucherController::class, 'redeem'])->name('voucher.redeem');
 });
 
 // Route::group(['middleware' => ['protected_by_invite_codes']], function () {

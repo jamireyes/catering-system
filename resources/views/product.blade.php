@@ -72,16 +72,18 @@
                     <div class="card border rounded">
                         <div class="p-4">
                             <div class="d-flex justify-content-between">
-                                <p class="mb-0">
-                                    <a class="text-dark" href="{{ route('store.show', ['store' => $p->cater_id]) }}">{{ $p->name }}</a>
-                                </p>
+                                <p class="text-dark mb-0">{{ $p->name }}</p>
                                 <p class="mb-0">{{ $p->pax }} PAX</p>
                             </div>
                             <hr>
                             <table class="product-details">
                                 <tr>
                                     <td><i class="nc-icon nc-shop"></i></td>
-                                    <td>{{ $p->user }}</td>
+                                    <td>
+                                        <a class="text-dark" href="{{ route('store.show', ['store' => $p->cater_id]) }}">
+                                            <u>{{ $p->user }}</u>
+                                        </a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><i class="nc-icon nc-pin-3"></i></td>

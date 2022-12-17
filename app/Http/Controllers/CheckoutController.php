@@ -50,7 +50,7 @@ class CheckoutController extends Controller
         }
 
         if($request->discount){
-            Cart::setGlobalDiscount(10);
+            Cart::setGlobalDiscount($request->discount);
         }
 
         Cart::add([

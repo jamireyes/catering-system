@@ -26,7 +26,7 @@
             </div>
             <div class="row mt-4">
                 <div class="col-md-8">
-                    <h5>Checkout</h5>
+                    <h5 class="text-lg">Checkout</h5>
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" name="name" placeholder="Juan Dela Cruz" value="{{ Auth::user()->name }}" required>
@@ -90,14 +90,32 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <h5>Package Information</h5>
+                    <h5 class="text-lg">Order Summary</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="form-group" action="{{ route('voucher.redeem') }}" method="POST">
+                                @csrf
+                                <label>Redeem Voucher</label>
+                                <div class="d-flex">
+                                    <input type="text" class="form-control" name="voucher">
+                                    <button type="submit" class="btn btn-sm btn-primary ml-2 m-0">Apply</button>
+                                </div>
+                                @if (session('coupon_success'))  
+                                    <small class="text-success">{{ session('coupon_success') }}</small>
+                                @endif
+                                @if(session('coupon_error'))
+                                    <small class="text-danger">{{ session('coupon_error') }}</small>
+                                @endif
+                            </form>
+                        </div>
+                    </div>
                     <div class="card border rounded">
                         <div class="card-body">                         
                             <div class="m-2">
                                 <div class="text-center">
                                     @foreach (Cart::content() as $row)
                                         @if($row->id == 'package')
-                                            <h5 class="card-title">{{ $row->name }}</h5>
+                                            <h5 class="card-title text-lg">{{ $row->name }}</h5>
                                             <p class="mb-1">{{ $row->options->user }}</p>
                                             <small class="mb-0 text-muted">({{ $row->options->pax }} PAX)</small>
                                         @endif
@@ -131,6 +149,10 @@
                                                         <td>{{ __('Subtotal') }}</td>
                                                         <td>₱ {{ Cart::initial() }}</td>
                                                     </tr>
+                                                    {{-- <tr>
+                                                        <td>{{ __('Tax') }}</td>
+                                                        <td>₱ {{ Cart::tax() }}</td>
+                                                    </tr> --}}
                                                     <tr>
                                                         <td>{{ __('Discount') }} </td>
                                                         <td>

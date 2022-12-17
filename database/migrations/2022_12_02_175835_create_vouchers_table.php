@@ -21,6 +21,7 @@ class CreateVouchersTable extends Migration
             $table->text('data')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create($pivotTable, function (Blueprint $table) use ($voucherTable) {
