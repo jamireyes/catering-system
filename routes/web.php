@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 Route::get('register-admin', [InviteController::class, 'showInviteRegistration'])->name('invite.showInviteRegistration');
 Route::post('generate-invite', [InviteController::class, 'generateInvite'])->name('invite.generateInvite');
+Route::post('register-admin', [InviteController::class, 'store'])->name('invite.store');
 
 Route::resource('store', StoreController::class);
 Route::resource('feedback', FeedbackController::class);

@@ -11,7 +11,7 @@
                     <h4 >{{ __('Sign Up') }}</h4>
                     <p class="text-muted">Create an <span class="text-warning">administration</span> account!</p>
                 </div>
-                <form class="form" method="POST" action="">
+                <form class="form" method="POST" action="{{ route('invite.store') }}">
                     @csrf
                     <input type="hidden" name="code" value="{{ request()->get('code') }}">
                     <div class="input-group{{ $errors->has('name') ? ' has-danger' : '' }}">
@@ -104,6 +104,7 @@
                         <button type="submit" class="btn btn-warning my-4">{{ __('Get Started') }}</button>
                     </div>
                 </form>
+                @include('components.alerts')
             </div>
         </div>
     </div> 
