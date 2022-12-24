@@ -16,6 +16,10 @@ class VoucherController extends Controller
 {
     public function index()
     {
+        if(Auth::user()->role == 'USER' || Auth::user()->role == 'ADMIN'){
+            return back();
+        }
+        
         $vouchers = Voucher::withTrashed()->paginate(10);
         $packages = Package::select('id as package_id', 'name as package_name')->get();
 

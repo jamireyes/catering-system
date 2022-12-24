@@ -95,20 +95,33 @@
                                             <div class="d-flex justify-content-between">
                                                 <h5>{{ $order->package_name }} ({{ $order->pax }} pax)</h5>
                                                 <div class="d-flex flex-column text-right">
-                                                    @if (Auth::user()->role != 'USER')
-                                                        <form class="form-inline mb-2" action="{{ route('order.update', ['order' => $order->order_id]) }}" method="POST">
-                                                            @method('PUT')
+                                                    <div class="d-flex flex-row">
+                                                        @if (Auth::user()->role != 'USER')
+                                                            <form class="form-inline mb-2" action="{{ route('order.update', ['order' => $order->order_id]) }}" method="POST">
+                                                                @method('PUT')
+                                                                @csrf
+                                                                <div class="form-group">
+                                                                    <select class="custom-select custom-select-sm" name="status">
+                                                                        <option value="CONFIRMED" @if ($order->status == 'CONFIRMED') selected @endif>CONFIRMED</option>
+                                                                        <option value="PENDING" @if ($order->status == 'PENDING') selected @endif>PENDING</option>
+                                                                        <option value="CANCELLED" @if ($order->status == 'CANCELLED') selected @endif>CANCELLED</option>
+                                                                    </select>
+                                                                </div>
+                                                                <button class="btn btn-sm btn-icon btn-info ml-2 m-0"><i class="fa-solid fa-rotate-right"></i></button>
+                                                            </form>
+                                                        @endif
+
+                                                        <form action="{{ route('order.exportToPDF') }}" method="POST">
                                                             @csrf
-                                                            <div class="form-group">
-                                                                <select class="custom-select custom-select-sm" name="status">
-                                                                    <option value="CONFIRMED" @if ($order->status == 'CONFIRMED') selected @endif>CONFIRMED</option>
-                                                                    <option value="PENDING" @if ($order->status == 'PENDING') selected @endif>PENDING</option>
-                                                                    <option value="CANCELLED" @if ($order->status == 'CANCELLED') selected @endif>CANCELLED</option>
-                                                                </select>
-                                                            </div>
-                                                            <button class="btn btn-sm btn-icon btn-info ml-2 m-0"><i class="fa-solid fa-rotate-right"></i></button>
+                                                            <input type="hidden" name="download" value="pdf">
+                                                            <input type="hidden" name="id" value="{{ $order->order_id }}">
+                                                            <button type="submit" class="btn btn-sm btn-icon btn-info ml-2 m-0">
+                                                                <div class="d-flex justify-content-center align-items-center h-100">
+                                                                    <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2.7" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                                                </div>
+                                                            </button>
                                                         </form>
-                                                    @endif
+                                                    </div>
                                                     <small class="text-muted"><strong>Date:</strong> {{ $order->order_date }}</small>
                                                     <small class="text-muted"><strong>Order No.:</strong> {{ $order->order_id }}</small>
                                                 </div>

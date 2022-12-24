@@ -8,9 +8,10 @@ use App\Models\OrderItem;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Session;
 use Cart;
 use Auth;
-use Session;
+use PDF;
 
 class OrderController extends Controller
 {        
@@ -117,5 +118,54 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function exportToPDF(Request $request)
+    {
+        if(!$request->has('download') && !$request->has('id')){
+            abort(404);
+        }
+        
+        $id = $request->id;
+
+        $orders = Order::selectRaw("
+                orders.id as order_id,
+                DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date,
+                orders.subtotal as subtotal,
+                orders.discount as discount,
+                orders.status as status,
+                c.id as user_id,
+                c.name as c_name,
+                c.phone_number as c_contact,
+                c.email as c_email,
+                CONCAT_WS(' ', c.address_1, c.address_2, c.city, c.state, c.zipcode) as c_address,
+                u.name as u_name,
+                u.phone_number as u_contact,
+                u.email as u_email,
+                CONCAT_WS(' ', u.address_1, u.address_2, c.city, u.state, u.zipcode) as u_address,
+                packages.name as package_name, 
+                packages.pax,
+                packages.inclusion
+            ")
+            ->join('packages', 'orders.package_id', 'packages.id')
+            ->join('users AS c', 'packages.user_id', 'c.id')
+            ->join('users AS u', 'orders.user_id', 'u.id')
+            ->where('orders.id', $id)
+            ->get();
+
+        $order_id = $orders->pluck('order_id');
+        $user_id = $orders->pluck('user_id');
+
+        $items = Item::selectRaw('items.name as name, order_items.quantity as qty, categories.name as category')
+            ->join('order_items', 'items.id', 'order_items.item_id')
+            ->join('categories', 'items.category_id', 'categories.id')
+            ->where('order_items.order_id', $order_id)
+            ->get();
+        $categories = Category::select('name')->where('user_id', $user_id)->get();
+
+        $pdf = PDF::loadView('components.order-to-pdf', compact(['orders', 'items', 'categories']))->setOptions(['defaultFont' => 'sans-serif']);
+
+        // return $pdf->download('sample.pdf');
+        return view('components.order-to-pdf', compact(['orders', 'items', 'categories']));
     }
 }

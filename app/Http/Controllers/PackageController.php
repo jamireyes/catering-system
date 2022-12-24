@@ -41,7 +41,7 @@ class PackageController extends Controller
     // Displays the packages
     public function index()
     {
-        if(Auth::user()->role == 'USER'){
+        if(Auth::user()->role == 'USER' || Auth::user()->role == 'ADMIN'){
             return back();
         }
 
@@ -76,6 +76,10 @@ class PackageController extends Controller
     // Show the add package page
     public function create()
     {
+        if(Auth::user()->role == 'USER' || Auth::user()->role == 'ADMIN'){
+            return back();
+        }
+
         $categories = Category::where('user_id', Auth::id())->get();
         $occasions = Occasion::select('id', 'name')->get();
 
@@ -120,15 +124,12 @@ class PackageController extends Controller
         return redirect()->route('package.index')->with('success', $message);
     }
 
-    // 
-    public function show(Package $package)
-    {
-        //
-    }
-
     // Shows the edit package page
     public function edit($id)
     {
+        if(Auth::user()->role == 'USER' || Auth::user()->role == 'ADMIN'){
+            return back();
+        }
 
         if(Auth::user()->role != 'ADMIN'){
             $packages = DB::table('packages')

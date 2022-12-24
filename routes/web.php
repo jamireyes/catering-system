@@ -15,6 +15,7 @@ use App\Http\Controllers\InviteController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\TeamController;
 
 use App\Notifications\WelcomeUser;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -63,8 +64,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	
 	Route::resource('item', ItemController::class);
 	Route::post('item/{item}/restore', [ItemController::class, 'restore'])->name('item.restore');
+	
 	Route::resource('order', OrderController::class);
-	Route::resource('package', PackageController::class);
+	Route::post('order/export', [OrderController::class, 'exportToPDF'])->name('order.exportToPDF');
+
+	Route::resource('package', PackageController::class)->except(['show']);
 	Route::post('package/{package}/restore', [PackageController::class, 'restore'])->name('package.restore');
 
 	Route::resource('occasion', OccasionController::class);
@@ -73,10 +77,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::resource('voucher', VoucherController::class)->only(['index', 'store', 'destroy']);
 	Route::post('voucher/{voucher}/restore', [VoucherController::class, 'restore'])->name('voucher.restore');
 	Route::post('voucher/redeem', [VoucherController::class, 'redeem'])->name('voucher.redeem');
-});
 
-// Route::group(['middleware' => ['protected_by_invite_codes']], function () {
-// });
+	Route::resource('team', TeamController::class);
+});
 
 Route::get('register-admin', [InviteController::class, 'showInviteRegistration'])->name('invite.showInviteRegistration');
 Route::post('generate-invite', [InviteController::class, 'generateInvite'])->name('invite.generateInvite');

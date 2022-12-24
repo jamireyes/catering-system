@@ -18,25 +18,25 @@ class CategorySeeder extends Seeder
     {
         Category::insert([
             [
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Appetizer',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Main Course',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Dessert',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Beverage',
                 'created_at' => now(),
                 'updated_at' => now(),

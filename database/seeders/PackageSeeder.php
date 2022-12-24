@@ -18,7 +18,7 @@ class PackageSeeder extends Seeder
     {
         Package::insert([
             [
-                'user_id' => 1, 
+                'user_id' => 13, 
                 'name' => 'Wedding Package A', 
                 'pax' => 10, 
                 'cost_price' => '5000.00',
@@ -30,7 +30,7 @@ class PackageSeeder extends Seeder
                 'updated_at' => '2022-08-26 06:27:32'
             ],
             [
-                'user_id' => 1, 
+                'user_id' => 13, 
                 'name' => 'Wedding Package B', 
                 'pax' => 20, 
                 'cost_price' => '10000.00',
@@ -42,7 +42,7 @@ class PackageSeeder extends Seeder
                 'updated_at' => '2022-08-26 06:28:03'
             ],
             [
-                'user_id' => 1, 
+                'user_id' => 13, 
                 'name' => 'Wedding Package C', 
                 'pax' => 30, 
                 'cost_price' => '15000.00',
@@ -90,7 +90,7 @@ class PackageSeeder extends Seeder
                 'updated_at' => '2022-08-26 06:52:47'
             ],
             [
-                'user_id' => 1, 
+                'user_id' => 13, 
                 'name' => 'Package A', 
                 'pax' => 100, 
                 'cost_price' => '50000.00',

@@ -20,7 +20,7 @@ class ItemSeeder extends Seeder
             // Appetizer        
             [
                 'category_id' => 1,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Chicharon',
                 'description' => 'Chicharon',
                 'created_at' => now(),
@@ -28,7 +28,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'category_id' => 1,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Fresh Lumpia',
                 'description' => 'Fresh Lumpia',
                 'created_at' => now(),
@@ -36,7 +36,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'category_id' => 1,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Lumpia Shanghai',
                 'description' => 'Lumpia Shanghai',
                 'created_at' => now(),
@@ -45,7 +45,7 @@ class ItemSeeder extends Seeder
             // Main Course
             [
                 'category_id' => 2,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Filipino Beef Steak',
                 'description' => 'Filipino Beef Steak',
                 'created_at' => now(),
@@ -53,7 +53,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'category_id' => 2,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Lechon Baboy',
                 'description' => 'Lechon Baboy',
                 'created_at' => now(),
@@ -61,7 +61,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'category_id' => 2,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Beef Kare-Kare',
                 'description' => 'Beef Kare-Kare',
                 'created_at' => now(),
@@ -70,7 +70,7 @@ class ItemSeeder extends Seeder
             // Dessert
             [
                 'category_id' => 3,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Ice Cream',
                 'description' => 'Ice Cream',
                 'created_at' => now(),
@@ -78,7 +78,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'category_id' => 3,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Black Forest Cake',
                 'description' => 'Black Forest Cake',
                 'created_at' => now(),
@@ -86,7 +86,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'category_id' => 3,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Leche Flan',
                 'description' => 'Leche Flan',
                 'created_at' => now(),
@@ -95,7 +95,7 @@ class ItemSeeder extends Seeder
             // Beverage
             [
                 'category_id' => 4,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Soft Drinks',
                 'description' => 'Soft Drinks',
                 'created_at' => now(),
@@ -103,7 +103,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'category_id' => 4,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Iced Tea',
                 'description' => 'Iced Tea',
                 'created_at' => now(),
@@ -111,7 +111,7 @@ class ItemSeeder extends Seeder
             ],
             [
                 'category_id' => 4,
-                'user_id' => 1,
+                'user_id' => 13,
                 'name' => 'Beer',
                 'description' => 'Beer',
                 'created_at' => now(),
