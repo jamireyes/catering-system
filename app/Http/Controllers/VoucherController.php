@@ -46,14 +46,14 @@ class VoucherController extends Controller
     {
         $voucher = Voucher::find($id)->delete();
 
-        return back()->with('success', 'Successfully removed the voucher');
+        return back()->with('warning', 'Successfully removed the voucher');
     }
 
     public function restore($id)
     {
         $voucher = Voucher::withTrashed()->find($id)->restore();
 
-        return back()->with('success', 'Successfully restored the voucher');
+        return back()->with('warning', 'Successfully restored the voucher');
     }
 
     public function redeem(Request $request)

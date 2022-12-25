@@ -32,7 +32,6 @@ class CategoryController extends Controller
         }elseif(Auth::user()->role == 'SELLER'){
             $categories = DB::table('categories')
                 ->where('user_id', Auth::id())
-                ->where('deleted_at', NULL)
                 ->paginate(10);
         }else{
             back();
@@ -86,7 +85,7 @@ class CategoryController extends Controller
 
         $message = 'Successfully deleted '.$category->name.'!';
 
-        return back()->with('info', $message);
+        return back()->with('warning', $message);
     }
 
     // Restore the specified category.
@@ -97,6 +96,6 @@ class CategoryController extends Controller
 
         $message = 'Successfully restored '.$category->name.'!';
 
-        return back()->with('info', $message);
+        return back()->with('warning', $message);
     }
 }

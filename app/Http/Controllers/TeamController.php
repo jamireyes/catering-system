@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Team;
 use App\Models\Member;
+use App\Models\Order;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TeamController extends Controller
 {
@@ -16,10 +18,10 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = Team::select('id', 'order_id')->get();
-        $members = Member::select('name', 'role')->get();
+        $teams = Team::select('id', 'order_id', 'deleted_at')->withTrashed()->get();
+        $members = Member::select('id', 'team_id', 'name', 'role', 'deleted_at')->withTrashed()->get();
 
-        return view('pages.teams.index')->with('teams');
+        return view('pages.teams.index', compact(['teams', 'members']));
     }
 
     /**
@@ -29,7 +31,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('pages.teams.create');
+        //
     }
 
     /**
@@ -42,63 +44,35 @@ class TeamController extends Controller
     {
         $request->validate([
             'order_id' => 'required',
-            'name' => 'required',
-            'role' => 'required'
         ]);
+
+        try {
+            $order = Order::findOrFail($request->order_id);
+        } catch(ModelNotFoundException $e) {
+            return back()->with('error', 'Record not found');
+        }
 
         $team = new Team;
         $team->order_id = $request->order_id;
-        $team->name = $request->name;
-        $team->role = $request->role;
         $team->save();
 
-        $message = 'Successfully added '.Str::upper($request->name).'!';
+        $message = 'Successfully created a new team for Order #'.$request->order_id;
 
         return back()->with('success', $message);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Team $team)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Team $team)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Team $team)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Team $team)
     {
-        //
+        $team->delete();
+
+        return back()->with('warning', 'Successfully removed team');
+    }
+
+    public function restore($id)
+    {
+        $team = Team::withTrashed()->find($id);
+        $team->restore();
+
+        return back()->with('warning', 'Successfully restored team');
     }
 }

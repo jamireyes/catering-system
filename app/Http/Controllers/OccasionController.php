@@ -66,7 +66,7 @@ class OccasionController extends Controller
 
         $message = 'Successfully deleted '.$occasion->name.'!';
 
-        return back()->with('info', $message);
+        return back()->with('warning', $message);
     }
 
     public function restore($id)
@@ -76,6 +76,6 @@ class OccasionController extends Controller
 
         $message = 'Successfully restored '.$occasion->name.'!';
 
-        return back()->with('info', $message);
+        return back()->with('warning', $message);
     }
 }

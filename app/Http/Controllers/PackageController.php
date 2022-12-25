@@ -61,12 +61,10 @@ class PackageController extends Controller
             $categoryRules = $categoryRule_query->get();
         }else{
             $packages = $package_query->where('user_id', Auth::id())
-                ->where('packages.deleted_at', NULL)
                 ->paginate(8);
             $items = Item::where('user_id', Auth::id())->get();
             $categoryRules = $categoryRule_query->join('packages', 'category_rules.package_id', '=', 'packages.id')
                 ->where('packages.user_id', Auth::id())
-                ->where('category_rules.deleted_at', NULL)
                 ->get();
         }
 
@@ -202,7 +200,7 @@ class PackageController extends Controller
 
         $message = 'Successfully deleted '.$package->name.'!';
 
-        return back()->with('info', $message);
+        return back()->with('warning', $message);
     }
 
     // Restores packages
@@ -214,6 +212,6 @@ class PackageController extends Controller
 
         $message = 'Successfully restored '.$package->name.'!';
 
-        return back()->with('info', $message);
+        return back()->with('warning', $message);
     }
 }

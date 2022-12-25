@@ -26,7 +26,7 @@
                             <span class="caret" style="top:auto;"></span>
                         </p>
                     </a>
-                    <div class="collapse show" id="inventoryNav">
+                    <div class="collapse" id="inventoryNav">
                         <ul class="nav">
                             <li class="{{ $elementActive == 'item' ? 'active' : '' }}">
                                 <a href="{{ route('item.index') }}" class="d-flex align-items-center">
@@ -61,6 +61,12 @@
                         <p>{{ __('Vouchers') }}</p>
                     </a>
                 </li>
+                <li class="{{ $elementActive == 'team' ? 'active' : '' }}">
+                    <a href="{{ route('team.index') }}">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <p>{{ __('Team') }}</p>
+                    </a>
+                </li>
             @endif
 
             @if (Auth::user()->role == 'ADMIN')
@@ -84,7 +90,7 @@
                             <span class="caret" style="top:auto;"></span>
                         </p>
                     </a>
-                    <div class="collapse show" id="inventoryNav">
+                    <div class="collapse" id="inventoryNav">
                         <ul class="nav">
                             <li class="{{ $elementActive == 'item' ? 'active' : '' }}">
                                 <a href="{{ route('item.index') }}" class="d-flex align-items-center">
@@ -125,7 +131,7 @@
             @endif
             <li class="{{ $elementActive == 'order' ? 'active' : '' }}">
                 <a href="{{ route('order.index') }}">
-                    <i class="nc-icon nc-single-copy-04"></i>
+                    <i class="fa-regular fa-file-lines"></i>
                     <p>{{ __('Order History') }}</p>
                 </a>
             </li>

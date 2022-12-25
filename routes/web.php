@@ -16,6 +16,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\MemberController;
 
 use App\Notifications\WelcomeUser;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -79,6 +80,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('voucher/redeem', [VoucherController::class, 'redeem'])->name('voucher.redeem');
 
 	Route::resource('team', TeamController::class);
+	Route::post('team/{team}/restore', [TeamController::class, 'restore'])->name('team.restore');
+
+	Route::resource('member', MemberController::class);
+	Route::post('member/{member}/restore', [MemberController::class, 'restore'])->name('member.restore');
 });
 
 Route::get('register-admin', [InviteController::class, 'showInviteRegistration'])->name('invite.showInviteRegistration');

@@ -1140,3 +1140,19 @@ button[value="Upload"] {
 .comment-body {
     margin-bottom: 0!important;
 }
+
+.team-card .btn-xs {
+    font-size: 0.7rem !important;
+    border-radius: 3px !important;
+    padding: 5px 8px !important;
+}
+
+.team-table td, .team-table th {
+    padding-top: .3rem !important;
+    padding-bottom: .3rem !important;
+}
+
+.team-table td:nth-child(1), .team-table th:nth-child(1) {
+    padding-right: 1px !important;
+    padding-left: 1px !important;
+}

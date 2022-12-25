@@ -37,7 +37,6 @@ class ItemController extends Controller
                 ->join('categories', 'items.category_id', '=', 'categories.id')
                 ->select('items.*', 'categories.name as category_name')
                 ->where('items.user_id', Auth::id())
-                ->where('items.deleted_at', NULL)
                 ->paginate(10);
 
         }else{
@@ -106,7 +105,7 @@ class ItemController extends Controller
 
         $message = 'Successfully deleted '.$item->name.'!';
 
-        return back()->with('info', $message);
+        return back()->with('warning', $message);
     }
 
     // Restores the item
@@ -117,6 +116,6 @@ class ItemController extends Controller
 
         $message = 'Successfully restored '.$item->name.'!';
 
-        return back()->with('info', $message);
+        return back()->with('warning', $message);
     }
 }
