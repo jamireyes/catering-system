@@ -52,16 +52,6 @@ class OrderSeeder extends Seeder
                 'status'=> 'PENDING',
                 'subtotal' => '100000.00',
             ],
-            [
-                'user_id' => 3, 
-                'package_id' => 1, 
-                'created_at' => '2022-10-01 23:46:36',
-                'updated_at' => '2022-10-01 23:46:36',
-                'deleted_at' => NULL,
-                'discount' => 1000,
-                'status'=> 'PENDING',
-                'subtotal' => '10000.00',
-            ],
         ]);
           
     

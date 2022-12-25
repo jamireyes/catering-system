@@ -148,12 +148,16 @@
                                         <div class="order-body">
                                             <div class="order-package">
                                                 @foreach ($categories as $c)
-                                                    <p class="mb-2 text-xs">{{ $c->name }}</p>
-                                                    @foreach ($items as $item)
-                                                        @if ($item->category == $c->name)
-                                                            <p class="ml-3 mb-2 text-xs font-weight-light">{{ $item->name }}<small class="mb-1 text-muted"> x {{ $item->qty }}</small></p>
+                                                    @if ($order->package_id == $c->package_id)
+                                                        <p class="mb-2 text-xs">{{ $c->name }}</p>
+                                                        @foreach ($items as $item)
+                                                        @if ($item->order_id == $order->order_id)
+                                                            @if ($item->category == $c->name)
+                                                                <p class="ml-3 mb-2 text-xs font-weight-light">{{ $item->name }}<small class="mb-1 text-muted"> x {{ $item->qty }}</small></p>
+                                                            @endif
                                                         @endif
-                                                    @endforeach
+                                                        @endforeach
+                                                    @endif
                                                 @endforeach
                                                                                 
                                                 @if ($order->inclusion != NULL)    
@@ -169,7 +173,7 @@
                                                         </tr>
                                                         <tr>
                                                             @if ($order->discount)
-                                                                <td>Discount ({{ $order->discount }}% OFF)</td>
+                                                                <td>Discount</td>
                                                                 <td>- {{ number_format($order->discount, 2, '.', ',') }}</td>
                                                             @else
                                                                 <td>Discount</td>

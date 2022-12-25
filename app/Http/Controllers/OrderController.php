@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Item;
 use App\Models\OrderItem;
 use App\Models\Category;
+use App\Models\CategoryRule;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Session;
@@ -34,6 +35,7 @@ class OrderController extends Controller
                 u.phone_number as u_contact,
                 u.email as u_email,
                 CONCAT_WS(' ', u.address_1, u.address_2, c.city, u.state, u.zipcode) as u_address,
+                packages.id as package_id,
                 packages.name as package_name, 
                 packages.pax,
                 packages.inclusion
@@ -63,18 +65,20 @@ class OrderController extends Controller
         $count = $orders->count();
 
         if(!$orders->isEmpty()){
-            foreach($orders as $order){
-                $user_id = $order->user_id;
-                $order_id = $order->order_id;
-            }
-
-            $items = Item::selectRaw('items.name as name, order_items.quantity as qty, categories.name as category')
+            $user_id = $orders->pluck('user_id');
+            $order_id = $orders->pluck('order_id');
+            $package_id = $orders->pluck('package_id');
+                
+            $items = Item::selectRaw('order_items.order_id as order_id, items.name as name, order_items.quantity as qty, categories.name as category')
                 ->join('order_items', 'items.id', 'order_items.item_id')
                 ->join('categories', 'items.category_id', 'categories.id')
-                ->where('order_items.order_id', $order_id)
+                ->whereIn('order_items.order_id', $order_id)
                 ->get();
 
-            $categories = Category::select('name')->where('user_id', $user_id)->get();
+            $categories = CategoryRule::selectRaw('name, package_id')
+                ->join('categories', 'category_rules.category_id', 'categories.id')
+                ->whereIn('category_rules.package_id', $package_id)
+                ->get();
 
             return view('pages.orders.index', compact(['orders', 'items', 'categories', 'count']));
         }else{
@@ -143,6 +147,7 @@ class OrderController extends Controller
                 u.phone_number as u_contact,
                 u.email as u_email,
                 CONCAT_WS(' ', u.address_1, u.address_2, c.city, u.state, u.zipcode) as u_address,
+                packages.id as package_id,
                 packages.name as package_name, 
                 packages.pax,
                 packages.inclusion
@@ -153,19 +158,23 @@ class OrderController extends Controller
             ->where('orders.id', $id)
             ->get();
 
-        $order_id = $orders->pluck('order_id');
         $user_id = $orders->pluck('user_id');
+        $order_id = $orders->pluck('order_id');
+        $package_id = $orders->pluck('package_id');
 
-        $items = Item::selectRaw('items.name as name, order_items.quantity as qty, categories.name as category')
+        $items = Item::selectRaw('order_items.order_id as order_id, items.name as name, order_items.quantity as qty, categories.name as category')
             ->join('order_items', 'items.id', 'order_items.item_id')
             ->join('categories', 'items.category_id', 'categories.id')
-            ->where('order_items.order_id', $order_id)
+            ->whereIn('order_items.order_id', $order_id)
             ->get();
-        $categories = Category::select('name')->where('user_id', $user_id)->get();
 
-        $pdf = PDF::loadView('components.order-to-pdf', compact(['orders', 'items', 'categories']))->setOptions(['defaultFont' => 'sans-serif']);
+        $categories = CategoryRule::selectRaw('name, package_id')
+            ->join('categories', 'category_rules.category_id', 'categories.id')
+            ->whereIn('category_rules.package_id', $package_id)
+            ->get();
 
-        // return $pdf->download('sample.pdf');
-        return view('components.order-to-pdf', compact(['orders', 'items', 'categories']));
+        $pdf = PDF::loadView('components.order-to-pdf', compact(['orders', 'items', 'categories']))->setOptions(['defaultFont' => 'sans-serif'])->setPaper('letter', 'landscape');
+
+        return $pdf->download('order.pdf');
     }
 }
