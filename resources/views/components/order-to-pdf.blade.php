@@ -33,8 +33,12 @@
             color: #6c757d;
         }
 
-        h4, h5, h6, p {
+        h3, h4, h5, h6, p {
             margin-top: 0;
+        }
+
+        .order-header h3 {
+            margin: 0;
         }
 
         hr {
@@ -81,20 +85,21 @@
             margin-bottom: .3rem;
         }
 
+        .order-header tr td {
+            vertical-align: text-top;
+            padding-right: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-left: 0;
+        }
+
         .order-cater-info tr td:first-child {
             vertical-align: text-top;
             padding-right: 2.5rem;
             padding-top: 0;
             padding-bottom: 0;
             padding-left: 0;
-        }
-
-        /* .order-body {
-            display: inline-block;
-            vertical-align: middle;
-            margin-top: 1rem;
-            gap: 0 1.5rem;
-        } */
+        }   
 
         .order-package {
             padding: 1rem;
@@ -116,9 +121,12 @@
         }
 
         .order-summary .grand-total {
-            font-weight: 600;
             color: #28a745;
         }   
+
+        .curreny-symbol {
+            font-family: DejaVu Sans !important;
+        }
     </style>
 </head>
 <body>
@@ -131,7 +139,7 @@
                         <table style="width: 100%;">
                             <tr>
                                 <td>
-                                    <h4>{{ $order->package_name }} ({{ $order->pax }} pax)</h4>
+                                    <h3>{{ $order->package_name }} ({{ $order->pax }} pax)</h3>
                                 </td>
                                 <td align="right">
                                     <small class="text-muted"><strong>Date:</strong> {{ $order->order_date }}</small>
@@ -145,7 +153,7 @@
                             </tr>
                         </table>
                         <div class="order-cater-info">
-                            <p class="font-weight-bold">{{ $order->c_name }}</p>
+                            <h4>{{ $order->c_name }}</h4>
                             <table>
                                 <tr>
                                     <td>Address:</td>
@@ -156,7 +164,7 @@
                                 <tr>
                                     <td>Contact:</td>
                                     @if($order->c_contact)
-                                        <td>0{{ $order->c_contact }}</td>
+                                        <td>0{{ substr($order->c_contact, 0, 3) . " " . substr($order->c_contact, 3, 3) . " " . substr($order->c_contact, 6) }}</td>
                                     @endif
                                 </tr>
                                 <tr>
@@ -192,7 +200,7 @@
                                             <table>
                                                 <tr>
                                                     <td>Subtotal</td>
-                                                    <td>₱ {{ number_format($order->subtotal, 2, '.', ',') }}</td>
+                                                    <td><span class="curreny-symbol">&#8369;</span> {{ number_format($order->subtotal, 2, '.', ',') }}</td>
                                                 </tr>
                                                 <tr>
                                                     @if ($order->discount)
@@ -205,7 +213,7 @@
                                                 </tr>
                                                 <tr class="grand-total">
                                                     <td>Grand Total</td>
-                                                    <td>₱ {{ number_format(($order->subtotal - $order->discount), 2, '.', ',') }}</td>
+                                                    <td><span class="curreny-symbol">&#8369;</span> {{ number_format(($order->subtotal - $order->discount), 2, '.', ',') }}</td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -213,17 +221,17 @@
                                 </td>
                                 <td width="50%" style="vertical-align: top; padding-left: .5rem;">
                                     <div class="order-details">
-                                        <h5>Customer Information</h5>
+                                        <h4>Customer Information</h4>
                                         <small>Customer</small>
                                         <p>{{ $order->u_name }}</p>
             
                                         <small>Address</small>
                                         <p>{{ $order->u_address }}</p>
             
-                                        <small>Phone Number</small>
-                                        <p>0{{ $order->u_contact }}</p>
+                                        <small>Contact</small>
+                                        <p>0{{ substr($order->u_contact, 0, 3) . " " . substr($order->u_contact, 3, 3) . " " . substr($order->u_contact, 6) }}</p>
             
-                                        <small>Email Address</small>
+                                        <small>Email</small>
                                         <p>{{ $order->u_email }}</p>
                                     </div>
                                 </td>

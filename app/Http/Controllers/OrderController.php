@@ -175,6 +175,7 @@ class OrderController extends Controller
 
         $pdf = PDF::loadView('components.order-to-pdf', compact(['orders', 'items', 'categories']))->setOptions(['defaultFont' => 'sans-serif'])->setPaper('letter', 'landscape');
 
+        // return view('components.order-to-pdf', compact(['orders', 'items', 'categories']));
         return $pdf->download('order.pdf');
     }
 }

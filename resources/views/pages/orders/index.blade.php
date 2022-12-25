@@ -135,7 +135,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Contact:</td>
-                                                        <td>{{ $order->c_contact }}</td>
+                                                        <td>0{{ substr($order->c_contact, 0, 3) . " " . substr($order->c_contact, 3, 3) . " " . substr($order->c_contact, 6) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Email:</td>
@@ -195,10 +195,10 @@
                                                 <small>Address</small>
                                                 <p>{{ $order->u_address }}</p>
         
-                                                <small>Phone Number</small>
-                                                <p>{{ $order->u_contact }}</p>
+                                                <small>Contact</small>
+                                                <p>0{{ substr($order->u_contact, 0, 3) . " " . substr($order->u_contact, 3, 3) . " " . substr($order->u_contact, 6) }}</p>
         
-                                                <small>Email Address</small>
+                                                <small>Email</small>
                                                 <p>{{ $order->u_email }}</p>
                                             </div>
                                         </div>
