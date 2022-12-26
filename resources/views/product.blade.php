@@ -75,6 +75,12 @@
                                 <p class="text-dark mb-0">{{ $p->name }}</p>
                                 <p class="mb-0">{{ $p->pax }} PAX</p>
                             </div>
+                            <div class="my-2">
+                                <a class="fav-btn">
+                                    <span></span>
+                                    Add to Favorites
+                                </a>
+                            </div>
                             <hr>
                             <table class="product-details">
                                 <tr>
@@ -133,16 +139,10 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#productForm').on('submit', function(e){
-                e.preventDefault();
-                $.ajax({
-                    url: {{ route('checkout.store') }},
-                    dataType : "json",
-                    contentType: "application/json; charset=utf-8",
-                    type: 'POST',
-                    data: JSON.stringify($(this).serialize()),
-                })
-            })
+            // $('.fav-btn').click(function(){
+            //     $('.fav-btn span').attr('style', 'font-weight: 900 !important;')
+            // })
+
         })
     </script>
 @endpush

@@ -7991,3 +7991,26 @@ button[value="Upload"] {
     padding-right: 1px !important;
     padding-left: 1px !important;
 }
+
+a.fav-btn {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #6c757d!important;
+}
+
+a.fav-btn span::before{ 
+    content: "\f004";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 500;
+}
+
+a.fav-btn:hover span::before { 
+    content: "\f004";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+a.fav-btn:hover {
+    color: var(--red) !important;
+    cursor: pointer;
+}

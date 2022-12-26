@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Models\Member;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Auth;
 
 class TeamController extends Controller
 {
@@ -18,8 +19,12 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = Team::select('id', 'order_id', 'deleted_at')->withTrashed()->get();
-        $members = Member::select('id', 'team_id', 'name', 'role', 'deleted_at')->withTrashed()->get();
+        if(Auth::user()->role == 'SELLER'){
+            $teams = Team::select('id', 'order_id', 'deleted_at')->withTrashed()->get();
+            $members = Member::select('id', 'team_id', 'name', 'role', 'deleted_at')->withTrashed()->get();
+        }elseif(Auth::user()->role == 'USER'){
+
+        }
 
         return view('pages.teams.index', compact(['teams', 'members']));
     }
