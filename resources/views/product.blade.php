@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4 col-md-12">
                     <div class="card border rounded">
                         <div class="p-4">
                             <div class="d-flex justify-content-between">
@@ -139,10 +139,9 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // $('.fav-btn').click(function(){
-            //     $('.fav-btn span').attr('style', 'font-weight: 900 !important;')
-            // })
-
+            $('.fav-btn').click(function(){
+                $('this').addCss('active')
+            })
         })
     </script>
 @endpush
