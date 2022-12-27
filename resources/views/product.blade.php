@@ -76,7 +76,7 @@
                                 <p class="mb-0">{{ $p->pax }} PAX</p>
                             </div>
                             <div class="my-2">
-                                <a class="fav-btn">
+                                <a class="fav-btn" data-route="{{ route('favorite.store') }}" method="POST">
                                     <span></span>
                                     Add to Favorites
                                 </a>
@@ -138,9 +138,36 @@
 
 @push('scripts')
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
         $(document).ready(function() {
             $('.fav-btn').click(function(){
-                $('this').addCss('active')
+                const route = $(this).data('route')
+                const user_id = $('[name="id"]').val()
+
+                if({{ Auth::check() }}){
+                    if($(this).hasClass('active')){
+
+                    }else{
+                        $.ajax({
+                            url: route,
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data: {
+                                'user_id': user_id,
+                                'package_id': {{ Auth::id() }}
+                            },
+                            success: (data) => {
+                                console.log(data)
+                                $(this).toggleClass('active')
+                            }
+                        })
+                    }
+                }
             })
         })
     </script>

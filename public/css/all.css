@@ -8015,7 +8015,10 @@ a.fav-btn:hover {
     cursor: pointer;
 }
 
-/* a.fav-btn.active :is(span::before) {
-    font-weight: 900 !important;
+a.fav-btn.active {
     color: var(--red) !important;
-} */
+}
+
+a.fav-btn.active span::before {
+    font-weight: 900 !important;
+}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Favorite;
 
 class FavoriteController extends Controller
 {
@@ -19,7 +20,7 @@ class FavoriteController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Res ponse
      */
     public function create()
     {
@@ -34,7 +35,17 @@ class FavoriteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => 'required',
+            'package_id' => 'required'
+        ]);
+
+        $fav = new Favorite;
+        $fav->user_id = $request->user_id;
+        $fav->package_id = $request->package_id;
+        $fav->save();
+
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
