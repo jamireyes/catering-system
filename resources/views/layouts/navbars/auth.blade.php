@@ -4,14 +4,13 @@
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
-            
+            <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ route('home') }}">
+                    <i class="nc-icon nc-bank"></i>
+                    <p>{{ __('Dashboard') }}</p>
+                </a>
+            </li>
             @if (Auth::user()->role == 'SELLER')
-                <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }}">
-                    <a href="{{ route('home') }}">
-                        <i class="nc-icon nc-bank"></i>
-                        <p>{{ __('Dashboard') }}</p>
-                    </a>
-                </li>
                 <li class="{{ $elementActive == 'package' ? 'active' : '' }}">
                     <a href="{{ route('package.index') }}">
                         <i class="nc-icon nc-box"></i>
@@ -70,12 +69,6 @@
             @endif
 
             @if (Auth::user()->role == 'ADMIN')
-                <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }}">
-                    <a href="{{ route('home') }}">
-                        <i class="nc-icon nc-bank"></i>
-                        <p>{{ __('Dashboard') }}</p>
-                    </a>
-                </li>
                 <li class="{{ $elementActive == 'user' ? 'active' : '' }}">
                     <a href="{{ route('user.index') }}">
                         <i class="nc-icon nc-badge"></i>
@@ -120,19 +113,16 @@
                     </div>
                 </li>
             @endif
-
-            @if (Auth::user()->role == 'USER')
-                <li class="{{ $elementActive == 'profile' ? 'active' : '' }}">
-                    <a href="{{ route('profile.edit') }}">
-                        <i class="nc-icon nc-badge"></i>
-                        <p>{{ __('User Profile') }}</p>
-                    </a>
-                </li>
-            @endif
             <li class="{{ $elementActive == 'order' ? 'active' : '' }}">
                 <a href="{{ route('order.index') }}">
                     <i class="fa-regular fa-file-lines"></i>
                     <p>{{ __('Order History') }}</p>
+                </a>
+            </li>
+            <li class="{{ $elementActive == 'profile' ? 'active' : '' }}">
+                <a href="{{ route('profile.edit') }}">
+                    <i class="fa-solid fa-gear"></i>
+                    <p>{{ __('Settings') }}</p>
                 </a>
             </li>
         </ul>

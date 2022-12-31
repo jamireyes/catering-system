@@ -10,7 +10,6 @@
                 <div class="d-flex justify-content-between">
                     <h5 class="text-muted mb-0">Dashboard</h5>
                     <form action="{{ 'home' }}" method="GET" style="width:14rem;">
-                        {{-- <small class="text-muted">Filter by Year</small> --}}
                         <div class="input-group mb-0">
                             <select id="inputGroupSelect04" class="custom-select" name="filter_year" style="height: 2rem;">
                                 <option disabled selected>Select Year</option>

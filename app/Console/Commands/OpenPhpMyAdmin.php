@@ -11,7 +11,7 @@ class OpenPhpMyAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'start:pma';
+    protected $signature = 'run:pma';
 
     /**
      * The console command description.

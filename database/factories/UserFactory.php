@@ -37,7 +37,8 @@ class UserFactory extends Factory
             'zipcode' => fake()->numberBetween(1000, 9000),
             'phone_number' => fake()->unique()->numberBetween(9000000000, 9999999999),
             'created_at' => $date,
-            'updated_at' => $date
+            'updated_at' => $date,
+            'last_login_time' => now(),
         ];
     }
 

@@ -41,8 +41,6 @@ class FeedbackController extends Controller
             'rating' => 'required|integer|min:1|digits_between:1,5'
         ]);
 
-        
-
         $feedback = new Feedback;
         $feedback->user_id = $request->user_id;
         if($request->name == '') {

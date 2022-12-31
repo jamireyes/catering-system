@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Favorite;
+use Auth;
 
 class FavoriteController extends Controller
 {
@@ -85,11 +86,13 @@ class FavoriteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id = package_id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        Favorite::where('package_id', $id)->where('user_id', Auth::id())->delete();
+
+        return response()->json(['message' => 'success'], 200);
     }
 }

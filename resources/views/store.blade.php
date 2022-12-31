@@ -15,9 +15,6 @@
                             <li class="breadcrumb-item">
                                 <a href="{{ route('welcome') }}" class="text-muted">Home</a>
                             </li>
-                            {{-- <li class="breadcrumb-item">
-                                <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
-                            </li> --}}
                             <li class="breadcrumb-item">
                                 <a class="text-dark">Packages</a>
                             </li>

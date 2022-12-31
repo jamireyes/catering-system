@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Favorite;
+use App\Models\Team;
+use App\Models\Member;
 use Auth;
 use DB;
 
@@ -22,7 +25,32 @@ class HomeController extends Controller
     {   
         // Redirects USERS to the profile settings page.
         if(Auth::user()->role == 'USER'){
-            return view('profile.edit');
+            $favorites = Favorite::selectRaw('favorites.created_at as date, packages.id as package_id, packages.name as name, packages.pax as pax, packages.price as price, packages.discount as discount')
+                ->where('favorites.user_id', Auth::id())
+                ->join('packages', 'favorites.package_id', 'packages.id')
+                ->orderBy('date', 'DESC')
+                ->get();
+
+            $orders = Order::selectRaw('status, COUNT(status) as count')
+                ->where('user_id', Auth::id())
+                ->where('deleted_at', NULL)
+                ->groupBy('status')
+                ->get();
+
+            $teams = Team::selectRaw('teams.id as team_id, teams.order_id as order_id, teams.created_at as date, packages.name as package_name, packages.pax as pax')
+                ->join('orders', 'teams.order_id', 'orders.id')
+                ->join('packages', 'orders.package_id', 'packages.id')
+                ->where('orders.user_id', Auth::id())
+                ->where('teams.deleted_at', NULL)
+                ->orderBy('date', 'DESC')
+                ->get();
+                
+            $members = Member::selectRaw('team_id, role, name')
+                ->whereIn('team_id', $teams->pluck('team_id')->toArray())
+                ->where('deleted_at', NULL)
+                ->get();
+
+            return view('user-dashboard', compact(['favorites', 'orders', 'teams', 'members']));
         }
         
         // Gets sales reports such as current total monthly sales and total monthly orders.

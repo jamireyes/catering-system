@@ -41,7 +41,7 @@
                         </div>
                         <div class="form-group col-md-5">
                             <label for="phone_number">Phone Number</label>
-                            <input type="text" class="form-control" name="phone_number" placeholder="0999 000 8888" value="0{{ Auth::user()->phone_number }}" required>
+                            <input type="text" class="form-control" name="phone_number" placeholder="0999 000 8888" value="{{ Auth::user()->phone_number }}" required>
                         </div>
                     </div>
     

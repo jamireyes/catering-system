@@ -8,6 +8,7 @@ use App\Models\CategoryRule;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Occasion;
+use App\Models\Favorite;
 use Auth;
 use DB;
 use Session;
@@ -82,8 +83,12 @@ class ShopController extends Controller
             ->where('category_rules.deleted_at', NULL)
             ->get();
 
+        $favorite = Favorite::where('user_id', Auth::id())
+            ->where('package_id', $id)
+            ->first();
+        // dd($favorite);
 
-        return view('product', compact(['package', 'items', 'categoryRules']));
+        return view('product', compact(['package', 'items', 'categoryRules', 'favorite']));
     }
 
     public function search(Request $request) 

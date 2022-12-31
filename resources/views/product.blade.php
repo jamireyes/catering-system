@@ -15,7 +15,7 @@
                             <a href="{{ route('welcome') }}" class="text-muted">Home</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
+                            <a href="{{ route('shop.index') }}" class="text-muted">Packages</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('store.show', ['store' => $p->cater_id]) }}">{{ $p->name }}</a>
@@ -76,7 +76,7 @@
                                 <p class="mb-0">{{ $p->pax }} PAX</p>
                             </div>
                             <div class="my-2">
-                                <a class="fav-btn" data-route="{{ route('favorite.store') }}" method="POST">
+                                <a class="fav-btn @if($favorite != NULL) active @endif" data-store="{{ route('favorite.store') }}" data-destroy="{{ route('favorite.destroy', ['favorite' => $p->id]) }}">
                                     <span></span>
                                     Add to Favorites
                                 </a>
@@ -146,23 +146,34 @@
 
         $(document).ready(function() {
             $('.fav-btn').click(function(){
-                const route = $(this).data('route')
-                const user_id = $('[name="id"]').val()
+                const store_route = $(this).data('store')
+                const destroy_route = $(this).data('destroy')
+                const package_id = $('[name="id"]').val()
 
                 if({{ Auth::check() }}){
                     if($(this).hasClass('active')){
-
-                    }else{
                         $.ajax({
-                            url: route,
+                            url: destroy_route,
                             type: 'POST',
                             dataType: 'JSON',
                             data: {
-                                'user_id': user_id,
-                                'package_id': {{ Auth::id() }}
+                                '_method': 'DELETE'
                             },
                             success: (data) => {
                                 console.log(data)
+                                $(this).toggleClass('active')
+                            }
+                        })
+                    }else{
+                        $.ajax({
+                            url: store_route,
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data: {
+                                'user_id': {{ Auth::id() }},
+                                'package_id': package_id
+                            },
+                            success: (data) => {
                                 $(this).toggleClass('active')
                             }
                         })

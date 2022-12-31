@@ -81,6 +81,10 @@
             text-align: right;
         }
 
+        .order-cater-info {
+            margin-top: 1rem;
+        }
+
         .order-cater-info p {
             margin-bottom: .3rem;
         }
@@ -127,6 +131,42 @@
         .curreny-symbol {
             font-family: DejaVu Sans !important;
         }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.4em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+        }
+
+        .badge-pill {
+            padding-right: 0.6em;
+            padding-left: 0.6em;
+            border-radius: 10rem;
+        }
+
+        .badge-warning {
+            color: #212529;
+            border-color: #fbc658;
+            background-color: #fbc658;
+        }
+
+        .badge-success {
+            color: #fff;
+            border-color: #6bd098;
+            background-color: #6bd098;
+        }
+
+        .badge-danger {
+            color: #fff;
+            border-color: #ef8157;
+            background-color: #ef8157;
+        }
+
     </style>
 </head>
 <body>
@@ -146,7 +186,15 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td></td>
+                                <td style="padding-top: .2rem;">
+                                    @if($order->status == 'CONFIRMED')
+                                        <span class="badge badge-pill badge-success">{{ $order->status }}</span>
+                                    @elseif($order->status == 'CANCELLED')
+                                        <span class="badge badge-pill badge-danger">{{ $order->status }}</span>
+                                    @elseif($order->status == 'PENDING')
+                                        <span class="badge badge-pill badge-warning">{{ $order->status }}</span>
+                                    @endif
+                                </td>
                                 <td align="right">
                                     <small class="text-muted"><strong>Order No.:</strong> {{ $order->order_id }}</small>
                                 </td>
@@ -159,18 +207,24 @@
                                     <td>Address:</td>
                                     @if($order->c_address)
                                         <td>{{ $order->c_address }}</td>
+                                    @else
+                                        N/A
                                     @endif
                                 </tr>
                                 <tr>
                                     <td>Contact:</td>
                                     @if($order->c_contact)
                                         <td>0{{ substr($order->c_contact, 0, 3) . " " . substr($order->c_contact, 3, 3) . " " . substr($order->c_contact, 6) }}</td>
+                                    @else
+                                        N/A
                                     @endif
                                 </tr>
                                 <tr>
                                     <td>Email:</td>
                                     @if($order->c_email)
                                         <td>{{ $order->c_email }}</td>
+                                    @else
+                                        N/A
                                     @endif
                                 </tr>
                             </table>
@@ -223,16 +277,40 @@
                                     <div class="order-details">
                                         <h4>Customer Information</h4>
                                         <small>Customer</small>
-                                        <p>{{ $order->u_name }}</p>
-            
+                                        <p>
+                                            @if ($order->u_name)
+                                                {{ $order->u_name }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </p>
+
                                         <small>Address</small>
-                                        <p>{{ $order->u_address }}</p>
-            
+                                        <p>   
+                                            @if ($order->u_address)
+                                                {{ $order->u_address }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </p>
+
                                         <small>Contact</small>
-                                        <p>0{{ substr($order->u_contact, 0, 3) . " " . substr($order->u_contact, 3, 3) . " " . substr($order->u_contact, 6) }}</p>
-            
+                                        <p>
+                                            @if ($order->u_contact)
+                                                0{{ substr($order->u_contact, 0, 3) . " " . substr($order->u_contact, 3, 3) . " " . substr($order->u_contact, 6) }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </p>
+
                                         <small>Email</small>
-                                        <p>{{ $order->u_email }}</p>
+                                        <p>
+                                            @if ($order->u_email)
+                                                {{ $order->u_email }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </p>
                                     </div>
                                 </td>
                             </tr>

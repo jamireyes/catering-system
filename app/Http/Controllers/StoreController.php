@@ -10,6 +10,8 @@ use App\Models\CategoryRule;
 use App\Models\Item;
 use App\Models\Feedback;
 
+use DB;
+
 class StoreController extends Controller
 {
 
@@ -38,9 +40,10 @@ class StoreController extends Controller
         if($store[0]->role == 'USER') {
             abort(404);
         }
-
-        $avg_rating = number_format(Feedback::avg('rating'), 1, '.', ',');
+        
+        $avg_rating = number_format(Feedback::where('user_id', $id)->avg('rating'), 1, '.', ',');
         $ratings = Feedback::selectRaw('Count(rating) as total_rating, rating')
+            ->where('user_id', $id)
             ->groupBy('rating')
             ->orderBy('rating', 'desc')
             ->get();

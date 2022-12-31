@@ -86,14 +86,23 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <div class="order-container">                   
+                        <div class="position-relative order-container">                   
                             @isset($orders)
                                 @foreach ($orders as $order)
                                 <div class="card shadow-sm">
                                     <div class="card-body p-4">
                                         <div class="order-header">
                                             <div class="d-flex justify-content-between">
-                                                <h5>{{ $order->package_name }} ({{ $order->pax }} pax)</h5>
+                                                <div>
+                                                    <h5 class="mb-1">{{ $order->package_name }} ({{ $order->pax }} pax)</h5>
+                                                    @if($order->status == 'CONFIRMED')
+                                                        <span class="badge badge-pill badge-success">{{ $order->status }}</span>
+                                                    @elseif($order->status == 'CANCELLED')
+                                                        <span class="badge badge-pill badge-danger">{{ $order->status }}</span>
+                                                    @elseif($order->status == 'PENDING')
+                                                        <span class="badge badge-pill badge-warning">{{ $order->status }}</span>
+                                                    @endif
+                                                </div>
                                                 <div class="d-flex flex-column text-right">
                                                     <div class="d-flex flex-row justify-content-end mb-2">
                                                         @if (Auth::user()->role != 'USER')
@@ -131,15 +140,33 @@
                                                 <table>
                                                     <tr>
                                                         <td>Address:</td>
-                                                        <td>{{ $order->c_address }}</td>
+                                                        <td>
+                                                            @if ($order->c_address)
+                                                                {{ $order->c_address }}
+                                                            @else
+                                                                N/A
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Contact:</td>
-                                                        <td>0{{ substr($order->c_contact, 0, 3) . " " . substr($order->c_contact, 3, 3) . " " . substr($order->c_contact, 6) }}</td>
+                                                        <td>
+                                                            @if ($order->c_contact)
+                                                                0{{ substr($order->c_contact, 0, 3) . " " . substr($order->c_contact, 3, 3) . " " . substr($order->c_contact, 6) }}
+                                                            @else
+                                                                N/A
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Email:</td>
-                                                        <td>{{ $order->c_email }}</td>
+                                                        <td>
+                                                            @if ($order->c_email)
+                                                                {{ $order->c_email }}
+                                                            @else
+                                                                N/A
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -190,16 +217,40 @@
                                             <div class="order-details">
                                                 <h6>Customer Information</h6>
                                                 <small>Customer</small>
-                                                <p>{{ $order->u_name }}</p>
+                                                <p>
+                                                    @if ($order->u_name)
+                                                        {{ $order->u_name }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </p>
         
                                                 <small>Address</small>
-                                                <p>{{ $order->u_address }}</p>
+                                                <p>   
+                                                    @if ($order->u_address)
+                                                        {{ $order->u_address }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </p>
         
                                                 <small>Contact</small>
-                                                <p>0{{ substr($order->u_contact, 0, 3) . " " . substr($order->u_contact, 3, 3) . " " . substr($order->u_contact, 6) }}</p>
+                                                <p>
+                                                    @if ($order->u_contact)
+                                                        0{{ substr($order->u_contact, 0, 3) . " " . substr($order->u_contact, 3, 3) . " " . substr($order->u_contact, 6) }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </p>
         
                                                 <small>Email</small>
-                                                <p>{{ $order->u_email }}</p>
+                                                <p>
+                                                    @if ($order->u_email)
+                                                        {{ $order->u_email }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -216,6 +267,8 @@
 
 @push('scripts')
     <script>
+        $('.order-container').perfectScrollbar();
+
         $(function () {
             var dateFormat = "mm/dd/yy";
 

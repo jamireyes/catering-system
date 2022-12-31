@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::resource('member', MemberController::class);
 	Route::post('member/{member}/restore', [MemberController::class, 'restore'])->name('member.restore');
 
-	Route::resource('favorite', FavoriteController::class)->only(['store']);
+	Route::resource('favorite', FavoriteController::class)->only(['store', 'destroy']);
 });
 
 Route::get('register-admin', [InviteController::class, 'showInviteRegistration'])->name('invite.showInviteRegistration');

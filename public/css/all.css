@@ -7829,9 +7829,13 @@ button[value="Upload"] {
     border-radius: 2rem;
 }
 
-.card-user .avatar {
+/* .card-user .avatar {
     border-radius: var(--border-radius);
     border: 4px solid var(--white) !important;
+} */
+
+.card-user .author {
+    margin-top: -100px !important;
 }
 
 .store-card {
@@ -8021,4 +8025,20 @@ a.fav-btn.active {
 
 a.fav-btn.active span::before {
     font-weight: 900 !important;
+}
+
+.fav-card:hover .card {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.fav-wrapper {
+    position: relative; 
+    height: 25.6rem; 
+    overflow-y: scroll;
+}
+
+.team-wrapper {
+    position: relative; 
+    height: 30.6rem; 
+    overflow-y: scroll;
 }
