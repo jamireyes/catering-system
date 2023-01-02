@@ -209,42 +209,6 @@
             </div>
         </div>
     </section>
-    {{-- <section id="feedback" class="py-5">
-        <div class="text-center pb-4">
-            <h4 class="text-muted">Customer Feedback</h4>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-sm-3">
-                <div class="d-flex justify-content-md-end justify-content-center">
-                    <div class="card text-white bg-warning" style="width:7rem;height:7rem;">
-                        <div class="card-body text-center p-0">
-                            <div class="h-100 d-flex flex-column justify-content-center align-items-center">
-                                <h2 class="m-0">4.9</h2>
-                                <p class="m-0">out of 5</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-9">
-                <div class="progress mb-2">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">121</div>
-                </div>
-                <div class="progress mb-2">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">23</div>
-                </div>
-                <div class="progress mb-2">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">10</div>
-                </div>
-                <div class="progress mb-2">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">5</div>
-                </div>
-                <div class="progress mb-2">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">1</div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
     @include('layouts.footer')
 
     <script src="{{ asset('paper') }}/js/core/jquery.min.js"></script>
@@ -252,7 +216,6 @@
     <script src="{{ asset('paper') }}/js/core/bootstrap.min.js"></script>
     <script src="{{ asset('paper') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
     <script src="{{ asset('paper') }}/js/paper-dashboard.js" type="text/javascript"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         $(document).ready(() => {
@@ -287,14 +250,14 @@
                 if(scroll < 1){
                     if($(window).width() < 990){
                         $('.navbar').attr('style', 'background-color: rgba(0, 0, 0, 0.5)!important;');
-                        $('#backToTop').attr('style', 'opacity: 1!important;background-color: rgba(0, 0, 0, 0.5)!important;');
+                        // $('#backToTop').attr('style', 'opacity: 1!important;background-color: rgba(0, 0, 0, 0.5)!important;');
                     }else{
                         $('.navbar').attr('style', 'background-color: transparent!important;');
-                        $('#backToTop').attr('style', 'opacity: 0!important;');
+                        // $('#backToTop').attr('style', 'opacity: 0!important;');
                     }
                 }else{
                     $('.navbar').attr('style', 'background-color: rgba(0, 0, 0, 0.5)!important;');
-                    $('#backToTop').attr('style', 'opacity: 1!important;background-color: rgba(0, 0, 0, 0.5)!important;');
+                    // $('#backToTop').attr('style', 'opacity: 1!important;background-color: rgba(0, 0, 0, 0.5)!important;');
                 }
             })
         })
