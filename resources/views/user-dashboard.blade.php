@@ -87,8 +87,8 @@
                         </div>
                         <hr>
                         <div class="row mx-3 mb-3">
-                            @foreach ($orders as $order)
-                                @if ($order->status == 'CONFIRMED')   
+
+                            
                                 <div class="col-4 px-1">
                                     <div class="border rounded">
                                         <div class="text-center">
@@ -97,38 +97,48 @@
                                                 <p class="text-gray m-0 ml-1">Confirmed</p>
                                             </div>
                                             <hr class="my-2">
-                                            <p class="mb-1">{{ $order->count }}</p>
+                                            @foreach ($orders as $order)
+                                                @if ($order['status'] == 'CONFIRMED')
+                                                    <p class="mb-1">{{ $order['count'] }}</p>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
-                                @elseif ($order->status == 'PENDING')
-                                    <div class="col-4 px-1">
-                                        <div class="border rounded">
-                                            <div class="text-center">
-                                                <div class="pt-2">
-                                                    <i class="fa-solid fa-clock text-warning text-xl"></i>
-                                                    <p class="text-gray m-0 ml-1">Pending</p>
-                                                </div>
-                                                <hr class="my-2">
-                                                <p class="mb-1">{{ $order->count }}</p>
+                                
+                                <div class="col-4 px-1">
+                                    <div class="border rounded">
+                                        <div class="text-center">
+                                            <div class="pt-2">
+                                                <i class="fa-solid fa-clock text-warning text-xl"></i>
+                                                <p class="text-gray m-0 ml-1">Pending</p>
                                             </div>
+                                            <hr class="my-2">
+                                            @foreach ($orders as $order)
+                                                @if ($order['status'] == 'PENDING')
+                                                    <p class="mb-1">{{ $order['count'] }}</p>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
-                                @elseif ($order->status == 'CANCELLED')
-                                    <div class="col-4 px-1">
-                                        <div class="border rounded">
-                                            <div class="text-center">
-                                                <div class="pt-2">
-                                                    <i class="fa-solid fa-circle-xmark text-danger text-xl"></i>
-                                                    <p class="text-gray m-0 ml-1">Cancelled</p>
-                                                </div>
-                                                <hr class="my-2">
-                                                <p class="mb-1">{{ $order->count }}</p>
+                                </div>
+                                
+                                <div class="col-4 px-1">
+                                    <div class="border rounded">
+                                        <div class="text-center">
+                                            <div class="pt-2">
+                                                <i class="fa-solid fa-circle-xmark text-danger text-xl"></i>
+                                                <p class="text-gray m-0 ml-1">Cancelled</p>
                                             </div>
+                                            <hr class="my-2">
+                                            @foreach ($orders as $order)
+                                                @if ($order['status'] == 'CANCELLED')
+                                                    <p class="mb-1">{{ $order['count'] }}</p>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -140,8 +150,8 @@
                                 Favorites
                             </p>
                             <hr>
-                            <div class="fav-wrapper">
-                                @foreach ($favorites as $fav)
+                            @foreach ($favorites as $fav)
+                                <div class="fav-wrapper">
                                     <a href="{{ route('shop.show', ['shop' => $fav->package_id]) }}" class="fav-card" style="text-decoration: none;">
                                         <div class="card bg-light shadow-md mb-3">
                                             <div class="card-body">
@@ -166,8 +176,13 @@
                                             </div>
                                         </div>
                                     </a>
-                                @endforeach
-                            </div>
+                                </div>
+                            @endforeach
+                            @if ($favorites->isEmpty())
+                                <div class="d-flex w-100">
+                                    <small class="text-muted text-center w-100">You have no favorite packages yet</small>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -211,6 +226,20 @@
                                 </div>
                             </div>
                         @endforeach
+                        @if ($teams->isEmpty())
+                            <div class="team-card card">
+                                <div class="card-body text-gray">
+                                    <p class="text-muted text-center">
+                                        <i class="fa-solid fa-user-tie text-info"></i>
+                                        Teams
+                                    </p>
+                                    <hr class="m-0 mb-3">
+                                    <div class="d-flex w-100">
+                                        <small class="text-muted text-center w-100">You have no team yet</small>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

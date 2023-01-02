@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Favorite;
 use App\Models\Team;
 use App\Models\Member;
+use Illuminate\Support\Arr;
 use Auth;
 use DB;
 
@@ -36,6 +37,20 @@ class HomeController extends Controller
                 ->where('deleted_at', NULL)
                 ->groupBy('status')
                 ->get();
+
+            $orders = collect($orders->toArray());
+
+            if(!$orders->contains('status', 'CANCELLED')){
+                $orders->push(['status' => 'CANCELLED', 'count' => 0]);
+            }
+
+            if(!$orders->contains('status', 'CONFIRMED')){
+                $orders->push(['status' => 'CONFIRMED', 'count' => 0]);
+            }
+
+            if(!$orders->contains('status', 'PENDING')){
+                $orders->push(['status' => 'PENDING', 'count' => 0]);
+            }
 
             $teams = Team::selectRaw('teams.id as team_id, teams.order_id as order_id, teams.created_at as date, packages.name as package_name, packages.pax as pax')
                 ->join('orders', 'teams.order_id', 'orders.id')
