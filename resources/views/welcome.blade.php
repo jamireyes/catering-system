@@ -122,11 +122,11 @@
             </a>
         </div>
 
-        <div class="position-fixed" style="bottom:10px;right:10px;z-index:1020!important;">
+        {{-- <div class="position-fixed" style="bottom:10px;right:10px;z-index:1020!important;">
             <a id="backToTop" href="#carouselExampleIndicators" class="btn" style="opacity: 0!important;">
                 <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
             </a>
-        </div>
+        </div> --}}
     </div>
     <section id="about" class="my-5 py-5" data-aos="fade-up">
         <div class="container">
