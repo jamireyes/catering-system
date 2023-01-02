@@ -20,13 +20,21 @@ class TeamController extends Controller
     public function index()
     {
         if(Auth::user()->role == 'SELLER'){
-            $teams = Team::select('id', 'order_id', 'deleted_at')->withTrashed()->get();
-            $members = Member::select('id', 'team_id', 'name', 'role', 'deleted_at')->withTrashed()->get();
-        }elseif(Auth::user()->role == 'USER'){
-
+            $orders = Order::select('orders.id as order_id', 'packages.name as package_name', 'users.name as customer')
+                ->join('packages', 'orders.package_id', 'packages.id')
+                ->join('users', 'orders.user_id', 'users.id')
+                ->where('packages.user_id', Auth::id())
+                ->get();
+            $teams = Team::select('id', 'order_id', 'deleted_at')
+                ->whereIn('order_id', $orders->pluck('order_id'))
+                ->withTrashed()
+                ->get();
+            $members = Member::select('id', 'team_id', 'name', 'role', 'deleted_at')
+                ->whereIn('team_id', $teams->pluck('id'))
+                ->withTrashed()->get();
         }
 
-        return view('pages.teams.index', compact(['teams', 'members']));
+        return view('pages.teams.index', compact(['teams', 'members', 'orders']));
     }
 
     /**
@@ -52,11 +60,22 @@ class TeamController extends Controller
         ]);
 
         try {
-            $order = Order::findOrFail($request->order_id);
+            $order = Order::join('packages', 'orders.package_id', 'packages.id')
+                ->where('orders.id', $request->order_id)
+                ->where('packages.user_id', Auth::id())
+                ->firstOrFail();
         } catch(ModelNotFoundException $e) {
-            return back()->with('error', 'Record not found');
+            return back()->with('error', 'Record not found!');
         }
 
+        try {
+            if(Team::where('order_id', $request->order_id)->first() != NULL){
+                throw new ModelNotFoundException;
+            }
+        } catch(ModelNotFoundException $e) {
+            return back()->with('error', 'There is an existing team!');
+        }
+        
         $team = new Team;
         $team->order_id = $request->order_id;
         $team->save();

@@ -150,35 +150,36 @@
                                 Favorites
                             </p>
                             <hr>
-                            @foreach ($favorites as $fav)
+                            @if (!$favorites->isEmpty())
                                 <div class="fav-wrapper">
-                                    <a href="{{ route('shop.show', ['shop' => $fav->package_id]) }}" class="fav-card" style="text-decoration: none;">
-                                        <div class="card bg-light shadow-md mb-3">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <p class="m-0 text-gray">{{ $fav->name }}</p>
-                                                        <small class="text-muted">{{ $fav->pax }} PAX</small>
-                                                    </div>
-                                                    <div class="text-right">
-                                                        @if ($fav->discount)
-                                                            <p class="m-0 text-muted">
-                                                                <del>
-                                                                    ₱ {{ number_format($fav->price, 2, '.', ',') }}
-                                                                </del>
-                                                            </p>
-                                                            <p class="m-0 text-success">₱ {{ number_format(($fav->price * (1 - $fav->discount / 100)), 2, '.', ',') }}</p>
-                                                        @else
-                                                            <p class="m-0 text-gray">₱ {{ number_format(($fav->price * (1 - $fav->discount / 100)), 2, '.', ',') }}</p>
-                                                        @endif
+                                    @foreach ($favorites as $fav)
+                                            <a href="{{ route('shop.show', ['shop' => $fav->package_id]) }}" class="fav-card" style="text-decoration: none;">
+                                                <div class="card bg-light shadow-md mb-3">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <p class="m-0 text-gray">{{ $fav->name }}</p>
+                                                                <small class="text-muted">{{ $fav->pax }} PAX</small>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                @if ($fav->discount)
+                                                                    <p class="m-0 text-muted">
+                                                                        <del>
+                                                                            ₱ {{ number_format($fav->price, 2, '.', ',') }}
+                                                                        </del>
+                                                                    </p>
+                                                                    <p class="m-0 text-success">₱ {{ number_format(($fav->price * (1 - $fav->discount / 100)), 2, '.', ',') }}</p>
+                                                                @else
+                                                                    <p class="m-0 text-gray">₱ {{ number_format(($fav->price * (1 - $fav->discount / 100)), 2, '.', ',') }}</p>
+                                                                @endif
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </a>
+                                            </a>
+                                    @endforeach
                                 </div>
-                            @endforeach
-                            @if ($favorites->isEmpty())
+                            @else
                                 <div class="d-flex w-100">
                                     <small class="text-muted text-center w-100">You have no favorite packages yet</small>
                                 </div>

@@ -136,8 +136,13 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="order_id">Order No.</label>
-                                <input type="text" class="form-control" name="order_id">
+                                <label for="order_id">Orders</label>
+                                <select class="form-control" name="order_id">
+                                    <option disabled selected></option>
+                                    @foreach ($orders as $order)
+                                        <option value="{{ $order->order_id }}">{{ $order->order_id }} - {{ $order->package_name }} - {{ $order->customer }}</option>
+                                    @endforeach
+                                </select>
                                 @if ($errors->has('order_id'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('order_id') }}</strong>
