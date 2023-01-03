@@ -2,6 +2,8 @@
     <img width="400" src="https://user-images.githubusercontent.com/35447073/204126195-4c4d3054-1cdf-42cf-bae2-fb24dca6343c.png">
 </div>
 
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=fa7650c51f2d&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 ## Requirements
 
 Install the following dev tools before getting started:
