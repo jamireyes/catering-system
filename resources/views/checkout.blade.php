@@ -26,68 +26,75 @@
             </div>
             <div class="row mt-4">
                 <div class="col-md-8">
-                    <h5 class="text-lg">Checkout</h5>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Juan Dela Cruz" value="{{ Auth::user()->name }}" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-7">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" placeholder="you@example.com" value="{{ Auth::user()->email }}" required>
-                            <div class="invalid-feedback">
-                                Please enter a valid email address
+                    <form action="{{ route('checkout.confirm') }}" method="POST">
+                        @csrf
+                        <h5 class="text-lg">Checkout</h5>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Juan Dela Cruz" value="{{ Auth::user()->name }}" required readonly>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-7">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="you@example.com" value="{{ Auth::user()->email }}" required readonly>
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address
+                                </div>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="phone_number">Phone Number</label>
+                                <input type="text" class="form-control" name="phone_number" placeholder="0999 000 8888" value="{{ Auth::user()->phone_number }}" required>
                             </div>
                         </div>
-                        <div class="form-group col-md-5">
-                            <label for="phone_number">Phone Number</label>
-                            <input type="text" class="form-control" name="phone_number" placeholder="0999 000 8888" value="{{ Auth::user()->phone_number }}" required>
+        
+                        <div class="form-group">
+                            <label for="address_1">Address Line 1</label>
+                            <input type="text" class="form-control" name="address_1" placeholder="1234 Main St" value="{{ Auth::user()->address_1 }}" required>
                         </div>
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="address_1">Address Line 1</label>
-                        <input type="text" class="form-control" name="address_1" placeholder="1234 Main St" value="{{ Auth::user()->address_1 }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address_2">Address Line 2 (Optional)</label>
-                        <input type="text" class="form-control" name="address_2" placeholder="Apartment, studio, or floor" value="{{ Auth::user()->address_2 }}">
-                    </div>
-    
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="city">City</label>
-                            <input type="text" class="form-control" name="city" value="{{ Auth::user()->city }}" required>
-                            @if ($errors->has('city'))
-                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                    <strong>{{ $errors->first('city') }}</strong>
-                                </span>
-                            @endif
+                        <div class="form-group">
+                            <label for="address_2">Address Line 2 (Optional)</label>
+                            <input type="text" class="form-control" name="address_2" placeholder="Apartment, studio, or floor" value="{{ Auth::user()->address_2 }}">
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="state">Province</label>
-                            <input type="text" class="form-control" name="state" value="{{ Auth::user()->state }}" required>
-                            @if ($errors->has('state'))
-                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                    <strong>{{ $errors->first('state') }}</strong>
-                                </span>
-                            @endif
+        
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" name="city" value="{{ Auth::user()->city }}" required>
+                                @if ($errors->has('city'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('city') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="state">Province</label>
+                                <input type="text" class="form-control" name="state" value="{{ Auth::user()->state }}" required>
+                                @if ($errors->has('state'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('state') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="zipcode">Zipcode</label>
+                                <input type="text" class="form-control" name="zipcode" value="{{ Auth::user()->zipcode }}" required>
+                                @if ($errors->has('zipcode'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('zipcode') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="zipcode">Zipcode</label>
-                            <input type="text" class="form-control" name="zipcode" value="{{ Auth::user()->zipcode }}" required>
-                            @if ($errors->has('zipcode'))
-                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                    <strong>{{ $errors->first('zipcode') }}</strong>
-                                </span>
-                            @endif
+                        
+                        <div class="d-flex justify-content-between align-items-center my-5">
+                            @foreach (Cart::content() as $row)
+                                @if($row->id == 'package')
+                                    <a class="btn btn-outline-default" href="{{ route('shop.show', ['shop' => $row->options->id]) }}" role="button">Back</a>
+                                @endif
+                            @endforeach
+                            <button type="submit" class="btn btn-success">Place Order</button>
                         </div>
-                    </div>
-    
-                    <div class="d-flex justify-content-between align-items-center my-5">
-                        <a class="btn btn-outline-default" href="{{ route('shop.index') }}" role="button">Back</a>
-                        <a class="btn btn-success" href="{{ route('checkout.confirm') }}" role="button">Place Order</a>
-                    </div>
+                    </form>
                 </div>
                 <div class="col-md-4">
                     <h5 class="text-lg">Order Summary</h5>

@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\User;
 use Cart;
 use Auth;
 
@@ -81,8 +82,18 @@ class CheckoutController extends Controller
         return redirect()->route('checkout.index');
     }
 
-    public function confirm()
+    public function confirm(Request $request)
     {       
+
+        $user = User::find(Auth::id());
+        $user->phone_number = $request->phone_number;
+        $user->address_1 = $request->address_1;
+        $user->address_2 = $request->address_2;
+        $user->city = $request->city;
+        $user->state = $request->state;
+        $user->zipcode = $request->zipcode;
+        $user->save();
+
         $items = new Collection;
 
         foreach(Cart::content() as $row){

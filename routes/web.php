@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('user/{user}/restore', 'App\Http\Controllers\UserController@restore')->name('user.restore');
 
 	Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-	Route::get('checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');
+	Route::post('checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');
 
 	Route::get('settings', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
