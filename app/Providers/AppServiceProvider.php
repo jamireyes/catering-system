@@ -26,10 +26,6 @@ class AppServiceProvider extends ServiceProvider
                 DB::statement('SET SESSION sql_require_primary_key=0');
             });
         }
-        
-        if ($this->app->environment('production')) {
-            \URL::forceScheme('https');
-        }
     }
 
     /**
