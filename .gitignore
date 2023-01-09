@@ -15,3 +15,5 @@ yarn-error.log
 public/js/app.js
 composer.lock
 public/css/all.css
+
+!/vendor/beyondcode
