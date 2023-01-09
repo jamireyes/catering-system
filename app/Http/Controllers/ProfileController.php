@@ -33,9 +33,10 @@ class ProfileController extends Controller
     {
         if($request->hasFile('image')){
             $filename = $request->image->getClientOriginalName();
-            $request->image->storeAs('images',$filename,'public');
-            Auth()->user()->update(['image'=>$filename]);
+            $request->image->storeAs('images', $filename, 'public');
+            Auth()->user()->update(['image' => $filename]);
         }
+        
         return redirect()->back();
     }
 }
