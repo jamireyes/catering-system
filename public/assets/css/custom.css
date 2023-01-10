@@ -679,12 +679,12 @@ ol.breadcrumb {
     text-overflow: ellipsis;
 }
 
-[for="upload-btn"] {
+[for*="upload-btn"] {
     color: rgba(0,0,0,.5) !important;
     border: 1px solid rgba(0,0,0,.4) !important;
 }
 
-[for="upload-btn"]:hover {
+[for*="upload-btn"]:hover {
     color: #FFF !important;
 }
 
@@ -1010,7 +1010,7 @@ button[value="Upload"] {
     margin-bottom: 0 !important;
 }
 
-.store-card .avatar {
+.store-card .avatar, .card-user .avatar {
     width: 7.75rem;
     height: 7.75rem;
     border-radius: var(--border-radius);

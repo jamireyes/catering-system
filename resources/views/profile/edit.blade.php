@@ -29,9 +29,7 @@
             @if(Auth::user()->role != 'USER')
                 <div class="col-md-4">
                     <div class="card card-user">
-                        <div class="image">
-                            {{-- <img src="{{ asset('assets/img/catering-img-2.jpg') }}" alt="..."> --}}
-                        </div>
+                        <div class="image"></div>
                         <div class="author mx-3">
                             @if(Auth::user()->image)
                             <div class="user-wrapper">

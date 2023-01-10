@@ -31,7 +31,7 @@
                             <div class="card-body" style="min-height:0 !important;">
                                 <div class="d-flex flex-column flex-lg-row align-items-center">
                                     @if($s->image)
-                                        <img class="avatar" src="{{asset('/storage/images/'.$s->image)}}" alt="profile_image">
+                                        <img class="avatar" src="{{ Storage::disk('spaces')->url($s->image) }}" alt="profile_image">
                                     @endif
                                     <div class="ml-3 text-gray">
                                         <h5 class="text-lg text-center text-lg-left">{{ $s->name }}</h5>
