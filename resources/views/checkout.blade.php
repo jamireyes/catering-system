@@ -42,8 +42,18 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-5">
-                                <label for="phone_number">Phone Number</label>
-                                <input type="text" class="form-control" name="phone_number" placeholder="0999 000 8888" value="{{ Auth::user()->phone_number }}" required>
+                                <label>{{ __('Phone Number') }}</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white">+63</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="phone_number" placeholder="9990008888" value="{{ Auth::user()->phone_number }}" required>
+                                    @if ($errors->has('phone_number'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('phone_number') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
         
@@ -83,6 +93,38 @@
                                         <strong>{{ $errors->first('zipcode') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+                        
+                        <div class="form-row mt-3">
+                            <div class="form-group col-md-4">
+                                <label>Payment Method</label>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="payment_method_1" name="payment_method" class="custom-control-input" value="bank">
+                                    <label class="custom-control-label" for="payment_method_1">Bank</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="payment_method_2" name="payment_method" class="custom-control-input" value="paymaya">
+                                    <label class="custom-control-label" for="payment_method_2">Paymaya</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="payment_method_3" name="payment_method" class="custom-control-input" value="gcash">
+                                    <label class="custom-control-label" for="payment_method_3">GCash</label>
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <label>Proof of Payment</label>
+                                <div class="d-flex align-items-center mb-3 bg-white">
+                                    <div class="input-file">
+                                        <div class="py-1 pl-2">
+                                            <input id="upload-btn" type="file" name="payment_file" hidden>
+                                            <label for="upload-btn" class="btn btn-sm btn-outline-default my-1">Select</label>
+                                        </div>
+                                        <div class="px-2">
+                                            <span id="file-chosen" class="m-0">No file uploaded</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -187,3 +229,18 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(() => {
+
+            const uploadBtn = document.getElementById('upload-btn');
+
+            const fileChosen = document.getElementById('file-chosen');
+
+            uploadBtn.addEventListener('change', function(){
+                fileChosen.textContent = this.files[0].name
+            })           
+        })
+    </script>
+@endpush

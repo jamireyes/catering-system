@@ -95,9 +95,3 @@ Route::post('register-admin', [InviteController::class, 'store'])->name('invite.
 
 Route::resource('store', StoreController::class);
 Route::resource('feedback', FeedbackController::class);
-
-Route::get('storage-link', function(){
-	\App::make('files')->link(storage_path('app/public'), public_path('storage'));
-	
-	return 'storage linked!';
-});
