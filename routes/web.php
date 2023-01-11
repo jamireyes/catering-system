@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
@@ -50,7 +51,7 @@ Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.st
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('/home', [HomeController::class, 'index'])->name('home');
-	Route::resource('user', 'App\Http\Controllers\UserController');
+	Route::resource('user', UserController::class);
 	Route::post('user/{user}/restore', 'App\Http\Controllers\UserController@restore')->name('user.restore');
 
 	Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');

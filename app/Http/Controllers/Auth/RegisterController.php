@@ -10,6 +10,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
+use App\Models\SellerDocuments;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\ProcessSellerDocuments;
 
 class RegisterController extends Controller
 {
@@ -81,11 +85,44 @@ class RegisterController extends Controller
             abort(404);
         }
 
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => $data['role'],
-        ]);
+        if($data['role'] == 'SELLER'){
+            if(!request()->hasFile('file')) {
+                return redirect()->back()->with('error', 'Valid documents required!');
+            }
+
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => $data['role'],
+                'image' => 'images/user.png',
+            ]);
+
+            $user_id = $user->id;
+
+            if(isset($user)){
+                foreach(request()->file as $file){
+                    $path = Storage::disk('spaces')->putFileAs('seller_documents', $file, $file->hashName());
+
+                    $docs = new SellerDocuments;
+                    $docs->user_id = $user->id;
+                    $docs->file = $path;
+                    $docs->mime_type = $file->getMimeType();
+                    $docs->save();
+                }
+            }
+        }
+
+        if($data['role'] == 'USER'){
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => $data['role'],
+                'image' => 'images/user.png',
+            ]);
+        }
+
+        return $user;
     }
 }

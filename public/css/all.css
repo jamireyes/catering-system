@@ -8042,3 +8042,13 @@ a.fav-btn.active span::before {
     height: 30.6rem; 
     overflow-y: scroll;
 }
+
+#document-btn {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+}
+
+#document-btn:hover {
+    color: var(--info) !important;
+}

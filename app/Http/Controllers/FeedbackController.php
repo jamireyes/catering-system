@@ -62,8 +62,9 @@ class FeedbackController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {   
         $feedbacks = Feedback::where('rating', $id)
+            ->where('user_id', request()->id)
             ->where('deleted_at', NULL)
             ->get();
 

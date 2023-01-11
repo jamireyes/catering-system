@@ -124,6 +124,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
+                                        <th>Documents</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -143,13 +144,13 @@
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script>
-        $(document).ready(() => {
-
-            $.ajaxSetup({
+        $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });
+        });
+
+        $(document).ready(() => {
 
             // Initialize userDatatable
             var table = $('.userDatatable').DataTable({
@@ -161,8 +162,9 @@
                     {data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},
                     {data: 'email', name: 'email'},
-                    {data: 'role', name: 'role'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-right'},
+                    {data: 'role', name: 'role', className: 'text-center'},
+                    {data: 'document', name: 'document', orderable: false, searchable: false, className: 'text-center'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
                 ],
                 select: true,
             })

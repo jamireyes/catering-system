@@ -5,13 +5,14 @@
 
 @section('content')
     <div class="content">
+        @include('components.alerts')
         <div class="card">
             <div class="p-4 w-100">
                 <div>
                     <h4 >{{ __('Sign Up') }}</h4>
                     <p class="text-muted">Have an account? <a href="{{ route('login') }}">Login here!</a></p>
                 </div>
-                <form class="form" method="POST" action="{{ route('register') }}">
+                <form class="form" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="input-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                         <div class="input-group-prepend">
@@ -92,10 +93,39 @@
                             </span>
                         </div>
                         <select name="role" class="form-control" required>
-                            <option value="USER">USER</option>
-                            <option value="SELLER">SELLER</option>
+                            <option disabled selected>Customer or Seller?</option>
+                            <option value="USER">Customer</option>
+                            <option value="SELLER">Seller</option>
                         </select>
                     </div>
+
+                    <div class="seller-documents" style="display: none;">
+                        <label>Upload 2 Valid IDs</label>
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <div class="input-file">
+                                    <div class="py-1 pl-2">
+                                        <input id="upload-btn-1" type="file" name="file[]" hidden>
+                                        <label for="upload-btn-1" class="btn btn-sm btn-outline-default my-1">Select</label>
+                                    </div>
+                                    <div class="px-2">
+                                        <span id="file-chosen-1" class="m-0">No file uploaded</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-6">
+                                <div class="input-file">
+                                    <div class="py-1 pl-2">
+                                        <input id="upload-btn-2" type="file" name="file[]" hidden>
+                                        <label for="upload-btn-2" class="btn btn-sm btn-outline-default my-1">Select</label>
+                                    </div>
+                                    <div class="px-2">
+                                        <span id="file-chosen-2" class="m-0">No file uploaded</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
 
                     <div class="form-check text-left">
                         <label class="form-check-label ml-0">
@@ -122,21 +152,40 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-           $('[name="password"] + .input-group-append i').click(function(){
+            $('[name="password"] + .input-group-append i').click(function(){
                 $('[name="password"] + .input-group-append .noeye').toggle()
                 $('[name="password"] + .input-group-append .eye').toggle()
 
                 var type = ($('[name="password"]').attr('type') == 'password') ? 'text' : 'password'
                 $('[name="password"]').prop('type', type)
-           })
+            })
 
-           $('[name="password_confirmation"] + .input-group-append i').click(function(){
+            $('[name="password_confirmation"] + .input-group-append i').click(function(){
                 $('[name="password_confirmation"] + .input-group-append .noeye').toggle()
                 $('[name="password_confirmation"] + .input-group-append .eye').toggle()
 
                 var type = ($('[name="password_confirmation"]').attr('type') == 'password') ? 'text' : 'password'
                 $('[name="password_confirmation"]').prop('type', type)
-           })
+            })
+
+            document.getElementById('upload-btn-1').addEventListener('change', function(){
+                document.getElementById('file-chosen-1').textContent = this.files[0].name
+            })
+
+            document.getElementById('upload-btn-2').addEventListener('change', function(){
+                document.getElementById('file-chosen-2').textContent = this.files[0].name
+            })
+
+            // $('.seller-documents').hide();
+
+            $('[name="role"]').change(function(){
+                if($(this).val() == 'SELLER'){
+                    $('.seller-documents').show();
+                }else{
+                    $('.seller-documents').hide();
+                }
+            })
+
         })
     </script>
 @endpush

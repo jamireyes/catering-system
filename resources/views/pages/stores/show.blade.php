@@ -78,35 +78,35 @@
                                             <div class="progress-wrapper">
                                                 <p>5</p>
                                                 <div class="progress">
-                                                    <div class="rating_5 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="rating_5 progress-bar" role="progressbar" data-id="{{ $s->id }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         @elseif($rating['rating'] == 4)
                                             <div class="progress-wrapper">
                                                 <p>4</p>
                                                 <div class="progress">
-                                                    <div class="rating_4 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="rating_4 progress-bar" role="progressbar" data-id="{{ $s->id }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         @elseif($rating['rating'] == 3)
                                             <div class="progress-wrapper">
                                                 <p>3</p>
                                                 <div class="progress">
-                                                    <div class="rating_3 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="rating_3 progress-bar" role="progressbar" data-id="{{ $s->id }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         @elseif($rating['rating'] == 2)
                                             <div class="progress-wrapper">
                                                 <p>2</p>
                                                 <div class="progress">
-                                                    <div class="rating_2 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="rating_2 progress-bar" role="progressbar" data-id="{{ $s->id }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         @elseif($rating['rating'] == 1)
                                             <div class="progress-wrapper">
                                                 <p>1</p>
                                                 <div class="progress">
-                                                    <div class="rating_1 progress-bar" role="progressbar" data-id="{{ $rating['rating'] }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="rating_1 progress-bar" role="progressbar" data-id="{{ $s->id }}" data-url="{{ route('feedback.show', ['feedback' => $rating['rating']]) }}" aria-valuenow="{{ $rating['total_rating'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         @endif
@@ -263,6 +263,7 @@
                     url: route,
                     type: 'GET',
                     dataType: 'json',
+                    data: { id },
                     success: function(data) {
                         console.log(data)
                         $('#rating-modal').modal('toggle')
