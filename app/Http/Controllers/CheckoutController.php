@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -84,6 +85,12 @@ class CheckoutController extends Controller
 
     public function confirm(Request $request)
     {       
+        if($request->hasFile('payment_file')){
+            $file = $request->payment_file;
+            $mime_type = $request->payment_file->getMimeType();
+            $hash = $request->payment_file->hashName();
+            $path = Storage::disk('spaces')->putFileAs('proof_of_payments', $file, $hash);
+        }
 
         $user = User::find(Auth::id());
         $user->phone_number = $request->phone_number;
@@ -110,6 +117,9 @@ class CheckoutController extends Controller
         $order->discount = Cart::discount(2, '.', '');
         $order->subtotal = Cart::initial(2, '.', '');
         $order->status = 'PENDING';
+        $order->payment_method = $request->payment_method;
+        $order->payment_file = $path;
+        $order->payment_mime_type = $mime_type;
         $order->save();
 
         foreach($items as $item){

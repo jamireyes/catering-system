@@ -113,13 +113,7 @@ class UserController extends Controller
     {
         $docs = SellerDocuments::find($id);
 
-        $file = Storage::disk('spaces')->get($docs->file);
-
-        $headers = [
-            'Content-Type' => $docs->mime_type
-        ];
-
-        return response($file, 200, $headers);
+        return Storage::disk('spaces')->download($docs->file);
     }
 
     public function update(Request $request, $id)

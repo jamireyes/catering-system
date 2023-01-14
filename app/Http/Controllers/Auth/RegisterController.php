@@ -13,7 +13,6 @@ use Illuminate\Validation\Rules\Password;
 use App\Models\SellerDocuments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Jobs\ProcessSellerDocuments;
 
 class RegisterController extends Controller
 {

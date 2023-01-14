@@ -5,6 +5,7 @@
 
 @section('content')
     <div class="content">
+        @include('components.terms-conditions')
         <div class="card">
             <div class="p-4 w-100">
                 <div>
@@ -92,7 +93,7 @@
                             <input class="form-check-input" name="agree_terms_and_conditions" type="checkbox">
                             <span class="form-check-sign"></span>
                                 {{ __('I agree to the') }}
-                            <a href="#something">{{ __('terms and conditions') }}</a>.
+                                <a href="#something" data-toggle="modal" data-target=".terms-conditions-modal">{{ __('terms and conditions') }}</a>.
                         </label>
                         @if ($errors->has('agree_terms_and_conditions'))
                             <span class="invalid-feedback" style="display: block;" role="alert">

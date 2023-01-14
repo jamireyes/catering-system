@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use App\Models\Category;
 use App\Models\CategoryRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Session;
 use Cart;
@@ -100,8 +101,8 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        //
-    }
+        return Storage::disk('spaces')->download($order->payment_file);
+    }    
 
     public function edit(Order $order)
     {

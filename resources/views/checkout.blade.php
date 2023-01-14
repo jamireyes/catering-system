@@ -26,7 +26,7 @@
             </div>
             <div class="row mt-4">
                 <div class="col-md-8">
-                    <form action="{{ route('checkout.confirm') }}" method="POST">
+                    <form action="{{ route('checkout.confirm') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <h5 class="text-lg">Checkout</h5>
                         <div class="form-group">
@@ -100,15 +100,15 @@
                             <div class="form-group col-md-4">
                                 <label>Payment Method</label>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="payment_method_1" name="payment_method" class="custom-control-input" value="bank">
+                                    <input type="radio" id="payment_method_1" name="payment_method" class="custom-control-input" value="BANK" required>
                                     <label class="custom-control-label" for="payment_method_1">Bank</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="payment_method_2" name="payment_method" class="custom-control-input" value="paymaya">
+                                    <input type="radio" id="payment_method_2" name="payment_method" class="custom-control-input" value="PAYMAYA">
                                     <label class="custom-control-label" for="payment_method_2">Paymaya</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="payment_method_3" name="payment_method" class="custom-control-input" value="gcash">
+                                    <input type="radio" id="payment_method_3" name="payment_method" class="custom-control-input" value="GCASH">
                                     <label class="custom-control-label" for="payment_method_3">GCash</label>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                                 <div class="d-flex align-items-center mb-3 bg-white">
                                     <div class="input-file">
                                         <div class="py-1 pl-2">
-                                            <input id="upload-btn" type="file" name="payment_file" hidden>
+                                            <input id="upload-btn" type="file" name="payment_file" required>
                                             <label for="upload-btn" class="btn btn-sm btn-outline-default my-1">Select</label>
                                         </div>
                                         <div class="px-2">
