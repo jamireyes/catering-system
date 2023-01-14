@@ -77,6 +77,34 @@
                                 </div>
                             </div>
 
+                            <div class="seller-documents" style="display: none;">
+                                <label>Upload 2 Valid IDs</label>
+                                <div class="form-row">
+                                    <div class="form-group col-6">
+                                        <div class="input-file">
+                                            <div class="py-1 pl-2">
+                                                <input id="upload-btn-1" type="file" name="file[]" hidden>
+                                                <label for="upload-btn-1" class="btn btn-sm btn-outline-default my-1">Select</label>
+                                            </div>
+                                            <div class="px-2">
+                                                <span id="file-chosen-1" class="m-0">No file uploaded</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <div class="input-file">
+                                            <div class="py-1 pl-2">
+                                                <input id="upload-btn-2" type="file" name="file[]" hidden>
+                                                <label for="upload-btn-2" class="btn btn-sm btn-outline-default my-1">Select</label>
+                                            </div>
+                                            <div class="px-2">
+                                                <span id="file-chosen-2" class="m-0">No file uploaded</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+
                             <hr class="hr-text" data-content="Permanent Address">
 
                             <div class="form-group">
@@ -146,10 +174,20 @@
             if(this.value == 'SELLER'){
                 $('label[for="name"]').html('Company Name ')
                 $('label[for="name"]').append('<i>(Example: Three Catering Services Inc.)</i>');
+                $('.seller-documents').show();
             }else{
                 $('label[for="name"]').html('Full Name ')
                 $('label[for="name"]').append('<i>(Example: Juan Dela Cruz)</i>');
+                $('.seller-documents').hide();
             }
         });
+
+        document.getElementById('upload-btn-1').addEventListener('change', function(){
+            document.getElementById('file-chosen-1').textContent = this.files[0].name
+        })
+
+        document.getElementById('upload-btn-2').addEventListener('change', function(){
+            document.getElementById('file-chosen-2').textContent = this.files[0].name
+        })
     </script>
 @endpush

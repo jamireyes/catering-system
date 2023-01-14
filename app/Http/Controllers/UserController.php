@@ -97,12 +97,25 @@ class UserController extends Controller
         $user->password = $request->password;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
+        $user->role = $request->role;
         $user->address_1 = $request->address_1;
         $user->address_2 = $request->address_2;
         $user->city = $request->city;
         $user->state = $request->state;
         $user->zipcode = $request->zipcode;
         $user->save();
+
+        if(request()->hasFile('file')){
+            foreach(request()->file as $file){
+                $path = Storage::disk('spaces')->putFileAs('seller_documents', $file, $file->hashName());
+
+                $docs = new SellerDocuments;
+                $docs->user_id = $user->id;
+                $docs->file = $path;
+                $docs->mime_type = $file->getMimeType();
+                $docs->save();
+            }
+        }
 
         $message = 'Successfully created an account for '.$request->name.'!';
         
