@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Validator;
 use Auth;
 
 class CategoryController extends Controller
@@ -14,28 +16,45 @@ class CategoryController extends Controller
 
     public function __construct(){
         $this->rules = [
-            'name' => 'required',
+            'name' => [
+                'required', 
+                Rule::unique('categories', 'name')->where(fn ($query) => $query->where('user_id', Auth::id()))
+            ],
         ];
         $this->messages = [
             'name.required' => 'The category name field is required.',
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if(Auth::user()->role == 'USER'){
+            return back();
+        }
+
         if(Auth::user()->role == 'ADMIN'){
-            $categories = DB::table('categories')
+            $query = DB::table('categories')
                 ->select('categories.*', 'users.name as user')
-                ->join('users', 'categories.user_id', '=', 'users.id')
-                ->paginate(10);
+                ->join('users', 'categories.user_id', '=', 'users.id');
 
         }elseif(Auth::user()->role == 'SELLER'){
-            $categories = DB::table('categories')
-                ->where('user_id', Auth::id())
-                ->paginate(10);
-        }else{
-            back();
+            $query = DB::table('categories')
+                ->where('user_id', Auth::id());
         }
+
+        if($request->active == 'true'){
+            $query = $query->where('categories.deleted_at', NULL);
+        }
+
+        if($request->inactive == 'true'){
+            $query = $query->where('categories.deleted_at', '!=', NULL);
+        }
+
+        if(!$request->has('active') && !$request->has('inactive')){
+            $query = $query->where('categories.deleted_at', NULL);
+        }
+        
+        $categories = $query->paginate(10);
 
         return view('pages.category.index', compact('categories'));
     }
@@ -85,7 +104,7 @@ class CategoryController extends Controller
 
         $message = 'Successfully deleted '.$category->name.'!';
 
-        return back()->with('warning', $message);
+        return back()->with('success', $message);
     }
 
     // Restore the specified category.
@@ -96,6 +115,6 @@ class CategoryController extends Controller
 
         $message = 'Successfully restored '.$category->name.'!';
 
-        return back()->with('warning', $message);
+        return back()->with('success', $message);
     }
 }

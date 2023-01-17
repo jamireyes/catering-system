@@ -24,7 +24,6 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {   
-        // Redirects USERS to the profile settings page.
         if(Auth::user()->role == 'USER'){
             $favorites = Favorite::selectRaw('favorites.created_at as date, packages.id as package_id, packages.name as name, packages.pax as pax, packages.price as price, packages.discount as discount')
                 ->where('favorites.user_id', Auth::id())
@@ -69,8 +68,11 @@ class HomeController extends Controller
         }
         
         // Gets sales reports such as current total monthly sales and total monthly orders.
-        $sale_query = Order::selectRaw("SUM(packages.price) as sales, COUNT(orders.id) as count")
+        $sale_query = Order::selectRaw("SUM(orders.subtotal - IFNULL(orders.discount, 0)) as sales, COUNT(orders.id) as count")
             ->join('packages', 'orders.package_id', 'packages.id');
+
+        $total_users = User::select('users.id');
+        $total_packages = Package::select('packages.id');
 
         // Monthly Sales Chart - query
         $monthly_sales_query = Order::selectRaw("date_format(orders.created_at, '%m') as month, COUNT(orders.id) as total_orders, SUM(orders.subtotal - IFNULL(orders.discount, 0)) as total_sales, SUM((orders.subtotal - IFNULL(orders.discount, 0)) - packages.cost_price) as total_profits")
@@ -78,8 +80,24 @@ class HomeController extends Controller
             ->groupBy('month')
             ->orderBy('month');
 
-        $total_users = User::count(); // Gets total users.
-        $total_packages = Package::count(); // Gets total packages.
+        // Monthly Users Charts - query
+        $monthly_users_query = User::selectRaw("date_format(created_at, '%m') as month, count(id) as total_users, role")
+            ->where('role', 'USER')
+            ->groupBy('month', 'role');
+
+        if($request->filter_year){
+            $monthly_users = $monthly_users_query->whereYear('created_at', $request->filter_year)->get()->toArray();
+            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', $request->filter_year)->get()->toArray();
+            $total_users = $total_users->whereYear('created_at', $request->filter_year)->count();
+            $total_packages = $total_packages->whereYear('created_at', $request->filter_year)->count();
+            $sale_query = $sale_query->whereYear('orders.created_at', $request->filter_year);
+        }else {
+            $monthly_users = $monthly_users_query->whereYear('created_at', now())->get()->toArray();
+            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', now()->year)->get()->toArray();
+            $total_users = $total_users->whereYear('created_at', now()->year)->count();
+            $total_packages = $total_packages->whereYear('created_at', now()->year)->count();
+            $sale_query = $sale_query->whereYear('orders.created_at', now()->year);
+        }
 
         if(Auth::user()->role == 'ADMIN'){
             $sales = $sale_query->get();
@@ -90,19 +108,6 @@ class HomeController extends Controller
 
         $monthly_sale = $sales[0]->sales; // Gets current total monthly sales.
         $monthly_order = $sales[0]->count; // Gets current total monthly orders.
-
-        // Monthly Users Charts - query
-        $monthly_users_query = User::selectRaw("date_format(created_at, '%m') as month, count(id) as total_users, role")
-            ->where('role', 'USER')
-            ->groupBy('month', 'role');
-
-        if($request->filter_year){
-            $monthly_users = $monthly_users_query->whereYear('created_at', $request->filter_year)->get()->toArray();
-            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', $request->filter_year)->get()->toArray();
-        }else {
-            $monthly_users = $monthly_users_query->whereYear('created_at', now())->get()->toArray();
-            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', now()->year)->get()->toArray();
-        }
 
         $collection = collect($monthly_users)->sortBy('month');
         

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Validator;
 use Auth;
 use DB;
 
@@ -13,7 +15,10 @@ class ItemController extends Controller
     public function __construct(){
         $this->rules = [
             'category_id' => 'required',
-            'name' => 'required',
+            'name' => [
+                'required', 
+                Rule::unique('items', 'name')->where(fn ($query) => $query->where('user_id', Auth::id()))
+            ],
             'description' => 'required'
         ];
         $this->messages = [
@@ -24,24 +29,40 @@ class ItemController extends Controller
     }
 
     // Displays all the data for both the categories and items
-    public function index()
+    public function index(Request $request)
     {
-        if(Auth::user()->role == 'ADMIN'){
-            $items = DB::table('items')
-                ->select('items.*', 'categories.name as category_name', 'users.name as user')
-                ->join('categories', 'items.category_id', '=', 'categories.id')
-                ->join('users', 'items.user_id', '=', 'users.id')
-                ->paginate(10);
-        }elseif(Auth::user()->role == 'SELLER'){
-            $items = DB::table('items')
-                ->join('categories', 'items.category_id', '=', 'categories.id')
-                ->select('items.*', 'categories.name as category_name')
-                ->where('items.user_id', Auth::id())
-                ->paginate(10);
-
-        }else{
+        if(Auth::user()->role == 'USER'){
             return back();
         }
+
+        if(Auth::user()->role == 'ADMIN'){
+            $query = DB::table('items')
+                ->select('items.*', 'categories.name as category_name', 'users.name as user')
+                ->join('categories', 'items.category_id', '=', 'categories.id')
+                ->join('users', 'items.user_id', '=', 'users.id');
+                
+                
+        }elseif(Auth::user()->role == 'SELLER'){
+            $query = DB::table('items')
+                ->join('categories', 'items.category_id', '=', 'categories.id')
+                ->select('items.*', 'categories.name as category_name')
+                ->where('items.user_id', Auth::id());
+        }
+
+        if($request->active == 'true'){
+            $query = $query->where('items.deleted_at', NULL);
+        }
+
+        if($request->inactive == 'true'){
+            $query = $query->where('items.deleted_at', '!=', NULL);
+        }
+
+        if(!$request->has('active') && !$request->has('inactive')){
+            $query = $query->where('items.deleted_at', NULL);
+        }
+
+        $items = $query->paginate(10);
+
         return view('pages.item.index', compact('items'));
     }
 
@@ -105,7 +126,7 @@ class ItemController extends Controller
 
         $message = 'Successfully deleted '.$item->name.'!';
 
-        return back()->with('warning', $message);
+        return back()->with('success', $message);
     }
 
     // Restores the item
@@ -116,6 +137,6 @@ class ItemController extends Controller
 
         $message = 'Successfully restored '.$item->name.'!';
 
-        return back()->with('warning', $message);
+        return back()->with('success', $message);
     }
 }

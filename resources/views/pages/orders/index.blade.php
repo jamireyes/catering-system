@@ -17,12 +17,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12 mx-auto">
                 <form action="{{ route('order.index') }}">
-                    
                     <div class="bg-white rounded shadow-sm p-3 mb-3">
-                        <div class="d-flex justify-content-center w-100">
-                            <div class="mr-2 w-100">
+                        <div class="d-flex justify-content-center">
+                            <div class="mx-1">
                                 <label class="text-muted text-xs">Start Date</label>
                                 <div class="input-group-icon">
                                     <input type="text" id="from" name="start" class="form-control" autocomplete="off" required>
@@ -31,7 +30,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-100">
+                            <div class="mx-1">
                                 <label class="text-muted text-xs">End Date</label>
                                 <div class="input-group-icon">
                                     <input type="text" id="to" name="end" class="form-control" autocomplete="off" required>
@@ -40,29 +39,36 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-sm btn-primary mb-0">Submit</button>
+                            <div class="d-flex align-items-end">
+                                <button type="reset" class="btn btn-default mb-0" style="padding-top: 0.42rem; padding-bottom: 0.42rem;">Clear</button>
+                                <button type="submit" class="btn btn-primary mb-0" style="padding-top: 0.42rem; padding-bottom: 0.42rem;">Submit</button>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-12">
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card">
+                    <div class="card-body">
                         @if (request()->get('start') && request()->get('end'))  
                             @if (session('info'))
-                                <div class="alert alert-warning alert-dismissible fade show text-secondary" role="alert">
-                                    No results from 
-                                    <strong>{{ \Carbon\Carbon::parse(request()->get('start'))->toFormattedDateString() }}</strong> 
-                                    to 
-                                    <strong>{{ \Carbon\Carbon::parse(request()->get('end'))->toFormattedDateString() }}</strong>.
-                                    <button type="button" class="close text-secondary" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                <div class="alert alert-warning fade show text-secondary" role="alert">
+                                    <div class="text-muted d-flex align-items-center" style="line-height: 1.15 !important;">
+                                        <i class="nc-icon nc-alert-circle-i"></i>
+                                        <p class="text-muted ml-2 mb-0">
+                                            No results from 
+                                            <strong>{{ \Carbon\Carbon::parse(request()->get('start'))->toFormattedDateString() }}</strong> 
+                                            to 
+                                            <strong>{{ \Carbon\Carbon::parse(request()->get('end'))->toFormattedDateString() }}</strong>.
+                                        </p>
+                                    </div>
                                 </div>
                             @else
-                                <div class="text-muted d-flex align-items-center mb-3">
+                                <div class="text-muted d-flex align-items-center mb-3" style="line-height: 1.15 !important;">
                                     <i class="nc-icon nc-alert-circle-i"></i>
                                     <p class="text-muted ml-2 mb-0">
                                         {{ $count }}
@@ -78,212 +84,118 @@
                             @if ($count && !request()->get('start') && !request()->get('end'))
                                 <div class="text-muted d-flex align-items-center mb-3">
                                     <i class="nc-icon nc-alert-circle-i"></i>
-                                    <p class="ml-2 mb-0" style="line-height:0!important;">Most Recent Transactions</p>
+                                    <p class="ml-2 mb-0" style="line-height:0!important;">10 Most Recent Transactions</p>
                                 </div>
                             @endif
                         @endisset
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="position-relative order-container">                   
-                            @isset($orders)
-                                @foreach ($orders as $order)
-                                <div class="card shadow-sm">
-                                    <div class="card-body p-4">
-                                        <div class="order-header">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <h5 class="mb-1">{{ $order->package_name }} ({{ $order->pax }} pax)</h5>
-                                                    @if($order->status == 'CONFIRMED')
-                                                        <span class="badge badge-pill badge-success">{{ $order->status }}</span>
-                                                    @elseif($order->status == 'CANCELLED')
-                                                        <span class="badge badge-pill badge-danger">{{ $order->status }}</span>
-                                                    @elseif($order->status == 'PENDING')
-                                                        <span class="badge badge-pill badge-warning">{{ $order->status }}</span>
+                        <div class="table-responsive-sm">
+                            @if (Auth::user()->role == 'SELLER' || Auth::user()->role == 'ADMIN')
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>Status</th>
+                                        <th>Order #</th>
+                                        <th>Customer</th>
+                                        <th>Contact #</th>
+                                        <th>Address</th>
+                                        <th>Email</th>
+                                        <th>Order Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @isset($orders)
+                                        @foreach ($orders as $order)
+                                            <tr>
+                                                <td class="text-center">
+                                                    @if ($order->status == 'CONFIRMED')
+                                                        <span class="badge badge-pill badge-success p-2">
+                                                            {{ $order->status }}
+                                                        </span>
+                                                    @elseif ($order->status == 'PENDING')
+                                                        <span class="badge badge-pill badge-warning p-2">
+                                                            {{ $order->status }}
+                                                        </span>
+                                                    @elseif ($order->status == 'CANCELLED')
+                                                        <span class="badge badge-pill badge-danger p-2">
+                                                            {{ $order->status }}
+                                                        </span>
                                                     @endif
-                                                </div>
-                                                <div class="d-flex flex-column text-right">
-                                                    <div class="d-flex flex-md-row flex-column justify-content-end mb-2 mt-1">
-                                                        @if (Auth::user()->role != 'USER')
-                                                            <form class="form-inline" action="{{ route('order.update', ['order' => $order->order_id]) }}" method="POST">
-                                                                @method('PUT')
-                                                                @csrf
-                                                                {{-- <div class="form-group">
-                                                                    <select class="custom-select custom-select-sm" name="status">
-                                                                        <option value="CONFIRMED" @if ($order->status == 'CONFIRMED') selected @endif>CONFIRMED</option>
-                                                                        <option value="PENDING" @if ($order->status == 'PENDING') selected @endif>PENDING</option>
-                                                                        <option value="CANCELLED" @if ($order->status == 'CANCELLED') selected @endif>CANCELLED</option>
-                                                                    </select>
-                                                                    <button class="btn btn-sm btn-icon btn-info ml-1 m-0"><i class="fa-solid fa-rotate-right"></i></button>
-                                                                </div> --}}
-            
-                                                                <div class="input-group mb-0">
-                                                                    <select class="custom-select custom-select-sm" name="status">
-                                                                        <option value="CONFIRMED" @if ($order->status == 'CONFIRMED') selected @endif>CONFIRMED</option>
-                                                                        <option value="PENDING" @if ($order->status == 'PENDING') selected @endif>PENDING</option>
-                                                                        <option value="CANCELLED" @if ($order->status == 'CANCELLED') selected @endif>CANCELLED</option>
-                                                                    </select>
-                                                                    <div class="input-group-append">
-                                                                        <button class="btn btn-sm btn-icon btn-info m-0"><i class="fa-solid fa-rotate-right"></i></button>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        @endif
-            
-                                                        <div class="dropdown">
-                                                            <button style="height: 1.875rem; width: 2.5rem;" class="btn btn-sm btn-info dropdown-toggle ml-1 m-0 px-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fa-solid fa-gear"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                                                <form action="{{ route('order.show', ['order' => $order->order_id]) }}" method="GET">
-                                                                    <button type="submit" class="dropdown-item">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2.7" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                                                            <div class="ml-1">Proof of Payment</div>
-                                                                        </div>
-                                                                    </button>
-                                                                </form>
-                                                                <form action="{{ route('order.exportToPDF') }}" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="download" value="pdf">
-                                                                    <input type="hidden" name="id" value="{{ $order->order_id }}">
-                                                                    <button type="submit" class="dropdown-item" >
-                                                                        <div class="d-flex align-items-center">
-                                                                            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2.7" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                                                            <div class="ml-1">Export</div>
-                                                                        </div>
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <small class="text-muted"><strong>Date:</strong> {{ $order->order_date }}</small>
-                                                    <small class="text-muted"><strong>Order No.:</strong> {{ $order->order_id }}</small>
-                                                </div>
-                                            </div>
-                                            <div class="order-cater-info">
-                                                <p class="font-weight-bold">{{ $order->c_name }}</p>
-                                                <table>
-                                                    <tr>
-                                                        <td>Address:</td>
-                                                        <td>
-                                                            @if ($order->c_address)
-                                                                {{ $order->c_address }}
-                                                            @else
-                                                                N/A
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Contact:</td>
-                                                        <td>
-                                                            @if ($order->c_contact)
-                                                                0{{ substr($order->c_contact, 0, 3) . " " . substr($order->c_contact, 3, 3) . " " . substr($order->c_contact, 6) }}
-                                                            @else
-                                                                N/A
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Email:</td>
-                                                        <td>
-                                                            @if ($order->c_email)
-                                                                {{ $order->c_email }}
-                                                            @else
-                                                                N/A
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="order-body">
-                                            <div class="order-package">
-                                                @foreach ($categories as $c)
-                                                    @if ($order->package_id == $c->package_id)
-                                                        <p class="mb-2 text-xs">{{ $c->name }}</p>
-                                                        @foreach ($items as $item)
-                                                        @if ($item->order_id == $order->order_id)
-                                                            @if ($item->category == $c->name)
-                                                                <p class="ml-3 mb-2 text-xs font-weight-light">{{ $item->name }}<small class="mb-1 text-muted"> x {{ $item->qty }}</small></p>
-                                                            @endif
-                                                        @endif
-                                                        @endforeach
-                                                    @endif
-                                                @endforeach
-                                                                                
-                                                @if ($order->inclusion != NULL)    
-                                                    <p class="mb-2 text-xs">{{ __('Inclusions') }}</p>
-                                                    <p class="ml-3 mb-2 text-xs font-weight-light">{{ $order->inclusion }}</p> 
+                                                </td>
+                                                <td class="text-center">{{ $order->order_id }}</td>
+                                                <td>{{ $order->u_name }}</td>
+                                                @if ($order->u_contact != NULL)
+                                                    <td>0{{ $order->u_contact }}</td>
+                                                @else
+                                                    <td>N/A</td>
                                                 @endif
-                                                <hr>
-                                                <div class="order-summary">
-                                                    <table>
-                                                        <tr>
-                                                            <td>Subtotal</td>
-                                                            <td>₱ {{ number_format($order->subtotal, 2, '.', ',') }}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            @if ($order->discount)
-                                                                <td>Discount</td>
-                                                                <td>- {{ number_format($order->discount, 2, '.', ',') }}</td>
-                                                            @else
-                                                                <td>Discount</td>
-                                                                <td>--</td>
-                                                            @endif
-                                                        </tr>
-                                                        <tr class="grand-total">
-                                                            <td>Grand Total</td>
-                                                            <td>₱ {{ number_format(($order->subtotal - $order->discount), 2, '.', ',') }}</td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="order-details">
-                                                <h6>Customer Information</h6>
-                                                <small>Customer</small>
-                                                <p>
-                                                    @if ($order->u_name)
-                                                        {{ $order->u_name }}
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </p>
-        
-                                                <small>Address</small>
-                                                <p>   
-                                                    @if ($order->u_address)
-                                                        {{ $order->u_address }}
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </p>
-        
-                                                <small>Contact</small>
-                                                <p>
-                                                    @if ($order->u_contact)
-                                                        0{{ substr($order->u_contact, 0, 3) . " " . substr($order->u_contact, 3, 3) . " " . substr($order->u_contact, 6) }}
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </p>
-        
-                                                <small>Email</small>
-                                                <p>
-                                                    @if ($order->u_email)
-                                                        {{ $order->u_email }}
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
-                            @endisset
+                                                @if ($order->u_address != NULL)
+                                                    <td>{{ $order->u_address }}</td>
+                                                @else
+                                                    <td>N/A</td>
+                                                @endif
+                                                @if ($order->u_email != NULL)
+                                                    <td>{{ $order->u_email }}</td>
+                                                @else
+                                                    <td>N/A</td>
+                                                @endif
+                                                <td class="text-center">
+                                                    {{ $order->order_date }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="view-btn" href="{{ route('order.show', ['order' => $order->order_id]) }}">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endisset
+                                </tbody>
+                            </table>
+                            @elseif (Auth::user()->role == 'USER')
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Status</th>
+                                            <th>Order #</th>
+                                            <th>Catering Service</th>
+                                            <th>Order Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @isset($orders)
+                                            @foreach ($orders as $order)
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @if ($order->status == 'CONFIRMED')
+                                                            <span class="badge badge-pill badge-success p-2">
+                                                                {{ $order->status }}
+                                                            </span>
+                                                        @elseif ($order->status == 'PENDING')
+                                                            <span class="badge badge-pill badge-warning p-2">
+                                                                {{ $order->status }}
+                                                            </span>
+                                                        @elseif ($order->status == 'CANCELLED')
+                                                            <span class="badge badge-pill badge-danger p-2">
+                                                                {{ $order->status }}
+                                                            </span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">{{ $order->order_id }}</td>
+                                                    <td>{{ $order->c_name }}</td>
+                                                    <td class="text-center">{{ $order->order_date }}</td>
+                                                    <td class="text-center">
+                                                        <a class="view-btn" href="{{ route('order.show', ['order' => $order->order_id]) }}">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endisset
+                                    </tbody>
+                                </table>
+                            @endif
                         </div>
                     </div>
                 </div>

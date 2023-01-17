@@ -52,7 +52,7 @@ class OrderController extends Controller
 
             $query = $query->whereDate('orders.created_at', '>=', $start)->whereDate('orders.created_at', '<=', $end);
         }else{
-            $query = $query->limit(5);
+            $query = $query->limit(10);
         }
         
         if(Auth::user()->role == 'ADMIN'){
@@ -99,9 +99,48 @@ class OrderController extends Controller
         //
     }
 
-    public function show(Order $order)
+    public function show($id)
     {
-        return Storage::disk('spaces')->download($order->payment_file);
+        $orders = Order::selectRaw("
+                orders.id as order_id,
+                DATE_FORMAT(orders.created_at, '%M %d, %Y') as order_date,
+                orders.subtotal as subtotal,
+                orders.discount as discount,
+                orders.status as status,
+                c.id as user_id,
+                c.name as c_name,
+                c.phone_number as c_contact,
+                c.email as c_email,
+                CONCAT_WS(' ', c.address_1, c.address_2, c.city, c.state, c.zipcode) as c_address,
+                u.name as u_name,
+                u.phone_number as u_contact,
+                u.email as u_email,
+                CONCAT_WS(' ', u.address_1, u.address_2, u.city, u.state, u.zipcode) as u_address,
+                packages.id as package_id,
+                packages.name as package_name, 
+                packages.pax,
+                packages.inclusion
+            ")
+            ->join('packages', 'orders.package_id', 'packages.id')
+            ->join('users AS c', 'packages.user_id', 'c.id')
+            ->join('users AS u', 'orders.user_id', 'u.id')
+            ->where('orders.id', $id)
+            ->get();
+
+        $package_id = $orders->pluck('package_id');
+            
+        $items = Item::selectRaw('order_items.order_id as order_id, items.name as name, order_items.quantity as qty, categories.name as category')
+            ->join('order_items', 'items.id', 'order_items.item_id')
+            ->join('categories', 'items.category_id', 'categories.id')
+            ->where('order_items.order_id', $id)
+            ->get();
+
+        $categories = CategoryRule::selectRaw('name, package_id')
+            ->join('categories', 'category_rules.category_id', 'categories.id')
+            ->where('category_rules.package_id', $package_id)
+            ->get();
+        
+        return view('pages.orders.show', compact(['orders', 'items', 'categories']));
     }    
 
     public function edit(Order $order)
@@ -178,5 +217,10 @@ class OrderController extends Controller
 
         // return view('components.order-to-pdf', compact(['orders', 'items', 'categories']));
         return $pdf->download('order.pdf');
+    }
+
+    public function downloadPayment(Order $order)
+    {
+        return Storage::disk('spaces')->download($order->payment_file);
     }
 }

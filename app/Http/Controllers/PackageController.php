@@ -9,6 +9,8 @@ use App\Models\Occasion;
 use App\Models\CategoryRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Validator;
 use Carbon\Carbon;
 use Auth;
 use DB;
@@ -39,7 +41,7 @@ class PackageController extends Controller
     }
 
     // Displays the packages
-    public function index()
+    public function index(Request $request)
     {
         if(Auth::user()->role == 'USER' || Auth::user()->role == 'ADMIN'){
             return back();
@@ -53,20 +55,25 @@ class PackageController extends Controller
         $categoryRule_query = DB::table('category_rules')
             ->select('category_rules.*', 'categories.name as category_name')
             ->join('categories', 'category_rules.category_id', '=', 'categories.id');
-            
-
-        if(Auth::user()->role == 'ADMIN'){
-            $packages = $package_query->paginate(8);
-            $items = Item::all();
-            $categoryRules = $categoryRule_query->get();
-        }else{
-            $packages = $package_query->where('user_id', Auth::id())
-                ->paginate(8);
-            $items = Item::where('user_id', Auth::id())->get();
-            $categoryRules = $categoryRule_query->join('packages', 'category_rules.package_id', '=', 'packages.id')
-                ->where('packages.user_id', Auth::id())
-                ->get();
+        
+        if($request->active == 'true'){
+            $package_query = $package_query->where('packages.deleted_at', NULL);
         }
+
+        if($request->inactive == 'true'){
+            $package_query = $package_query->where('packages.deleted_at', '!=', NULL);
+        }
+
+        if(!$request->has('active') && !$request->has('inactive')){
+            $package_query = $package_query->where('packages.deleted_at', NULL);
+        }
+
+        $packages = $package_query->where('user_id', Auth::id())
+            ->paginate(8);
+        $items = Item::where('user_id', Auth::id())->get();
+        $categoryRules = $categoryRule_query->join('packages', 'category_rules.package_id', '=', 'packages.id')
+            ->where('packages.user_id', Auth::id())
+            ->get();
 
         return view('pages.packages.index', compact(['packages', 'categoryRules', 'items']));
     }
@@ -200,7 +207,7 @@ class PackageController extends Controller
 
         $message = 'Successfully deleted '.$package->name.'!';
 
-        return back()->with('warning', $message);
+        return back()->with('success', $message);
     }
 
     // Restores packages
@@ -212,6 +219,21 @@ class PackageController extends Controller
 
         $message = 'Successfully restored '.$package->name.'!';
 
-        return back()->with('warning', $message);
+        return back()->with('success', $message);
+    }
+
+    public function addOccasion(Request $request)
+    {
+        $request->validate([
+            'occasion' => 'required|unique:occasions,name',
+        ]);
+
+        $occasion = new Occasion;
+        $occasion->name = Str::upper($request->occasion);
+        $occasion->save();
+
+        $message = 'Successfully added '.Str::upper($request->occasion).'!';
+
+        return back()->with('success', $message);
     }
 }

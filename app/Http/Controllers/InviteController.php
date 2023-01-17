@@ -26,10 +26,14 @@ class InviteController extends Controller
     
     public function generateInvite(Request $request) 
     {
+        $request->validate([
+            'email_invitation' => 'required|email'
+        ]);
+
         $invite_code = InviteCodes::create()
             ->expiresIn(30)
             ->maxUsages(10)
-            ->restrictUsageTo($request->email)
+            ->restrictUsageTo($request->email_invitation)
             ->save();
 
         Notification::route('mail', $invite_code->to)->notify(new SendAdminInvite($invite_code));

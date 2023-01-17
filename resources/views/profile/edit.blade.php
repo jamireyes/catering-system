@@ -8,20 +8,29 @@
         <div class="row">
             <div class="col-md-10 mx-auto">
                 @if (session('status'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('status') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                    <script type="text/javascript">
+                        function message() {
+                            Swal.fire({
+                                icon: 'success',
+                                text: "{{ session('status') }}",
+                            });
+                        }
+
+                        window.onload = message
+                    </script>
                 @endif
+
                 @if (session('password_status'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('password_status') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                    <script type="text/javascript">
+                        function message() {
+                            Swal.fire({
+                                icon: 'success',
+                                text: "{{ session('password_status') }}",
+                            });
+                        }
+
+                        window.onload = message
+                    </script>
                 @endif
             </div>
         </div>
@@ -134,16 +143,6 @@
                                             @endif
                                         </div>
                                     </div>
-
-                                    {{-- <div class="form-group col-md-6">
-                                        <label>{{ __('Phone Number') }}</label>
-                                        <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" value="0{{ auth()->user()->phone_number }}" required>
-                                        @if ($errors->has('phone_number'))
-                                            <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('phone_number') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div> --}}
                                 </div>
                                 <div class="form-group">
                                     <label>{{ __('Address Line 1') }}</label>
@@ -202,7 +201,7 @@
                             </div>
                         </div>
                     </form>
-                    <form class="col-md-12" action="{{ route('profile.password') }}" method="POST">
+                    <form class="change-password col-md-12" action="{{ route('profile.password') }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="card py-2">
@@ -253,17 +252,17 @@
                             <div class="card-footer ">
                                 <div class="row">
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-info">{{ __('Save Changes') }}</button>
+                                        <button type="button" class="btn btn-info">{{ __('Submit') }}</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
                     @if (Auth::user()->role == 'ADMIN')
-                        <form class="col-md-12" action="{{ route('invite.generateInvite') }}" method="POST">
-                            <div class="card py-2 text-center">
+                        <form class="send-invite col-md-12" action="{{ route('invite.generateInvite') }}" method="POST">
+                            <div class="card py-2">
                                 <div class="card-header">
-                                    <h5>Invite Admin Registration</h5>
+                                    <h5 class="text-center">Invite Admin Registration</h5>
                                 </div>
                                 <div class="card-body">
                                     @csrf
@@ -271,15 +270,20 @@
                                         <label class="col-md-3 col-form-label">{{ __('Send Invitation') }}</label>
                                         <div class="col-md-9">
                                             <div class="form-group">
-                                                <input type="text" name="email" class="form-control" placeholder="Enter Email Address" required>
+                                                <input type="email" name="email_invitation" class="form-control" placeholder="Enter Email Address" required>
+                                                @if ($errors->has('email_invitation'))
+                                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                                        <strong>{{ $errors->first('email_invitation') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer ">
+                                <div class="card-footer">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <button type="submit" class="btn btn-info">{{ __('Send') }}</button>
+                                            <button type="button" class="btn btn-info">{{ __('Send') }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -306,7 +310,83 @@
 
             $('.user-image span').click(() => {
                 $('#image-form').toggleClass('d-none');
-            })            
+            })     
+            
+            $('.change-password [type="button"]').click(function(e){
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Save Changes'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Processing...',
+                            html: 'Do not refresh the page. Thank you!',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+
+                        setTimeout(() => {
+                            $('.change-password').submit();
+                        }, 1500);
+                    }
+                })
+            })
+
+            $('.send-invite [type="button"]').click(function(e){
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Send Invite'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Processing...',
+                            html: 'Do not refresh the page. Thank you!',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+
+                        setTimeout(() => {
+                            $('.send-invite').submit();
+                        }, 1500);
+                    }
+                })
+            })
         })
     </script>
 @endpush

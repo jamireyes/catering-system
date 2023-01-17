@@ -1218,6 +1218,13 @@ a.fav-btn.active span::before {
     color: var(--info) !important;
 }
 
-/* .order-container .dropdown-menu.show {
-    
-} */
+.view-btn, .view-btn:focus, .view-btn:active {
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    color: var(--gray);
+}
+
+.view-btn:hover {
+    color: var(--info);
+}

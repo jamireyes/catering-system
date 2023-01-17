@@ -17,7 +17,13 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">All Packages</h5>
                     <div class="d-flex justify-content-center align-items-center">
-                        {{ $packages->links() }}
+                        @if (request()->get('active'))
+                            {{ $packages->appends(['active' => 'true'])->links() }}
+                        @elseif(request()->get('inactive'))
+                            {{ $packages->appends(['inactive' => 'true'])->links() }}
+                        @else
+                            {{ $packages->appends(['active' => 'true'])->links() }}
+                        @endif
                     </div>
                 </div>
             </div>
@@ -31,30 +37,34 @@
                     <li class="nav-item">
                         <a class="nav-link" id="preview-tab" data-toggle="pill" href="#preview" role="tab" aria-controls="preview" aria-selected="false">Preview</a>
                     </li>
-                    <li class="nav-item ml-auto">
-                        <a class="nav-link bg-primary text-white" href="{{ route('package.create') }}" role="button">Add Package</a>
+                    <li class="nav-item ml-auto d-flex">
+                        <form action="{{ route('package.index') }}" method="GET">
+                            <input type="hidden" name="active" value="true">
+                            <button type="submit" class="nav-link border-0 @if(request()->get('active')) active @endif @if(!request()->get('active') && !request()->get('inactive')) active @endif">Active</button>
+                        </form>
+                        <form action="{{ route('package.index') }}" method="GET">
+                            <input type="hidden" name="inactive" value="true">
+                            <button type="submit" class="nav-link border-0 @if(request()->get('inactive')) active @endif">Inactive</button>
+                        </form>
+                        <a class="nav-link bg-primary text-white ml-1" href="{{ route('package.create') }}" role="button">Add Package</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">          
                         <div class="card">
                             <div class="card-body p-3">
                                 <div class="table-responsive-sm">
                                     <table class="table table-bordered mb-0">
                                         <thead>
-                                            <tr>
-                                                <th class="text-center">No.</th>
+                                            <tr class="text-center">
+                                                <th>No.</th>
                                                 <th>Name</th>
-                                                @if (Auth::user()->role == 'ADMIN')
-                                                <th>Catering Service</th>
-                                                @endif
                                                 <th>Cost Price</th>
                                                 <th>Selling Price</th>
                                                 <th>Discount</th>
                                                 <th>Created On</th>
                                                 <th>Last Update</th>
-                                                <th class="text-center">Actions</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,18 +72,15 @@
                                                 <tr>
                                                     <th scope="row" class="text-center">{{ $loop->iteration }}</th>
                                                     <td>{{ $p->name }}</td>
-                                                    @if (Auth::user()->role == 'ADMIN')
-                                                    <td>{{ $p->user }}</td>
-                                                    @endif
-                                                    <td>{{ $p->cost_price }}</td>
-                                                    <td>{{ $p->price }}</td>
+                                                    <td class="text-right">{{ $p->cost_price }}</td>
+                                                    <td class="text-right">{{ $p->price }}</td>
                                                     @if ($p->discount)
-                                                        <td>{{ $p->discount }}</td>
+                                                        <td class="text-right">{{ $p->discount }}%</td>
                                                     @else
-                                                        <td>N/A</td>
+                                                        <td class="text-right">N/A</td>
                                                     @endif
-                                                    <td>{{ Carbon\Carbon::parse($p->created_at)->toFormattedDateString() }}</td>
-                                                    <td>{{ Carbon\Carbon::parse($p->updated_at)->toFormattedDateString() }}</td>
+                                                    <td class="text-center">{{ Carbon\Carbon::parse($p->created_at)->toFormattedDateString() }}</td>
+                                                    <td class="text-center">{{ Carbon\Carbon::parse($p->updated_at)->toFormattedDateString() }}</td>
                                                     <td>
                                                         <div class="d-flex justify-content-center">
                                                             @if($p->deleted_at == NULL)
@@ -160,17 +167,17 @@
                                             <div class="d-flex justify-content-center">
                                                 @if($package->deleted_at == NULL)
                                                     <form action="{{ route('package.edit', ['package' => $package->id]) }}" method="GET">
-                                                        <button type="submit" class="btn btn-sm btn-warning">Edit</button>
+                                                        <button type="submit" class="btn btn-sm btn-warning" title="Edit">Edit</button>
                                                     </form>
                                                     <form action="{{ route('package.destroy', ['package' => $package->id]) }}" method="POST">
                                                         @method('delete')
                                                         @csrf
-                                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                                        <button class="btn btn-sm btn-danger" title="Delete">Delete</button>
                                                     </form>
                                                 @else
                                                     <form action="{{ route('package.restore', ['package' => $package->id]) }}" method="POST">
                                                         @csrf
-                                                        <button class="btn btn-sm btn-primary">Restore</button>
+                                                        <button class="btn btn-sm btn-primary" title="Restore">Restore</button>
                                                     </form>
                                                 @endif
                                             </div>
@@ -187,6 +194,83 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $('form button[title="Delete"]').click(function(e){
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You are about to "+$(this).attr('title').toUpperCase()+" this record",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: $(this).attr('title')
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Processing...',
+                        html: 'Do not refresh the page. Thank you!',
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    })
+
+                    setTimeout(() => {
+                        $(this).parents('form:first').submit()
+                    }, 1000);
+                }
+            })
+        })
+
+        $('form button[title="Restore"]').click(function(e){
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You are about to "+$(this).attr('title').toUpperCase()+" this record",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: $(this).attr('title')
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Processing...',
+                        html: 'Do not refresh the page. Thank you!',
+                        timer: 500,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    })
+
+                    setTimeout(() => {
+                        $(this).parents('form:first').submit()
+                    }, 500);
+                }
+            })
+        })
+    </script>
     <script>
         $(document).ready(() => {
             $('ul.pagination').addClass('mb-0 mr-4');

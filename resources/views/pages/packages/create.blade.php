@@ -59,7 +59,6 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="inclusion">Inclusions</label>
-                                        {{-- <input type="text" class="form-control @error('inclusion') is-invalid @enderror" name="inclusion" required> --}}
                                         <textarea class="form-control @error('inclusion') is-invalid @enderror" name="inclusion" cols="30" rows="10" required></textarea>
                                         @if ($errors->has('inclusion'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
@@ -140,7 +139,7 @@
         <div id="add-occasion-modal" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form action="{{ route('occasion.store') }}" method="POST">
+                    <form action="{{ route('package.addOccasion') }}" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title">Enter Occasion</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

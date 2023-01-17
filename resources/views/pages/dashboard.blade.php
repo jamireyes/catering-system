@@ -138,7 +138,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <div class="card">
+                <div class="sale-profit-chart card">
                     <div class="card-header">
                         <h5 class="text-muted text-lg">Monthly Sales and Profit Chart</h5>
                     </div>
@@ -152,7 +152,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card">
+                <div class="user-order-chart card">
                     <div class="card-header">
                         <h5 class="text-muted text-lg">Monthly Users and Orders Chart</h5>
                     </div>
@@ -297,6 +297,14 @@
                     }
                 })
 
+            // sale-profit-chart
+            // user-order-chart
+            console.log($('[name="filter_year"]').val(), $('.sale-profit-chart h5'));
+            
+            const year = ($('[name="filter_year"]').val() != null) ? $('[name="filter_year"]').val() : '';
+
+            $('.sale-profit-chart h5').append(' '+year)
+            $('.user-order-chart h5').append(' '+year)
         });
     </script>
 @endpush

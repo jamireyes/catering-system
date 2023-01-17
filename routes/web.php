@@ -70,9 +70,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	
 	Route::resource('order', OrderController::class);
 	Route::post('order/export', [OrderController::class, 'exportToPDF'])->name('order.exportToPDF');
+	Route::get('order/{order}/downloadPayment', [OrderController::class, 'downloadPayment'])->name('order.downloadPayment');
 
 	Route::resource('package', PackageController::class)->except(['show']);
 	Route::post('package/{package}/restore', [PackageController::class, 'restore'])->name('package.restore');
+	Route::post('package/addOccasion', [PackageController::class, 'addOccasion'])->name('package.addOccasion');
 
 	Route::resource('occasion', OccasionController::class);
 	Route::post('occasion/{occasion}/restore', [OccasionController::class, 'restore'])->name('occasion.restore');

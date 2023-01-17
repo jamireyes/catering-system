@@ -9,9 +9,23 @@ use DB;
 
 class OccasionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $occasions = Occasion::withTrashed()->paginate(10);
+        $query = Occasion::select('*');
+
+        if($request->active == 'true'){
+            $query = $query->where('deleted_at', NULL);
+        }
+
+        if($request->inactive == 'true'){
+            $query = $query->where('deleted_at', '!=', NULL)->withTrashed();
+        }
+
+        if(!$request->has('active') && !$request->has('inactive')){
+            $query = $query->where('deleted_at', NULL);
+        }
+
+        $occasions = $query->paginate(10);
 
         return view('pages.occasion.index', compact('occasions'));
     }
@@ -25,16 +39,15 @@ class OccasionController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:occasions',
-            'occasion' => 'required|unique:occasions,name'
         ]);
 
         $occasion = new Occasion;
-        $occasion->name = Str::upper($request->name|$request->occasion);
+        $occasion->name = Str::upper($request->name);
         $occasion->save();
 
         $message = 'Successfully added '.Str::upper($request->name).'!';
 
-        return back()->with('success', $message);
+        return redirect()->route('occasion.index')->with('success', $message);
     }
 
     public function edit($id)
@@ -47,7 +60,7 @@ class OccasionController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|unique:occasions'
+            'name' => 'required|unique:occasions',
         ]);
 
         $occasion = Occasion::find($id);
@@ -56,7 +69,7 @@ class OccasionController extends Controller
 
         $message = 'Successfully added '.Str::upper($request->name).'!';
 
-        return back()->with('success', $message);
+        return redirect()->route('occasion.index')->with('success', $message);
     }
 
     public function destroy($id)
@@ -66,7 +79,7 @@ class OccasionController extends Controller
 
         $message = 'Successfully deleted '.$occasion->name.'!';
 
-        return back()->with('warning', $message);
+        return back()->with('success', $message);
     }
 
     public function restore($id)
@@ -76,6 +89,6 @@ class OccasionController extends Controller
 
         $message = 'Successfully restored '.$occasion->name.'!';
 
-        return back()->with('warning', $message);
+        return back()->with('success', $message);
     }
 }

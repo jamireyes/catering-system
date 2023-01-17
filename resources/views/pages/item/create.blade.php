@@ -60,7 +60,7 @@
                                 @endif
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="reset" class="btn btn-warning">Reset</button>
+                                <button type="reset" class="btn btn-warning">Clear</button>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
