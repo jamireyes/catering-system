@@ -37,6 +37,7 @@
                             <input type="hidden" name="price" value="{{ $p->price }}">
                             <input type="hidden" name="inclusion" value="{{ $p->inclusion }}">
                             <input type="hidden" name="user" value="{{ $p->user }}">
+                            <input type="hidden" name="cater_email" value="{{ $p->email }}">
                             
                             <div id="package-items">
                                 @foreach ($categoryRules as $cr)
@@ -91,18 +92,24 @@
                                         </a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><i class="nc-icon nc-pin-3"></i></td>
-                                    <td>{{ $p->address }}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="nc-icon nc-send"></i></td>
-                                    <td>0{{ $p->phone }}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="nc-icon nc-email-85"></i></td>
-                                    <td>{{ $p->email }}</td>
-                                </tr>
+                                @if ($p->address)
+                                    <tr>
+                                        <td><i class="nc-icon nc-pin-3"></i></td>
+                                        <td>{{ $p->address }}</td>
+                                    </tr>
+                                @endif
+                                @if ($p->phone)
+                                    <tr>
+                                        <td><i class="nc-icon nc-send"></i></td>
+                                        <td>0{{ $p->phone }}</td>
+                                    </tr>
+                                @endif
+                                @if ($p->email)
+                                    <tr>
+                                        <td><i class="nc-icon nc-email-85"></i></td>
+                                        <td>{{ $p->email }}</td>
+                                    </tr>
+                                @endif
                             </table>
                             <hr>
                             <table class="product-summary">

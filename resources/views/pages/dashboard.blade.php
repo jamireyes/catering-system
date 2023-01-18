@@ -48,13 +48,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <hr>
-                        <div class="stats">
-                            <i class="nc-icon nc-alert-circle-i"></i>
-                            Lifetime
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -72,13 +65,6 @@
                                     <p class="card-title">{{ $monthly_order  }}<p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <hr>
-                        <div class="stats">
-                            <i class="nc-icon nc-alert-circle-i"></i>
-                            Lifetime
                         </div>
                     </div>
                 </div>
@@ -100,13 +86,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <hr>
-                        <div class="stats">
-                            <i class="nc-icon nc-alert-circle-i"></i>
-                            Lifetime
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -124,13 +103,6 @@
                                     <p class="card-title">{{ $total_packages }}<p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <hr>
-                        <div class="stats">
-                            <i class="nc-icon nc-alert-circle-i"></i>
-                            Lifetime
                         </div>
                     </div>
                 </div>

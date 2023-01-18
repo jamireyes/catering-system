@@ -200,6 +200,24 @@
                                             N/A
                                         @endif
                                     </p>
+
+                                    <small>Reservation Date</small>
+                                    <p>
+                                        @if ($order->reservation_date)
+                                            {{ $order->reservation_date }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </p>
+
+                                    <small>Note</small>
+                                    <p>
+                                        @if ($order->note)
+                                            {{ $order->note }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>

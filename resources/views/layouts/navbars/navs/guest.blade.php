@@ -13,6 +13,14 @@
     
     <div style="background-color:transparent;width:37px;"></div>
     <div class="collapse navbar-collapse justify-content-between" id="navigation">
+        <ul class="navbar-nav navbar-center">
+            <li class="nav-item">
+                <a href="{{ route('store.index') }}" class="nav-link">{{ __('Stores') }}</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('shop.index') }}" class="nav-link">{{ __('Packages') }}</a>
+            </li>
+        </ul>
         <ul id="nav-right" class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a href="{{ route('checkout.index') }}" class="nav-link">

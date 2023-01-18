@@ -26,10 +26,11 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4 class="mt-0">Packages</h4>
+                            <h4 class="mt-0 mb-1">Packages</h4>
+                            <p class="text-muted">Pick the perfect package for your event!</p>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-lg-2">
                             <div class="filter-wrapper">
                                 <div class="search-container-mobile">

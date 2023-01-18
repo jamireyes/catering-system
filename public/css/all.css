@@ -7046,7 +7046,12 @@ tbody > tr.selected {
     background-color: #fff;
 }
 
+.package.card {
+    height: 35rem;
+}
+
 #package-menu {
+    height: 18rem;
     max-height: 18rem;
     overflow-y: auto;
 }
@@ -7839,9 +7844,10 @@ button[value="Upload"] {
 }
 
 .store-card {
-    max-width: 28rem;
+    width: 100%;
+    /* max-width: 40rem; */
     max-height: 10rem;
-    min-width: 100%;
+    /* min-width: 100%; */
     margin-bottom: 0 !important;
 }
 
@@ -7882,7 +7888,7 @@ button[value="Upload"] {
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto;
-    justify-content: space-evenly;
+    justify-content: space-between;
     row-gap: 1rem;
     column-gap: 1rem;
 }
@@ -8062,4 +8068,8 @@ a.fav-btn.active span::before {
 
 .view-btn:hover {
     color: var(--info);
+}
+
+.vh-100 {
+    height: calc(100vh - 80px) !important;
 }

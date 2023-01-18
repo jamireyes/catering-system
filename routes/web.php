@@ -24,7 +24,6 @@ use App\Notifications\WelcomeUser;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
-
 Auth::routes();
 
 Route::get('/email/verify', function () {

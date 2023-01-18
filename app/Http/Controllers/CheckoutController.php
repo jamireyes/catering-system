@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\NotifySeller;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
+use Notification;
 use Cart;
 use Auth;
 
@@ -61,7 +63,13 @@ class CheckoutController extends Controller
             'qty' => 1,
             'price' => $request->price,
             'weight' => 0,
-            'options' => ['id' => $request->id, 'pax' => $request->pax, 'inclusion' => $request->inclusion, 'user' => $request->user],
+            'options' => [
+                'id' => $request->id, 
+                'pax' => $request->pax, 
+                'inclusion' => $request->inclusion, 
+                'user' => $request->user,
+                'cater_email' => $request->cater_email
+            ],
         ]);
 
         foreach($request->items as $item){
@@ -85,11 +93,25 @@ class CheckoutController extends Controller
 
     public function confirm(Request $request)
     {       
+        
+        $request->validate([
+            'phone_number' => 'required',
+            'address_1' => 'required',
+            'address_2' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zipcode' => 'required',
+            'payment_method' => 'required',
+            'payment_file' => 'required',
+            'reservation_date' => 'required',
+        ]);
+
         if($request->hasFile('payment_file')){
             $file = $request->payment_file;
             $mime_type = $request->payment_file->getMimeType();
             $hash = $request->payment_file->hashName();
-            $path = Storage::disk('spaces')->putFileAs('proof_of_payments', $file, $hash);
+            // $path = Storage::disk('spaces')->putFileAs('proof_of_payments', $file, $hash);
+            $path = 'path';
         }
 
         $user = User::find(Auth::id());
@@ -106,6 +128,7 @@ class CheckoutController extends Controller
         foreach(Cart::content() as $row){
             if($row->id == 'package'){
                 $package_id = $row->options->id;
+                $cater_email = $row->options->cater_email;
             }else{
                 $items->push(['id' => $row->id, 'qty' => $row->qty]);
             }
@@ -120,6 +143,8 @@ class CheckoutController extends Controller
         $order->payment_method = $request->payment_method;
         $order->payment_file = $path;
         $order->payment_mime_type = $mime_type;
+        $order->reservation_date = $request->reservation_date;
+        $order->note = $request->note;
         $order->save();
 
         foreach($items as $item){
@@ -129,6 +154,8 @@ class CheckoutController extends Controller
             $orderItem->quantity = $item['qty'];
             $orderItem->save();
         }
+
+        Notification::route('mail', $cater_email)->notify(new NotifySeller($order->id));
 
         Cart::destroy();
 

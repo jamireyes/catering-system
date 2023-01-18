@@ -7,20 +7,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SendAdminInvite extends Notification
+class NotifySeller extends Notification
 {
     use Queueable;
 
     protected $user;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct($invite_code)
+    public function __construct($orderId)
     {
-        $this->invite_code = $invite_code;
+        $this->orderId = $orderId;
     }
 
     /**
@@ -43,10 +38,10 @@ class SendAdminInvite extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Admin Invitation!')
-            ->line('Kindly click the button to create an administration account.')
-            ->action('Sign Up', route('invite.showInviteRegistration', ['code' => $this->invite_code->code]))
-            ->line('Thank you!');
+            ->subject('New Order')
+            ->line("Congratulations! You have a new order.")
+            ->line("Order No. ".$this->orderId)
+            ->action('View Order', route('order.show', ['order' => $this->orderId]));
     }
 
     /**

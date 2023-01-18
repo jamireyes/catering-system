@@ -39,7 +39,9 @@ class OrderController extends Controller
                 packages.id as package_id,
                 packages.name as package_name, 
                 packages.pax,
-                packages.inclusion
+                packages.inclusion,
+                DATE_FORMAT(orders.reservation_date, '%M %d, %Y') as reservation_date,
+                orders.note as note
             ")
             ->join('packages', 'orders.package_id', 'packages.id')
             ->join('users AS c', 'packages.user_id', 'c.id')
@@ -119,7 +121,9 @@ class OrderController extends Controller
                 packages.id as package_id,
                 packages.name as package_name, 
                 packages.pax,
-                packages.inclusion
+                packages.inclusion,
+                DATE_FORMAT(orders.reservation_date, '%M %d, %Y') as reservation_date,
+                orders.note as note
             ")
             ->join('packages', 'orders.package_id', 'packages.id')
             ->join('users AS c', 'packages.user_id', 'c.id')
@@ -190,7 +194,9 @@ class OrderController extends Controller
                 packages.id as package_id,
                 packages.name as package_name, 
                 packages.pax,
-                packages.inclusion
+                packages.inclusion,
+                DATE_FORMAT(orders.reservation_date, '%M %d, %Y') as reservation_date,
+                orders.note as note
             ")
             ->join('packages', 'orders.package_id', 'packages.id')
             ->join('users AS c', 'packages.user_id', 'c.id')

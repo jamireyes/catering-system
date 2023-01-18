@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 mx-auto">
+            <div class="col-md-12 mx-auto">
                 @isset($vouchers) 
                 <div class="card">
                     <div class="card-body">
@@ -26,7 +26,7 @@
                                 <h5 class="mb-0 text-capitalize">{{ __('Vouchers') }}</h5>
                                 <p class="mb-0 text-muted">Manage package vouchers</p>
                             </div>
-                            <a href="" class="btn btn-success" data-toggle="modal" data-target="#GenerateVoucherModal">Add Voucher</a>
+                            <a href="" class="btn btn-info" data-toggle="modal" data-target="#GenerateVoucherModal">Add Voucher</a>
                         </div>                  
                         <div class="table-responsive-sm">
                             <table class="table table-bordered">
@@ -34,6 +34,7 @@
                                     <tr>
                                         <th class="text-center">No.</th>
                                         <th>Code</th>
+                                        <th>Package</th>
                                         <th>Discount</th>
                                         <th>Expire Date</th>
                                         <th>Created On</th>
@@ -46,6 +47,7 @@
                                         <tr>
                                             <th scope="row" class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $v->code }}</td>
+                                            <td>{{ $v->package_name }}</td>
                                             <td>{{ json_decode($v->data)->discount }}%</td>
                                             <td>
                                                 @if ($v->expires_at == NULL)
@@ -136,7 +138,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Generate</button>
+                            <button type="submit" class="btn btn-info">Generate</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </form>

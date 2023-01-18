@@ -20,7 +20,11 @@ class VoucherController extends Controller
             return back();
         }
         
-        $vouchers = Voucher::withTrashed()->paginate(10);
+        $vouchers = Voucher::selectRaw('vouchers.*, packages.name as package_name')
+            ->join('packages', 'vouchers.model_id', 'packages.id')
+            ->withTrashed()
+            ->paginate(10);
+
         $packages = Package::select('id as package_id', 'name as package_name')->get();
 
         return view('pages.vouchers.index', compact(['vouchers', 'packages']));

@@ -47,7 +47,7 @@
                                 <i class="nc-icon nc-key-25"></i>
                             </span>
                         </div>
-                        <input name="password" type="password" class="form-control" placeholder="Password" required>
+                        <input name="password" type="password" class="form-control" placeholder="Password" required title="">
                         <div class="input-group-append">
                             <span class="input-group-text">
                                 <i class="noeye">
@@ -187,6 +187,20 @@
                 }
             })
 
+            var password_rules = [ 
+                'Be at least 8 characters', 
+                'Have at least one number', 
+                'Have at least one symbol', 
+                'Have at least one upper case letter',
+                'Have at least one lower case letter'   
+            ];
+
+            $(function(){
+                $("[name='password']").attr('title', password_rules.join('<br/>'));
+                $("[name='password']").tooltip({
+                    content: function(){return $(this).attr('title');},
+                });  
+            });
         })
     </script>
 @endpush

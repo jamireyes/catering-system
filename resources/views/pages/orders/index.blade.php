@@ -99,6 +99,7 @@
                                         <th>Contact #</th>
                                         <th>Address</th>
                                         <th>Email</th>
+                                        <th>Reservation Date</th>
                                         <th>Order Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -139,6 +140,7 @@
                                                 @else
                                                     <td>N/A</td>
                                                 @endif
+                                                <td class="text-center">{{ $order->reservation_date }}</td>
                                                 <td class="text-center">
                                                     {{ $order->order_date }}
                                                 </td>
@@ -159,6 +161,7 @@
                                             <th>Status</th>
                                             <th>Order #</th>
                                             <th>Catering Service</th>
+                                            <th>Reservation Date</th>
                                             <th>Order Date</th>
                                             <th>Action</th>
                                         </tr>
@@ -184,6 +187,7 @@
                                                     </td>
                                                     <td class="text-center">{{ $order->order_id }}</td>
                                                     <td>{{ $order->c_name }}</td>
+                                                    <td class="text-center">{{ $order->reservation_date }}</td>
                                                     <td class="text-center">{{ $order->order_date }}</td>
                                                     <td class="text-center">
                                                         <a class="view-btn" href="{{ route('order.show', ['order' => $order->order_id]) }}">

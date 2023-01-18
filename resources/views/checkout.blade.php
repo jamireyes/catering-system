@@ -7,36 +7,20 @@
 @section('content')
     <div class="container">
         <div class="px-2 py-4">
-            <div class="row">
-                <div class="col-12">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('welcome') }}" class="text-muted">Home</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('shop.index') }}" class="text-muted">Store</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a class="text-dark">Checkout</a>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-            <div class="row mt-4">
+            <div class="row mt-4 flex-column-reverse flex-sm-row">
                 <div class="col-md-8">
                     <form action="{{ route('checkout.confirm') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        {{-- <input type="hidden" name="seller" value=""> --}}
                         <h5 class="text-lg">Checkout</h5>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Juan Dela Cruz" value="{{ Auth::user()->name }}" required readonly>
+                            <input type="text" class="form-control" name="name" placeholder="Juan Dela Cruz" value="{{ Auth::user()->name }}" required readonly disabled>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-7">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" name="email" placeholder="you@example.com" value="{{ Auth::user()->email }}" required readonly>
+                                <input type="email" class="form-control" name="email" placeholder="you@example.com" value="{{ Auth::user()->email }}" required readonly disabled>
                                 <div class="invalid-feedback">
                                     Please enter a valid email address
                                 </div>
@@ -111,24 +95,73 @@
                                     <input type="radio" id="payment_method_3" name="payment_method" class="custom-control-input" value="GCASH">
                                     <label class="custom-control-label" for="payment_method_3">GCash</label>
                                 </div>
+                                @if ($errors->has('payment_method'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('payment_method') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                             <div class="form-group col">
+                                <label class="text-muted mb-3">Kindly send to the following payment information:</label>
+                                <table class="table table-bordered mb-0">
+                                    <tbody>
+                                        <tr id="payment-method-bank" style="display: none;">
+                                            <td class="py-1">Bank</td>
+                                            <td class="py-1">006380431410</td>
+                                            <td class="py-1">ARVELYN FERMANO</td>
+                                        </tr>
+                                        <tr id="payment-method-paymaya" style="display: none;">
+                                            <td class="py-1">PayMaya</td>
+                                            <td class="py-1">09762384404</td>
+                                            <td class="py-1">PEEJAY SERRANO</td>
+                                        </tr>
+                                        <tr id="payment-method-gcash" style="display: none;">
+                                            <td class="py-1">GCash</td>
+                                            <td class="py-1">09120157345</td>
+                                            <td class="py-1">ARVELYN FERMANO</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-3">
+                            <div class="form-group col-md-6">
                                 <label>Proof of Payment</label>
                                 <div class="d-flex align-items-center mb-3 bg-white">
                                     <div class="input-file">
-                                        <div class="py-1 pl-2">
+                                        <div class="pl-2" style="padding-top: 0.13rem !important; padding-bottom: 0.13rem !important;">
                                             <input id="upload-btn" type="file" name="payment_file" required>
-                                            <label for="upload-btn" class="btn btn-sm btn-outline-default my-1">Select</label>
+                                            <label for="upload-btn" class="btn btn-sm btn-outline-default my-1 py-1">Select</label>
                                         </div>
                                         <div class="px-2">
                                             <span id="file-chosen" class="m-0">No file uploaded</span>
                                         </div>
                                     </div>
                                 </div>
+                                @if ($errors->has('payment_file'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('payment_file') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="reservation_date">Reservation Date</label>
+                                <input type="date" class="form-control" name="reservation_date" required>
+                                @if ($errors->has('reservation_date'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('reservation_date') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="note">Note</label>
+                            <textarea name="note" class="form-control" cols="30" rows="10"></textarea>
+                        </div>
                         
-                        <div class="d-flex justify-content-between align-items-center my-5">
+                        <div class="d-flex justify-content-between align-items-center my-3">
                             @foreach (Cart::content() as $row)
                                 @if($row->id == 'package')
                                     <a class="btn btn-outline-default" href="{{ route('shop.show', ['shop' => $row->options->id]) }}" role="button">Back</a>
@@ -138,7 +171,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 mb-3">
                     <h5 class="text-lg">Order Summary</h5>
                     <div class="card">
                         <div class="card-body">
@@ -198,10 +231,6 @@
                                                         <td>{{ __('Subtotal') }}</td>
                                                         <td>₱ {{ Cart::initial() }}</td>
                                                     </tr>
-                                                    {{-- <tr>
-                                                        <td>{{ __('Tax') }}</td>
-                                                        <td>₱ {{ Cart::tax() }}</td>
-                                                    </tr> --}}
                                                     <tr>
                                                         <td>{{ __('Discount') }} </td>
                                                         <td>
@@ -232,6 +261,32 @@
 
 @push('scripts')
     <script>
+        $('[name="payment_method"]').change(function(){
+            const bank = $('#payment-method-bank')
+            const gcash = $('#payment-method-gcash')
+            const paymaya = $('#payment-method-paymaya')
+            const check = $('input[name="payment_method"]:checked').val();
+
+            if(check == 'GCASH'){
+                gcash.show()
+                bank.hide()
+                paymaya.hide()
+            }
+
+            if(check == 'PAYMAYA'){
+                paymaya.show()
+                gcash.hide()
+                bank.hide()
+            }
+
+            if(check == 'BANK'){
+                bank.show()
+                paymaya.hide()
+                gcash.hide()
+            }
+        })  
+    </script>
+    <script>
         $(document).ready(() => {
 
             const uploadBtn = document.getElementById('upload-btn');
@@ -240,7 +295,26 @@
 
             uploadBtn.addEventListener('change', function(){
                 fileChosen.textContent = this.files[0].name
-            })           
+            })   
+            
+            function setMinDate(){
+                var today = new Date();
+                
+                var month = today.getMonth() + 1
+                var day = today.getDate()
+                var year = today.getFullYear()
+                
+                if(month < 10)
+                    month = '0' + month.toString()
+                if(day < 10)
+                    day = '0' + day.toString()
+                
+                var maxDate = year + '-' + month + '-' + day;
+
+                $('[name="reservation_date"]').attr('min', maxDate)
+            }
+
+            setMinDate()
         })
     </script>
 @endpush

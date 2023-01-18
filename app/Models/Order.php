@@ -14,7 +14,12 @@ class Order extends Model
         'package_id',
         'discount',
         'status',
-        'subtotal'
+        'subtotal',
+        'payment_method',
+        'payment_file',
+        'payment_mime_type',
+        'reservation_date',
+        'note'
     ];
 
     public function user()

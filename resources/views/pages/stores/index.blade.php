@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-    <div class="container-fluid">
+    <div class="position-relative container-fluid vh-100 h-100">
         <div class="px-2 py-4">
             <div class="row">
                 <div class="col-12">
@@ -22,14 +22,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <div class="d-flex justify-content-center">
-                        {{ $stores->links() }}
-                    </div>
+                <div class="col-md-12">
+                    <h4 class="mt-0 mb-1">Store</h4>
+                    <p class="text-muted">Choose from a variety of Catering Services!</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 mt-3">
                     <div class="grid-container">
                         @foreach ($stores as $s)
                             <div class="card store-card" data-id="{{ $s->id }}" data-route="{{ route('store.show', ['store' => $s->id]) }}">
@@ -70,12 +69,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 mx-auto mt-3">
-                    <div class="d-flex justify-content-center">
-                        {{ $stores->links() }}
-                    </div>
-                </div>
+            <div style="position: absolute; bottom:0; left:50%; transform: translate(-50%, -50%);">
+                {{ $stores->links() }}
             </div>
         </div>
     </div>
