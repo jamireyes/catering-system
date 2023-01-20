@@ -110,8 +110,7 @@ class CheckoutController extends Controller
             $file = $request->payment_file;
             $mime_type = $request->payment_file->getMimeType();
             $hash = $request->payment_file->hashName();
-            // $path = Storage::disk('spaces')->putFileAs('proof_of_payments', $file, $hash);
-            $path = 'path';
+            $path = Storage::disk('spaces')->putFileAs('proof_of_payments', $file, $hash);
         }
 
         $user = User::find(Auth::id());
