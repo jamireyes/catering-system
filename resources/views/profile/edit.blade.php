@@ -102,7 +102,7 @@
             @endif
             <div class="col-md-6">
                 <div class="row">
-                    <form class="col-md-12" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                    <form class="update-profile col-md-12" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card py-2">
@@ -135,7 +135,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">+63</span>
                                             </div>
-                                            <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ auth()->user()->phone_number }}" required>
+                                            <input type="number" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ auth()->user()->phone_number }}" required>
                                             @if ($errors->has('phone_number'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $errors->first('phone_number') }}</strong>
@@ -195,7 +195,7 @@
                             <div class="card-footer ">
                                 <div class="row">
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-info">{{ __('Save Changes') }}</button>
+                                        <button type="button" class="btn btn-info">{{ __('Save') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -350,6 +350,44 @@
 
                 var type = ($('[name="password_confirmation"]').attr('type') == 'password') ? 'text' : 'password'
                 $('[name="password_confirmation"]').prop('type', type)
+            })
+
+            $('.update-profile [type="button"]').click(function(e){
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Save'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Processing...',
+                            html: 'Do not refresh the page. Thank you!',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+
+                        setTimeout(() => {
+                            $('.update-profile').submit();
+                        }, 1500);
+                    }
+                })
             })
             
             $('.change-password [type="button"]').click(function(e){
