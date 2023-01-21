@@ -225,8 +225,18 @@
                                 <div class="row">
                                     <label class="col-md-3 col-form-label">{{ __('New Password') }}</label>
                                     <div class="col-md-9">
-                                        <div class="form-group">
+                                        <div class="input-group">
                                             <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="noeye">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                                                    </i>
+                                                    <i class="eye" style="display: none;">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                    </i>
+                                                </span>
+                                            </div>
                                         </div>
                                         @if ($errors->has('password'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
@@ -236,10 +246,20 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-md-3 col-form-label">{{ __('Password Confirmation') }}</label>
+                                    <label class="col-md-3 col-form-label">{{ __('Confirm Password') }}</label>
                                     <div class="col-md-9">
-                                        <div class="form-group">
-                                            <input type="password" name="password_confirmation" class="form-control" placeholder="Password Confirmation" required>
+                                        <div class="input-group">
+                                            <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="noeye">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                                                    </i>
+                                                    <i class="eye" style="display: none;">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                    </i>
+                                                </span>
+                                            </div>
                                         </div>
                                         @if ($errors->has('password_confirmation'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
@@ -297,9 +317,9 @@
 @endsection
 
 @push('scripts')
+    @if (Auth::user()->role != 'USER')
     <script>
         $(document).ready(() => {
-
             const uploadBtn = document.getElementById('upload-btn');
 
             const fileChosen = document.getElementById('file-chosen');
@@ -310,7 +330,27 @@
 
             $('.user-image span').click(() => {
                 $('#image-form').toggleClass('d-none');
-            })     
+            })
+        })
+    </script>
+    @endif
+    <script>
+        $(document).ready(() => {   
+            $('[name="password"] + .input-group-append i').click(function(){
+                $('[name="password"] + .input-group-append .noeye').toggle()
+                $('[name="password"] + .input-group-append .eye').toggle()
+
+                var type = ($('[name="password"]').attr('type') == 'password') ? 'text' : 'password'
+                $('[name="password"]').prop('type', type)
+            })
+
+            $('[name="password_confirmation"] + .input-group-append i').click(function(){
+                $('[name="password_confirmation"] + .input-group-append .noeye').toggle()
+                $('[name="password_confirmation"] + .input-group-append .eye').toggle()
+
+                var type = ($('[name="password_confirmation"]').attr('type') == 'password') ? 'text' : 'password'
+                $('[name="password_confirmation"]').prop('type', type)
+            })
             
             $('.change-password [type="button"]').click(function(e){
                 e.preventDefault();
