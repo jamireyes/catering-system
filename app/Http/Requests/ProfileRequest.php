@@ -33,7 +33,7 @@ class ProfileRequest extends FormRequest
             'address_2' => ['max:100'],
             'city' => ['required', 'max:100'],
             'state' => ['required', 'max:100'],
-            'zipcode' => ['required']
+            'zipcode' => ['required', 'numeric']
         ];
     }
 }

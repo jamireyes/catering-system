@@ -183,7 +183,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>{{ __('Zipcode') }}</label>
-                                        <input type="text" name="zipcode" class="form-control" placeholder="Zipcode" value="{{ auth()->user()->zipcode }}" required>
+                                        <input type="number" name="zipcode" class="form-control" placeholder="Zipcode" value="{{ auth()->user()->zipcode }}" required>
                                         @if ($errors->has('zipcode'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
                                                 <strong>{{ $errors->first('zipcode') }}</strong>
