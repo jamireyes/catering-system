@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\CurrentPasswordCheckRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class PasswordRequest extends FormRequest
 {
@@ -26,7 +27,18 @@ class PasswordRequest extends FormRequest
     {
         return [
             'old_password' => ['required', 'min:6', new CurrentPasswordCheckRule],
-            'password' => ['required', 'min:6', 'confirmed', 'different:old_password'],
+            'password' => [
+                'required', 
+                'min:6', 
+                'confirmed', 
+                'different:old_password', 
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+                ],
             'password_confirmation' => ['required', 'min:6'],
         ];
     }

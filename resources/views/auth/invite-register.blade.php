@@ -129,6 +129,21 @@
                 var type = ($('[name="password_confirmation"]').attr('type') == 'password') ? 'text' : 'password'
                 $('[name="password_confirmation"]').prop('type', type)
            })
+
+           var password_rules = [ 
+                'Be at least 8 characters', 
+                'Have at least one number', 
+                'Have at least one symbol', 
+                'Have at least one upper case letter',
+                'Have at least one lower case letter'   
+            ];
+
+            $(function(){
+                $("[name='password']").attr('title', password_rules.join('<br/>'));
+                $("[name='password']").tooltip({
+                    content: function(){return $(this).attr('title');},
+                });  
+            });
         })
     </script>
 @endpush

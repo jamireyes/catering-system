@@ -23,6 +23,10 @@ class CheckoutController extends Controller
             return redirect()->route('login');
         }
 
+        if(Auth::user()->role != 'USER'){
+            return abort('401');
+        }
+
         if(Cart::content()->isEmpty()){
             return redirect()->route('shop.index');
         }else{
@@ -46,6 +50,10 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {   
         Cart::destroy();
+
+        if(Auth::user()->role != 'USER'){
+            return abort('401');
+        }
 
         $categories = new Collection;
         
@@ -93,7 +101,10 @@ class CheckoutController extends Controller
 
     public function confirm(Request $request)
     {       
-        
+        if(Auth::user()->role != 'USER'){
+            return abort('401');
+        }
+
         $request->validate([
             'phone_number' => 'required',
             'address_1' => 'required',
