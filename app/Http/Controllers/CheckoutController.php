@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\NotifySeller;
+use App\Notifications\NotifyUserOrderPlaced;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;

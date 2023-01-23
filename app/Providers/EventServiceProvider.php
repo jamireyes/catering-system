@@ -10,6 +10,8 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Events\Login;
 use App\Listeners\WelcomeUserListener;
 use App\Listeners\LoginListener;
+use App\Models\Order;
+use App\Observers\OrderObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -37,7 +39,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Order::observe(OrderObserver::class);
     }
 
     /**

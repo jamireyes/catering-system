@@ -19,7 +19,7 @@ class RemoveOldUsers extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Removes inactive users that have not attempted to login for th past 30 days.';
 
     /**
      * Execute the console command.

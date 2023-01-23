@@ -25,7 +25,9 @@ class VoucherController extends Controller
             ->withTrashed()
             ->paginate(10);
 
-        $packages = Package::select('id as package_id', 'name as package_name')->get();
+        $packages = Package::select('id as package_id', 'name as package_name')
+            ->where('packages.user_id', Auth::id())
+            ->get();
 
         return view('pages.vouchers.index', compact(['vouchers', 'packages']));
     }
