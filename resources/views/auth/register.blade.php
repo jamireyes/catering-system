@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="seller-documents" style="display: none;">
-                        <label>Upload 2 Valid IDs</label>
+                        <label>Upload 1 Valid ID and 1 Business Permit</label>
                         <div class="form-row">
                             <div class="form-group col-6">
                                 <div class="input-file">

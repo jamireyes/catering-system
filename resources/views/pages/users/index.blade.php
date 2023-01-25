@@ -121,11 +121,12 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Live</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
                                         <th>Documents</th>
-                                        <th>Actions</th>
+                                        <th>Options</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -160,6 +161,7 @@
                 ajax: "{{ route('user.index') }}",
                 columns: [
                     {data: 'id', name: 'id'},
+                    {data: 'live', name: 'live', orderable: false, searchable: false, className: 'text-center'},
                     {data: 'name', name: 'name'},
                     {data: 'email', name: 'email'},
                     {data: 'role', name: 'role', className: 'text-center'},
@@ -326,6 +328,74 @@
                                 Swal.fire(
                                     'Restored!',
                                     'Your file has been restored.',
+                                    'success'
+                                )
+                            },
+                            error: (err) => {
+                                alert(err);
+                            }
+                        });
+                    }
+                })
+            })
+
+            $(document).on('click', '#live-enable-btn', function() {
+                var id = $(this).data('id')
+                var url = "user/"+id+"/toggleLive";
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You are about to ENABLE this seller.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, enable it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: {'_token' : "{{csrf_token() }}"},
+                            success: () => {
+                                reloadTable()
+                                Swal.fire(
+                                    'Enabled!',
+                                    'Seller is now LIVE!',
+                                    'success'
+                                )
+                            },
+                            error: (err) => {
+                                alert(err);
+                            }
+                        });
+                    }
+                })
+            })
+
+            $(document).on('click', '#live-disable-btn', function() {
+                var id = $(this).data('id')
+                var url = "user/"+id+"/toggleLive";
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You are about to DISABLE this seller.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, disable it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: {'_token' : "{{csrf_token() }}"},
+                            success: () => {
+                                reloadTable()
+                                Swal.fire(
+                                    'Disabled!',
+                                    'Seller is now NOT LIVE!',
                                     'success'
                                 )
                             },

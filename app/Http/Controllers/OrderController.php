@@ -56,6 +56,12 @@ class OrderController extends Controller
         }else{
             $query = $query->limit(10);
         }
+
+        if($request->filter){
+            $query = $query->where('orders.status', $request->filter);
+        }else{
+            $query = $query->where('orders.status', 'PENDING');
+        }
         
         if(Auth::user()->role == 'ADMIN'){
             $orders = $query->get();

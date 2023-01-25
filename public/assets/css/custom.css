@@ -307,6 +307,31 @@ ol.breadcrumb {
     transform: translateX(-50%);
 }
 
+body > nav > #navigation a.nav-link .nc-cart-simple {
+    display: none;
+}
+
+
+body > nav > #navigation a.nav-link:has(.nc-cart-simple):after {
+    content: 'Cart';
+    display: block;
+}
+
+body > nav > #navigation .dropdown-menu-right:after{
+    border-bottom: 11px solid black;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    opacity: .5;
+}
+
+body > nav > #navigation .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.5)!important;
+}
+
+body > nav > #navigation .dropdown-menu .dropdown-item {
+    color: #FFF !important;
+}  
+
 /************************ Mobile View ************************/
 
 @media screen and (max-width: 991px){
@@ -323,10 +348,6 @@ ol.breadcrumb {
         left: 0 !important;
         transform: none !important;
     }
-
-    /* .login-page, .register-page, .login-page .wrapper, .register-page .wrapper {
-        background-color: white !important;
-    } */
 
     .login-page .card, .register-page .card {
         background-color: var(--canvas-color);
@@ -409,40 +430,23 @@ ol.breadcrumb {
         display: none !important;
     }
 
-    body > nav > #navigation a.nav-link.dropdown-toggle:before {
-        content: 'Account';
-        margin-right: .4rem;
+    body > nav > #navigation a.nav-link .nc-cart-simple {
+        display: inline;
     }
 
-    body > nav > #navigation .ml-auto .nav-item:nth-child(2) .nav-link:not(.dropdown-toggle):after {
-        content: 'Login';
-        margin-right: .4rem;
-    }
-
-    body > nav > #navigation .ml-auto .nav-item:nth-child(2) .nav-link:not(.dropdown-toggle) img{
-        display: none !important;
-    }
-
-    body > nav > #navigation .dropdown-menu{
-        background-color: rgba(0, 0, 0, 0.5)!important;
-    }
-
-    body > nav > #navigation .dropdown-menu .dropdown-item {
-        color: #FFF !important;
+    body > nav > #navigation a.nav-link:has(.nc-cart-simple):after {
+        content: '';
+        display: none;
     }
 
     body > nav > #navigation .dropdown-menu-right {
         right: auto !important;
         left: 1rem !important;
-    }
+    }  
     
     body > nav > #navigation .dropdown-menu-right:after{
         right: auto !important;
         left: 1rem !important;
-        border-bottom: 11px solid black;
-        border-left: 11px solid transparent;
-        border-right: 11px solid transparent;
-        opacity: .5;
     }
 
     body > nav.bg-dark #navigation .dropdown-menu {

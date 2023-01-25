@@ -15,12 +15,6 @@
         <span class="navbar-toggler-bar navbar-kebab"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navigation">
-        {{-- <ul class="navbar-nav mr-auto">
-            <li class="nav-item text-muted">
-                {{ __('Welcome, ') }}
-                {{  Auth::user()->name }}!
-            </li>
-        </ul> --}}
         <ul class="navbar-nav ml-auto">
             <li class="nav-item btn-rotate dropdown ml-auto">
                 <a class="nav-link dropdown-toggle " href="http://example.com" id="navbarDropdownMenuLink2"

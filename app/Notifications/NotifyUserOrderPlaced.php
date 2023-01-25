@@ -16,10 +16,10 @@ class NotifyUserOrderPlaced extends Notification
      *
      * @return void
      */
-    public function __construct($orderId, $pdf)
+    public function __construct($orderId)
     {
         $this->orderId = $orderId;
-        $this->pdf = $pdf;
+        // $this->pdf = $pdf;
     }
 
     /**
@@ -45,10 +45,10 @@ class NotifyUserOrderPlaced extends Notification
             ->subject('Order Placed!')
             ->line("Your order has been successfully placed!")
             ->line("Order No. ".$this->orderId)
-            ->action('View Order', route('order.show', ['order' => $this->orderId]))
-            ->attachData($this->pdf, 'name.pdf', [
-                'mime' => 'application/pdf',
-            ]);
+            ->action('View Order', route('order.show', ['order' => $this->orderId]));
+            // ->attachData($this->pdf, 'name.pdf', [
+            //     'mime' => 'application/pdf',
+            // ]);
     }
 
     /**

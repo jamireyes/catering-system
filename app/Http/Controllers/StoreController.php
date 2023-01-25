@@ -18,6 +18,7 @@ class StoreController extends Controller
     public function index()
     {
         $stores = User::where('role', 'SELLER')
+            ->where('live_date', '!=', NULL)
             ->paginate(12);
 
         return view('pages.stores.index', compact(['stores']));  
@@ -35,9 +36,13 @@ class StoreController extends Controller
 
     public function show(Request $request, $id)
     {
-        $store = User::where('id', $id)->get();
+        $store = User::where('id', $id)
+            ->where('live_date', '!=', NULL)
+            ->where('role', 'SELLER');
 
-        if($store[0]->role == 'USER') {
+        if($store->exists()){
+            $store = $store->get();
+        }else{
             abort(404);
         }
         

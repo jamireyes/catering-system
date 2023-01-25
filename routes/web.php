@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('/home', [HomeController::class, 'index'])->name('home');
 	Route::resource('user', UserController::class);
 	Route::post('user/{user}/restore', 'App\Http\Controllers\UserController@restore')->name('user.restore');
+	Route::post('user/{user}/toggleLive', 'App\Http\Controllers\UserController@toggleLive')->name('user.toggleLive');
 
 	Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 	Route::post('checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');

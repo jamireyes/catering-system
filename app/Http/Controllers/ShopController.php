@@ -23,7 +23,8 @@ class ShopController extends Controller
 
         $query = Package::selectRaw("packages.*, users.name as user, users.phone_number as phone, CONCAT_WS(' ', address_1, address_2, city, state, zipcode) as address")
             ->join('users', 'packages.user_id', 'users.id')
-            ->where('packages.deleted_at', NULL);
+            ->where('packages.deleted_at', NULL)
+            ->where('users.live_date', '!=', NULL);
 
         if($request->filter_min_price && $request->filter_max_price){
             $query = $query->whereBetween('packages.price', [$request->filter_min_price, $request->filter_max_price]);
@@ -73,7 +74,14 @@ class ShopController extends Controller
             ")
             ->join('users', 'packages.user_id', 'users.id')
             ->where('packages.id', $id)
-            ->get();
+            ->where('users.live_date', '!=', NULL);
+
+    
+        if($package->exists()){
+            $package = $package->get();
+        }else{
+            abort(404);
+        }
 
         $items = Item::where('user_id', $package[0]->user_id)->get();
 
@@ -94,7 +102,10 @@ class ShopController extends Controller
     public function search(Request $request) 
     {
         if($request->ajax()){
-            $query = Package::where('name', 'like', '%'.$request->search.'%')->get();
+            $query = Package::select('packages.*')->where('packages.name', 'like', '%'.$request->search.'%')
+                ->join('users', 'packages.user_id', 'users.id')
+                ->where('users.live_date', '!=', NULL)
+                ->get();
         }
 
         return response()->json($query);

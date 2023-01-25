@@ -17,31 +17,52 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 mx-auto">
-                <form action="{{ route('order.index') }}">
+            <div class="col-md-12 justify-content-between">
+                <form class="filter-form" action="{{ route('order.index') }}">
+                    <input type="hidden" name="filter" value="{{ request()->get('filter') }}">
                     <div class="bg-white rounded shadow-sm p-3 mb-3">
-                        <div class="d-flex justify-content-center">
-                            <div class="mx-1">
+                        <div class="form-row">
+                            <div class="form-group col-lg-2 col-md-4">
                                 <label class="text-muted text-xs">Start Date</label>
                                 <div class="input-group-icon">
-                                    <input type="text" id="from" name="start" class="form-control" autocomplete="off" required>
-                                    <div class="input-icon" style="">
+                                    <input type="text" id="from" name="start" class="form-control" style="cursor:pointer;" autocomplete="off">
+                                    <div class="input-icon" style="pointer-events: none;">
                                         <i class="nc-icon nc-calendar-60"></i>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mx-1">
+                            <div class="form-group col-lg-2 col-md-4">
                                 <label class="text-muted text-xs">End Date</label>
                                 <div class="input-group-icon">
-                                    <input type="text" id="to" name="end" class="form-control" autocomplete="off" required>
-                                    <div class="input-icon" style="">
+                                    <input type="text" id="to" name="end" class="form-control" style="cursor:pointer;" autocomplete="off">
+                                    <div class="input-icon" style="pointer-events: none;">
                                         <i class="nc-icon nc-calendar-60"></i>
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-end">
-                                <button type="reset" class="btn btn-default mb-0" style="padding-top: 0.42rem; padding-bottom: 0.42rem;">Clear</button>
-                                <button type="submit" class="btn btn-primary mb-0" style="padding-top: 0.42rem; padding-bottom: 0.42rem;">Submit</button>
+                            <div class="form-group col-lg-2 col-md-4">
+                                <div class="d-flex justify-content-end justify-content-md-start align-items-end h-100">
+                                    <button type="reset" class="btn btn-default mb-0">Clear</button>
+                                    <button type="submit" class="btn btn-primary mb-0">Submit</button>
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <div class="d-flex justify-content-center justify-content-md-end">
+                                    <div class="d-flex flex-column">
+                                        <label class="text-muted text-sm mb-2">Filter by Status</label>
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="filter-label-pending my-0 btn btn-default @if(request()->get('filter') == 'PENDING') active @endif @if(request()->get('filter') == '') active @endif">
+                                                <input type="radio" name="filter" value="PENDING" id="option1" autocomplete="off">PENDING
+                                            </label>
+                                            <label class="filter-label-confirmed my-0 btn btn-default @if(request()->get('filter') == 'CONFIRMED') active @endif">
+                                                <input type="radio" name="filter" value="CONFIRMED" id="option2" autocomplete="off">CONFIRMED
+                                            </label>
+                                            <label class="filter-label-cancelled my-0 btn btn-default @if(request()->get('filter') == 'CANCELLED') active @endif">
+                                                <input type="radio" name="filter" value="CANCELLED" id="option3" autocomplete="off">CANCELLED
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -244,5 +265,9 @@
                 return date;
             }
         });
+
+        $('[name="filter"]').change(function(){
+            $('.filter-form').submit()
+        })
     </script>
 @endpush

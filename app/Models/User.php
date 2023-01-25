@@ -28,7 +28,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone_number',
         'image',
         'last_login_time',
-        'last_login_ip'
+        'last_login_ip',
+        'live_date'
     ];
 
     protected $hidden = [

@@ -69,14 +69,16 @@ class HomeController extends Controller
         
         // Gets sales reports such as current total monthly sales and total monthly orders.
         $sale_query = Order::selectRaw("SUM(orders.subtotal - IFNULL(orders.discount, 0)) as sales, COUNT(orders.id) as count")
-            ->join('packages', 'orders.package_id', 'packages.id');
+            ->join('packages', 'orders.package_id', 'packages.id')
+            ->where('orders.status', 'CONFIRMED');
 
-        $total_users = User::select('users.id');
+        $total_users = User::select('users.id')->where('users.role', 'USER');
         $total_packages = Package::select('packages.id');
 
         // Monthly Sales Chart - query
         $monthly_sales_query = Order::selectRaw("date_format(orders.created_at, '%m') as month, COUNT(orders.id) as total_orders, SUM(orders.subtotal - IFNULL(orders.discount, 0)) as total_sales, SUM((orders.subtotal - IFNULL(orders.discount, 0)) - packages.cost_price) as total_profits")
             ->join('packages', 'orders.package_id', 'packages.id')
+            ->where('orders.status', 'CONFIRMED')
             ->groupBy('month')
             ->orderBy('month');
 
@@ -86,14 +88,14 @@ class HomeController extends Controller
             ->groupBy('month', 'role');
 
         if($request->filter_year){
-            $monthly_users = $monthly_users_query->whereYear('created_at', $request->filter_year)->get()->toArray();
-            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', $request->filter_year)->get()->toArray();
+            $monthly_users_query = $monthly_users_query->whereYear('created_at', $request->filter_year)->get()->toArray();
+            $monthly_sales_query = $monthly_sales_query->whereYear('orders.created_at', $request->filter_year);
             $total_users = $total_users->whereYear('created_at', $request->filter_year)->count();
             $total_packages = $total_packages->whereYear('created_at', $request->filter_year)->count();
             $sale_query = $sale_query->whereYear('orders.created_at', $request->filter_year);
         }else {
-            $monthly_users = $monthly_users_query->whereYear('created_at', now())->get()->toArray();
-            $monthly_sales = $monthly_sales_query->whereYear('orders.created_at', now()->year)->get()->toArray();
+            $monthly_users_query = $monthly_users_query->whereYear('created_at', now())->get()->toArray();
+            $monthly_sales_query = $monthly_sales_query->whereYear('orders.created_at', now()->year);
             $total_users = $total_users->whereYear('created_at', now()->year)->count();
             $total_packages = $total_packages->whereYear('created_at', now()->year)->count();
             $sale_query = $sale_query->whereYear('orders.created_at', now()->year);
@@ -101,15 +103,16 @@ class HomeController extends Controller
 
         if(Auth::user()->role == 'ADMIN'){
             $sales = $sale_query->get();
-        }else if(Auth::user()->role == 'SELLER'){                
+            $monthly_sales_query = $monthly_sales_query->get()->toArray();
+        }elseif(Auth::user()->role == 'SELLER'){                
             $sales = $sale_query->where('packages.user_id', Auth::id())->get();
-            $monthly_sales_query = $monthly_sales_query->where('packages.user_id', Auth::id());
+            $monthly_sales_query = $monthly_sales_query->where('packages.user_id', Auth::id())->get()->toArray();
         }
 
         $monthly_sale = $sales[0]->sales; // Gets current total monthly sales.
         $monthly_order = $sales[0]->count; // Gets current total monthly orders.
 
-        $collection = collect($monthly_users)->sortBy('month');
+        $collection = collect($monthly_users_query)->sortBy('month');
         
         for($x = 1;$x <= 12; $x++){
             if(!$collection->contains('month', $x)){
@@ -129,7 +132,7 @@ class HomeController extends Controller
 
         $monthly_users_data = $collection->pluck('total_users');
 
-        $ms_collection = collect($monthly_sales);
+        $ms_collection = collect($monthly_sales_query);
 
         for($x = 1;$x <= 12; $x++){
             if(!$ms_collection->contains('month', $x)){

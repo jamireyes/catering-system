@@ -30,7 +30,7 @@
             @guest
             <li class="nav-item">
                 <a href="{{ route('login') }}" class="nav-link">
-                    <img src="{{ asset('assets') }}/img/svg/log-in.svg" alt="login">
+                    {{ __('Login') }}
                 </a>
             </li>
             @endguest
@@ -38,7 +38,7 @@
             <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="nc-icon nc-single-02"></i>
+                    {{ __('Account') }}
                 </a>
                 <div class="dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
                     <form class="dropdown-item" action="{{ route('logout') }}" id="formLogOut" method="POST" style="display: none;">

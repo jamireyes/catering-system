@@ -29,7 +29,7 @@ class UserController extends Controller
                         if($row->role == 'ADMIN'){
                             $status = '<span class="badge badge-pill badge-info p-2">ADMIN</span>';
                         }elseif($row->role == 'USER'){
-                            $status = '<span class="badge badge-pill badge-success p-2">USER</span>';
+                            $status = '<span class="badge badge-pill badge-success p-2">CUSTOMER</span>';
                         }elseif($row->role == 'SELLER'){
                             $status = '<span class="badge badge-pill badge-danger p-2">SELLER</span>';
                         }
@@ -53,17 +53,33 @@ class UserController extends Controller
                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at == NULL){
-                            $btn = '<a id="delete-btn" class="text-danger" data-id="'.$row->id.'" href="#">
+                            $btn = '<a id="delete-btn" class="text-danger" data-id="'.$row->id.'" href="#" title="Delete">
                                         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
                                     </a>';
                         }else{
-                            $btn = '<a id="restore-btn" class="text-info" data-id="'.$row->id.'" href="#">
+                            $btn = '<a id="restore-btn" class="text-info" data-id="'.$row->id.'" href="#" title="Restore">
                                         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
                                     </a>';
                         }
                         return $btn;
                     })
-                    ->rawColumns(['role', 'document', 'action'])
+                    ->addColumn('live', function($row){
+                        if($row->role == 'SELLER'){
+                            if($row->live_date == NULL){
+                                $btn = '<a id="live-enable-btn" class="text-secondary" data-id="'.$row->id.'" href="#" title="Click to make user LIVE">
+                                            <i class="fa-solid fa-toggle-off"></i>
+                                        </a>';
+                            }else{
+                                $btn = '<a id="live-disable-btn" class="text-success" data-id="'.$row->id.'" href="#" title="Click to make user NOT LIVE">
+                                            <i class="fa-solid fa-toggle-on"></i>
+                                        </a>';
+                            }
+                        }else{
+                            $btn = '';
+                        }
+                        return $btn;
+                    })
+                    ->rawColumns(['role', 'document', 'action', 'live'])
                     ->make(true);
             }
             
@@ -162,5 +178,20 @@ class UserController extends Controller
     public function restore($id)
     {
         $user = User::withTrashed()->find($id)->restore();
+    }
+
+    public function toggleLive($id)
+    {
+        $user = User::find($id);
+
+        if($user->live_date == NULL){
+            $user->live_date = now();
+            $user->save();
+        }elseif($user->live_date != NULL){
+            $user->live_date = NULL;
+            $user->save();
+        }
+
+        // return ($user->live_date == NULL) ? 'DEACTIVATED' : 'ACTIVATED';
     }
 }
