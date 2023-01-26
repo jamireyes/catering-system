@@ -126,6 +126,10 @@
                                         <td>--</td>
                                     @endif
                                 </tr>
+                                <tr>
+                                    <td>Grand Total</td>
+                                    <td>₱ {{ number_format(($p->price * (1 - $p->discount / 100)), 2, '.', ',') }}</td>
+                                </tr>
                                 <tr class="grand-total border-top">
                                     <td class="pb-0 pt-3">{{ __('Amount Due') }}</td>
                                     <td class="pb-0 pt-3">₱ {{ number_format((($p->price * (1 - $p->discount / 100)) * 0.7), 2, ".", ",") }}</td>
