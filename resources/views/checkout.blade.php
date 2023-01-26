@@ -241,9 +241,19 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                    <tr class="grand-total">
-                                                        <td>{{ __('Grand Total') }}</td>
-                                                        <td>₱ {{ Cart::total() }}</td>
+                                                    <tr>
+                                                        <td class="pb-3">{{ __('Grand Total') }}</td>
+                                                        <td class="pb-3">₱ {{ Cart::total() }}</td>
+                                                    </tr>
+                                                    <tr class="grand-total border-top">
+                                                        <td class="pb-0 pt-3">{{ __('Amount Due') }}</td>
+                                                        <td class="pb-0 pt-3">₱ {{ number_format((Cart::total(null,null,'') * 0.7), 2, ".", ",") }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <small class="text-muted">(30% Down Payment)</small>
+                                                        </td>
+                                                        <td></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
