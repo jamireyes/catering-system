@@ -135,7 +135,7 @@
                     <div class="user-order-chart card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="text-muted text-lg mb-0">Monthly Orders Chart</h5>
+                                <h5 class="text-muted text-lg">Monthly Orders Chart</h5>
                                 <button class="btn btn-sm btn-icon btn-default m-0" onclick="downloadPDF('monthlyOrdersChart', 'user-order-chart')">
                                     <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2.7" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                 </button>
@@ -153,7 +153,7 @@
                     <div class="user-order-chart card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="text-muted text-lg mb-0">Monthly Customers and Orders Chart</h5>
+                                <h5 class="text-muted text-lg">Monthly Customers and Orders Chart</h5>
                                 <button class="btn btn-sm btn-icon btn-default m-0" onclick="downloadPDF('monthlyUsersChart', 'user-order-chart')">
                                     <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2.7" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                 </button>
