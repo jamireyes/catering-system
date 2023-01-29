@@ -17,7 +17,16 @@ class StoreController extends Controller
 
     public function index()
     {
-        $stores = User::where('role', 'SELLER')
+        // $stores = User::where('role', 'SELLER')
+        //     ->where('live_date', '!=', NULL)
+        //     ->paginate(12);
+
+        $stores = Package::selectRaw('users.*, COALESCE(count(orders.package_id), 0) as total')
+            ->rightJoin('orders', 'packages.id', 'orders.package_id')
+            ->rightJoin('users', 'packages.user_id', 'users.id')
+            ->groupBy('users.id')
+            ->orderBy('total','desc')
+            ->where('role', 'SELLER')
             ->where('live_date', '!=', NULL)
             ->paginate(12);
 
